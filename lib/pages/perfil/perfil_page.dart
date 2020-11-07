@@ -24,16 +24,7 @@ class _PerfilPageState extends State<PerfilPage> {
       body: Container(
         alignment: Alignment.center,
         child: Column(
-          children: <Widget>[
-            FlatButton(
-              color: Colors.orangeAccent,
-              onPressed: () async {},
-              child: Text(
-                'Pagamento',
-                style: TextStyle(color: Colors.black54),
-              ),
-            ),
-          ],
+          children: <Widget>[],
         ),
       ),
     );

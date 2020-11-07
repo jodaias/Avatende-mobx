@@ -1,6 +1,8 @@
 import 'package:avatende/components/custom_drawer/custom_drawer.dart';
+import 'package:avatende/pages/companys/components/custom_floating_action_button/custom_floating_action_button.dart';
 import 'package:avatende/pages/companys/components/custom_scaffold/custom_scaffold.dart';
 import 'package:avatende/pages/companys/departments/users/users_page.dart';
+import 'package:avatende/pages/signup/signup_page_department.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -20,20 +22,30 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      floatingActionButton: CustomFloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SignUpDepartmentPage()));
+        },
+      ),
       drawer: appStore.userModel.userType == "2" ? CustomDrawer() : null,
       title: 'Departamentos',
       actives: 'Departamentos ativos',
       inactives: 'Departamentos inativos',
-      button: FlatButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => UsersPage(),
-            ),
-          );
-        },
-        child: Text('Ir para a página de usuários'),
+      widget: Column(
+        children: [
+          FlatButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UsersPage(),
+                ),
+              );
+            },
+            child: Text('Ir para a página de usuários'),
+          ),
+        ],
       ),
     );
   }

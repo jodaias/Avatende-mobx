@@ -71,6 +71,8 @@ abstract class _LoginStoreBase with Store {
       name: 'Jodaías Barreto',
       password: password,
       userType: "1",
+      phone: '43204324',
+      departmentId: 1,
       active: false,
     ));
 

@@ -17,15 +17,17 @@ class CustomScaffold extends StatefulWidget {
     this.title,
     this.actives,
     this.inactives,
-    this.button,
+    this.widget,
     this.drawer,
+    this.floatingActionButton,
   }) : super(key: key);
 
   final String title;
   final String actives;
   final String inactives;
-  final FlatButton button;
+  final Widget widget;
   final CustomDrawer drawer;
+  final CustomFloatingActionButton floatingActionButton;
 
   @override
   _CustomScaffoldState createState() => _CustomScaffoldState();
@@ -70,7 +72,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: widget.drawer,
-      floatingActionButton: CustomFloatingActionButton(),
+      floatingActionButton: widget.floatingActionButton,
       appBar: AppBar(
         title: Text(widget.title),
         centerTitle: true,
@@ -99,7 +101,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
               onSelected: _activeOrOrderList,
               child: Icon(
                 Icons.more_vert,
-                color: Colors.orangeAccent,
+                color: Colors.white,
                 size: 30.0,
               ),
             ),
@@ -107,7 +109,7 @@ class _CustomScaffoldState extends State<CustomScaffold> {
         ],
       ),
       body: Container(
-        child: widget.button,
+        child: widget.widget,
       ),
     );
   }

@@ -4,9 +4,7 @@ import 'package:avatende/pages/perfil/perfil_page.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title = 'Home'}) : super(key: key);

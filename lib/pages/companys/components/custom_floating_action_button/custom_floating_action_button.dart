@@ -1,7 +1,9 @@
-import 'package:avatende/pages/signup/signup_page.dart';
 import 'package:flutter/material.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  CustomFloatingActionButton({Key key, this.onPressed}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
@@ -11,10 +13,7 @@ class CustomFloatingActionButton extends StatelessWidget {
         Icons.add,
         color: Colors.purple[400],
       ),
-      onPressed: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignUpPage()));
-      },
+      onPressed: onPressed,
     );
   }
 }

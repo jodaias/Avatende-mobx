@@ -1,4 +1,4 @@
-import 'package:avatende/pages/stores/signup_store.dart';
+import 'package:avatende/pages/stores/signup_user_store.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/pages/signup/components/field_title.dart';
 import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
@@ -7,13 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignUpUserPage extends StatefulWidget {
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _SignUpUserPageState createState() => _SignUpUserPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-  SignUpStore signupStore = SignUpStore();
+class _SignUpUserPageState extends State<SignUpUserPage> {
+  SignUpUserStore signupUserStore = SignUpUserStore();
   final appStore = GetIt.I<AppStore>();
 
   @override
@@ -53,9 +53,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             border: OutlineInputBorder(),
                             hintText: 'Exemplo: João Silva',
                             isDense: true,
-                            errorText: signupStore.nameError,
+                            errorText: signupUserStore.nameError,
                           ),
-                          onChanged: signupStore.setName,
+                          onChanged: signupUserStore.setName,
                         );
                       }),
                       SizedBox(
@@ -69,11 +69,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         return TextField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            errorText: signupStore.emailError,
+                            errorText: signupUserStore.emailError,
                             hintText: 'Exemplo: joão@gmail.com',
                             isDense: true,
                           ),
-                          onChanged: signupStore.setEmail,
+                          onChanged: signupUserStore.setEmail,
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
                         );
@@ -83,7 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       FieldTitle(
                         title: 'Telefone',
-                        subtitle: 'Digite seu número de telefone',
+                        subtitle: 'Digite o número de telefone',
                       ),
                       Observer(builder: (_) {
                         return TextField(
@@ -91,44 +91,40 @@ class _SignUpPageState extends State<SignUpPage> {
                             border: OutlineInputBorder(),
                             hintText: '(99) 99999-9999',
                             isDense: true,
-                            errorText: signupStore.phoneError,
+                            errorText: signupUserStore.phoneError,
                           ),
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             TelefoneInputFormatter()
                           ],
-                          onChanged: signupStore.setPhone,
+                          onChanged: signupUserStore.setPhone,
                         );
                       }),
                       SizedBox(
                         height: 16,
                       ),
-                      appStore.userModel.userType == "1"
-                          ? FieldTitle(
-                              title: 'Nível',
-                              subtitle: 'Digite o nível do usuário',
-                            )
-                          : null,
-                      appStore.userModel.userType == "1"
-                          ? Observer(builder: (_) {
-                              return TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: '1=Gestor/2=Admin/3=Atendente',
-                                  isDense: true,
-                                  errorText: signupStore.userTypeError,
-                                ),
-                                keyboardType: TextInputType.number,
-                                onChanged: signupStore.setUserType,
-                              );
-                            })
-                          : null,
-                      appStore.userModel.userType == "1"
-                          ? SizedBox(
-                              height: 16,
-                            )
-                          : null,
+                      FieldTitle(
+                        title: 'Nível',
+                        subtitle: 'Digite o nível do usuário',
+                      ),
+                      Observer(builder: (_) {
+                        return TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: appStore.userModel.userType == "1"
+                                ? '1=Gestor/2=Admin/3=Atendente'
+                                : '2=Admin/3=Atendente',
+                            isDense: true,
+                            errorText: signupUserStore.userTypeError,
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: signupUserStore.setUserType,
+                        );
+                      }),
+                      SizedBox(
+                        height: 16,
+                      ),
                       FieldTitle(
                         title: 'Senha',
                         subtitle:
@@ -139,9 +135,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 isDense: true,
-                                errorText: signupStore.password1Error),
+                                errorText: signupUserStore.password1Error),
                             obscureText: true,
-                            onChanged: signupStore.setPassword1);
+                            onChanged: signupUserStore.setPassword1);
                       }),
                       SizedBox(
                         height: 16,
@@ -155,9 +151,9 @@ class _SignUpPageState extends State<SignUpPage> {
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               isDense: true,
-                              errorText: signupStore.password2Error),
+                              errorText: signupUserStore.password2Error),
                           obscureText: true,
-                          onChanged: signupStore.setPassword2,
+                          onChanged: signupUserStore.setPassword2,
                         );
                       }),
                       SizedBox(
@@ -176,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            onPressed: signupStore.formValid
+                            onPressed: signupUserStore.formValid
                                 ? () {
                                     Navigator.of(context).pop();
                                   }

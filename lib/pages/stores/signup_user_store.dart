@@ -3,11 +3,11 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:avatende/helpers/extensions.dart';
 
-part 'signup_store.g.dart';
+part 'signup_user_store.g.dart';
 
-class SignUpStore = _SignUpStoreBase with _$SignUpStore;
+class SignUpUserStore = _SignUpUserStoreBase with _$SignUpUserStore;
 
-abstract class _SignUpStoreBase with Store {
+abstract class _SignUpUserStoreBase with Store {
   final appStore = GetIt.I<AppStore>();
   //OBSERVABLES
 
@@ -98,8 +98,9 @@ abstract class _SignUpStoreBase with Store {
 
   @computed
   bool get userTypeValid =>
-      userType != null &&
-      (userType == "1" || userType == "2" || userType == "3");
+      userType != null && appStore.userModel.userType == "1"
+          ? (userType == "1" || userType == "2" || userType == "3")
+          : (userType == "2" || userType == "3");
   String get userTypeError {
     if (userType == null || userTypeValid)
       return null;
@@ -137,7 +138,7 @@ abstract class _SignUpStoreBase with Store {
       password2Valid &&
       nameValid &&
       phoneValid &&
-      (appStore.userModel.userType == "1" ? userTypeValid : null);
+      userTypeValid;
 
   //verificando se está carregando
   @computed
