@@ -4,7 +4,7 @@
     <item android:drawable="@color/background" />
 
     <!-- You can insert your own image assets here -->
-     <item>
+    <item>
         <bitmap
             android:gravity="center"
             android:src="@mipmap/ic_launcher" />
