@@ -23,7 +23,9 @@ class PageSection extends StatelessWidget {
         PageTile(
           label:
               appStore.userModel.userType == "1" ? 'Empresas' : 'Departamentos',
-          iconData: Icons.format_list_bulleted,
+          iconData: appStore.userModel.userType == "1"
+              ? Icons.business
+              : Icons.people_alt,
           onTap: () => pageStore.setPage(1),
           highlighted: pageStore.page == 1,
         ),

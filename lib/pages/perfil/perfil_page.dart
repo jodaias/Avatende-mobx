@@ -24,7 +24,10 @@ class _PerfilPageState extends State<PerfilPage> {
       body: Container(
         alignment: Alignment.center,
         child: Column(
-          children: <Widget>[],
+          children: <Widget>[
+            Text('alguma coisa'),
+            //perfil costumizado
+          ],
         ),
       ),
     );

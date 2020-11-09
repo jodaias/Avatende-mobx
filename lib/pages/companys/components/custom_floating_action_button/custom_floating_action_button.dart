@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  CustomFloatingActionButton({Key key, this.onPressed, this.iconData})
+      : super(key: key);
 
-  CustomFloatingActionButton({Key key, this.onPressed}) : super(key: key);
+  final VoidCallback onPressed;
+  final IconData iconData;
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       backgroundColor: Colors.orangeAccent,
       elevation: 8.0,
       child: Icon(
-        Icons.add,
+        iconData,
         color: Colors.purple[400],
       ),
       onPressed: onPressed,

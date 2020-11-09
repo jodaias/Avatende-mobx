@@ -53,7 +53,9 @@ class _HomePageState extends State<HomePage> {
                     label: appStore.userModel.userType == "1"
                         ? 'Empresas'
                         : 'Departamentos',
-                    iconData: Icons.group,
+                    iconData: appStore.userModel.userType == "1"
+                        ? Icons.business
+                        : Icons.people_alt,
                     edgeInsets: EdgeInsets.only(
                       top: 20.0,
                       bottom: 20.0,

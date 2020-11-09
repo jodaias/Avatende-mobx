@@ -8,5 +8,6 @@ class DepartmentModel {
     this.name,
     this.address,
     this.companyId,
+    this.active,
   });
 }
