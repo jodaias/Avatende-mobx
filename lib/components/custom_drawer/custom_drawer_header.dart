@@ -17,11 +17,13 @@ class CustomDrawerHeader extends StatelessWidget {
             .push(MaterialPageRoute(builder: (_) => PerfilPage()));
       },
       child: Container(
-          color: Colors.purple[400],
-          height: 150,
-          padding: EdgeInsets.symmetric(horizontal: 13),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        color: Colors.purple[400],
+        height: 150,
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             Expanded(
               child: Container(
                 width: 100,
@@ -33,30 +35,33 @@ class CustomDrawerHeader extends StatelessWidget {
                     )),
               ),
             ),
+            SizedBox(height: 5),
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    appStore.userModel.email != null
-                        ? appStore.userModel.email
-                        : '',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
-                  ),
                   Text(
                     appStore.userModel.name != null
                         ? appStore.userModel.name
                         : '',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 14,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    appStore.userModel.email != null
+                        ? appStore.userModel.email
+                        : '',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500),
                   ),
                 ]),
-          ])),
+          ],
+        ),
+      ),
     );
   }
 }

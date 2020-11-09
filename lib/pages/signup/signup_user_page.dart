@@ -7,6 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
+final String url =
+    'https://i.pinimg.com/236x/12/fa/d7/12fad712035c2df9aa0562d8a6c6afd9.jpg';
+
 class SignUpUserPage extends StatefulWidget {
   @override
   _SignUpUserPageState createState() => _SignUpUserPageState();
@@ -37,9 +40,17 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                 child: Padding(
                   padding: EdgeInsets.all(16),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.cover, image: NetworkImage(url))),
+                      ),
                       SizedBox(
                         height: 16,
                       ),
