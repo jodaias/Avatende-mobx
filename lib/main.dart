@@ -1,4 +1,4 @@
-import 'package:avatende/pages/splash/splash_page.dart';
+import 'package:avatende/pages/root/root_page.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
 
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashPage(),
+      home: RootPage(),
     );
   }
 }
