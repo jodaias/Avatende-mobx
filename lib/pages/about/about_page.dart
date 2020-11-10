@@ -21,7 +21,7 @@ class AboutPage extends StatelessWidget {
                 Text(
                   'AvAtende',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.grey[800],
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -31,7 +31,7 @@ class AboutPage extends StatelessWidget {
                   "O designer e ilustrações deste App AvAtende foi criado por Alunos do 4º período do Curso de Gestão da Tecnologia da Informação (GTI) na Faculdade Adventista da Bahia (FADBA).",
                   textAlign: TextAlign.justify,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.grey[800],
                     fontSize: 24,
                   ),
                 ),
@@ -46,14 +46,14 @@ class AboutPage extends StatelessWidget {
                 Text(
                   "Desenvolvido por:",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.grey[800],
                     fontSize: 24,
                   ),
                 ),
                 Text(
                   "\nJodaías Barreto, Marcos Feitosa.",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.grey[800],
                     fontSize: 24,
                   ),
                 ),
@@ -61,7 +61,7 @@ class AboutPage extends StatelessWidget {
                 Text(
                   "Contato:",
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.grey[800],
                     fontSize: 24,
                   ),
                 ),
@@ -69,7 +69,7 @@ class AboutPage extends StatelessWidget {
                   "\njodaias2013@gmail.com",
                   style: TextStyle(
                     /*marcosfeitosa819@gmail.com*/
-                    color: Colors.black,
+                    color: Colors.grey[800],
                     fontSize: 24,
                   ),
                 ),

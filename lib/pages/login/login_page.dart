@@ -1,3 +1,4 @@
+import 'package:avatende/pages/login/forget_password_page.dart';
 import 'package:avatende/pages/root/root_page.dart';
 import 'package:avatende/pages/stores/login_store.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                         'Acessar com E-mail:',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.grey[900],
+                          color: Colors.grey[700],
                         ),
                       ),
                       Padding(
@@ -81,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                           'E-mail',
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.grey[800],
+                            color: Colors.grey[700],
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -108,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                             Text(
                               'Senha',
                               style: TextStyle(
-                                color: Colors.grey[800],
+                                color: Colors.grey[700],
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -121,7 +122,12 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.purple,
                                 ),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => ForgetPasswordPage()));
+                              },
                             )
                           ],
                         ),
@@ -169,8 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                             Text(
                               'Não tenho uma conta:',
                               style: TextStyle(
-                                fontSize: 16,
-                              ),
+                                  fontSize: 16, color: Colors.grey[700]),
                             ),
                             GestureDetector(
                               onTap: _showdialog,
@@ -178,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                                 'Cadastre_se',
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
-                                  color: Colors.purple,
+                                  color: Colors.purple[600],
                                   fontSize: 16,
                                 ),
                               ),
@@ -204,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
             title: Text(
               'Deseja abrir uma conta?',
               style: TextStyle(
-                color: Colors.purple[400],
+                color: Colors.grey[900],
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -214,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                   '3- Empresa para teste:\n\n -> Email: empresa@empresa.com\n -> Senha: empresa@123\n\n' +
                   '4- Atendente para teste:\n\n -> Email: atendente@atendente.com \n -> Senha: atendente@123',
               style: TextStyle(
-                color: Colors.purple[400],
+                color: Colors.grey[700],
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -224,7 +229,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text(
                     'Ok',
                     style: TextStyle(
-                      color: Colors.purple[400],
+                      color: Colors.purple[600],
                     ),
                     textAlign: TextAlign.center,
                   ),

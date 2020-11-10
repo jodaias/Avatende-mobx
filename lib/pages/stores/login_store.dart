@@ -58,6 +58,10 @@ abstract class _LoginStoreBase with Store {
   Function get loginPressed =>
       (emailValid && passwordValid && !loading) ? login : null;
 
+  @computed
+  Function get resetPasswordPressed =>
+      (emailValid && !loading) ? resetPassword : null;
+
   @action
   Future<void> login() async {
     loading = true;
@@ -75,6 +79,18 @@ abstract class _LoginStoreBase with Store {
       departmentId: 1,
       active: false,
     ));
+
+    loading = false;
+    loggedIn = true;
+  }
+
+  @action
+  Future<void> resetPassword() async {
+    loading = true;
+
+    //verificar se usuario existe no banco e enviar link de redefinição de senha
+    print('Foi enviado um link para o email informado!');
+    await Future.delayed(Duration(seconds: 2));
 
     loading = false;
     loggedIn = true;
