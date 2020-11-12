@@ -1,7 +1,6 @@
 class UserModel {
   String name;
   String email;
-  String password;
   String phone;
   int departmentId;
   bool active;
@@ -10,7 +9,6 @@ class UserModel {
   UserModel({
     this.name,
     this.email,
-    this.password,
     this.phone,
     this.departmentId,
     this.active,

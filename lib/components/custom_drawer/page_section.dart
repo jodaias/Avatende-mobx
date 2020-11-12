@@ -56,9 +56,7 @@ class PageSection extends StatelessWidget {
         PageTile(
           label: 'Sobre',
           iconData: Icons.info,
-          onTap: () {
-            pageStore.setPage(6);
-          },
+          onTap: () => pageStore.setPage(6),
           highlighted: pageStore.page == 6,
         ),
         PageTile(

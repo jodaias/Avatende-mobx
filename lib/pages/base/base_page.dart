@@ -1,8 +1,12 @@
 import 'package:avatende/pages/about/about_page.dart';
+import 'package:avatende/pages/avaliation/avaliation_page.dart';
 import 'package:avatende/pages/companys/companys_page.dart';
 import 'package:avatende/pages/companys/departments/departments_page.dart';
+import 'package:avatende/pages/help/help_page.dart';
 import 'package:avatende/pages/home/home_page.dart';
+import 'package:avatende/pages/relatory/relatory_page.dart';
 import 'package:avatende/pages/root/root_page.dart';
+import 'package:avatende/pages/settingsP/settings_page.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
 import 'package:flutter/material.dart';
@@ -42,10 +46,10 @@ class _BasePageState extends State<BasePage> {
       children: [
         HomePage(),
         appStore.userModel.userType == "1" ? CompanysPage() : DepartmentsPage(),
-        CompanysPage(),
-        CompanysPage(),
-        CompanysPage(),
-        CompanysPage(),
+        AvaliationPage(),
+        RelatoryPage(),
+        SettingsPage(),
+        HelpPage(),
         AboutPage(),
         RootPage(),
       ],

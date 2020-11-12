@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
 final String url =
     'https://i.pinimg.com/236x/12/fa/d7/12fad712035c2df9aa0562d8a6c6afd9.jpg';
@@ -18,6 +19,21 @@ class SignUpUserPage extends StatefulWidget {
 class _SignUpUserPageState extends State<SignUpUserPage> {
   SignUpUserStore signupUserStore = SignUpUserStore();
   final appStore = GetIt.I<AppStore>();
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer = reaction((_) => signupUserStore.signupSuccess, (signupSuccess) {
+      if (signupSuccess) {
+        Navigator.of(context).pop();
+      } else {
+        print('não foi possivel cadastrar');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,24 +186,33 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                       SizedBox(
                         height: 16,
                       ),
+                      FieldTitle(
+                        title: 'Ativa?',
+                        subtitle:
+                            'Escolha "sim" para ativo ou "não" para inativo',
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       Observer(builder: (_) {
                         return Container(
                           margin: EdgeInsets.only(top: 20, bottom: 12),
                           height: 40,
                           child: RaisedButton(
                             color: Colors.orange,
-                            child: Text('CADASTRAR'),
+                            child: signupUserStore.loading
+                                ? CircularProgressIndicator(
+                                    valueColor:
+                                        AlwaysStoppedAnimation(Colors.white),
+                                  )
+                                : Text('CADASTRAR'),
                             textColor: Colors.white,
                             elevation: 0,
                             disabledColor: Colors.grey[500],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            onPressed: signupUserStore.formValid
-                                ? () {
-                                    Navigator.of(context).pop();
-                                  }
-                                : null,
+                            onPressed: signupUserStore.signUpPressed,
                           ),
                         );
                       }),

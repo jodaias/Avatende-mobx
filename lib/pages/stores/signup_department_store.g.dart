@@ -23,12 +23,19 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
       (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
               name: '_SignupDepartmentStoreBase.phoneValid'))
           .value;
-  Computed<bool> _$formValidComputed;
+  Computed<bool> _$addressValidComputed;
 
   @override
-  bool get formValid =>
-      (_$formValidComputed ??= Computed<bool>(() => super.formValid,
-              name: '_SignupDepartmentStoreBase.formValid'))
+  bool get addressValid =>
+      (_$addressValidComputed ??= Computed<bool>(() => super.addressValid,
+              name: '_SignupDepartmentStoreBase.addressValid'))
+          .value;
+  Computed<Function> _$signUpPressedComputed;
+
+  @override
+  Function get signUpPressed =>
+      (_$signUpPressedComputed ??= Computed<Function>(() => super.signUpPressed,
+              name: '_SignupDepartmentStoreBase.signUpPressed'))
           .value;
 
   final _$nameAtom = Atom(name: '_SignupDepartmentStoreBase.name');
@@ -61,6 +68,74 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
     });
   }
 
+  final _$addressAtom = Atom(name: '_SignupDepartmentStoreBase.address');
+
+  @override
+  String get address {
+    _$addressAtom.reportRead();
+    return super.address;
+  }
+
+  @override
+  set address(String value) {
+    _$addressAtom.reportWrite(value, super.address, () {
+      super.address = value;
+    });
+  }
+
+  final _$activeAtom = Atom(name: '_SignupDepartmentStoreBase.active');
+
+  @override
+  bool get active {
+    _$activeAtom.reportRead();
+    return super.active;
+  }
+
+  @override
+  set active(bool value) {
+    _$activeAtom.reportWrite(value, super.active, () {
+      super.active = value;
+    });
+  }
+
+  final _$loadingAtom = Atom(name: '_SignupDepartmentStoreBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$signupSuccessAtom =
+      Atom(name: '_SignupDepartmentStoreBase.signupSuccess');
+
+  @override
+  bool get signupSuccess {
+    _$signupSuccessAtom.reportRead();
+    return super.signupSuccess;
+  }
+
+  @override
+  set signupSuccess(bool value) {
+    _$signupSuccessAtom.reportWrite(value, super.signupSuccess, () {
+      super.signupSuccess = value;
+    });
+  }
+
+  final _$signUpAsyncAction = AsyncAction('_SignupDepartmentStoreBase.signUp');
+
+  @override
+  Future<void> signUp() {
+    return _$signUpAsyncAction.run(() => super.signUp());
+  }
+
   final _$_SignupDepartmentStoreBaseActionController =
       ActionController(name: '_SignupDepartmentStoreBase');
 
@@ -87,13 +162,29 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
   }
 
   @override
+  void setAddress(String value) {
+    final _$actionInfo = _$_SignupDepartmentStoreBaseActionController
+        .startAction(name: '_SignupDepartmentStoreBase.setAddress');
+    try {
+      return super.setAddress(value);
+    } finally {
+      _$_SignupDepartmentStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 name: ${name},
 phone: ${phone},
+address: ${address},
+active: ${active},
+loading: ${loading},
+signupSuccess: ${signupSuccess},
 nameValid: ${nameValid},
 phoneValid: ${phoneValid},
-formValid: ${formValid}
+addressValid: ${addressValid},
+signUpPressed: ${signUpPressed}
     ''';
   }
 }

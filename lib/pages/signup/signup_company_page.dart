@@ -5,7 +5,7 @@ import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
 class SignUpCompanyPage extends StatefulWidget {
   @override
@@ -14,7 +14,22 @@ class SignUpCompanyPage extends StatefulWidget {
 
 class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
   SignupCompanyStore signupCompanyStore = SignupCompanyStore();
-  final appStore = GetIt.I<AppStore>();
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer =
+        reaction((_) => signupCompanyStore.signupSuccess, (signupSuccess) {
+      if (signupSuccess) {
+        Navigator.of(context).pop();
+      } else {
+        print('não foi possivel cadastrar');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +77,25 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         height: 16,
                       ),
                       FieldTitle(
+                        title: 'Endereço',
+                        subtitle: 'Digite o endereço da empresa',
+                      ),
+                      Observer(builder: (_) {
+                        return TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText:
+                                'Exemplo: Rua01, centro, nº 09, Jacobina Ba',
+                            isDense: true,
+                            errorText: signupCompanyStore.addressError,
+                          ),
+                          onChanged: signupCompanyStore.setAddress,
+                        );
+                      }),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      FieldTitle(
                         title: 'Telefone',
                         subtitle: 'Digite número de telefone',
                       ),
@@ -84,24 +118,33 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                       SizedBox(
                         height: 16,
                       ),
+                      FieldTitle(
+                        title: 'Ativa?',
+                        subtitle:
+                            'Escolha "sim" para ativa ou "não" para inativa',
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
                       Observer(builder: (_) {
                         return Container(
                           margin: EdgeInsets.only(top: 20, bottom: 12),
                           height: 40,
                           child: RaisedButton(
                             color: Colors.orange,
-                            child: Text('CADASTRAR'),
+                            child: signupCompanyStore.loading
+                                ? CircularProgressIndicator(
+                                    valueColor:
+                                        AlwaysStoppedAnimation(Colors.white),
+                                  )
+                                : Text('CADASTRAR'),
                             textColor: Colors.white,
                             elevation: 0,
                             disabledColor: Colors.grey[500],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            onPressed: signupCompanyStore.formValid
-                                ? () {
-                                    Navigator.of(context).pop();
-                                  }
-                                : null,
+                            onPressed: signupCompanyStore.signUpPressed,
                           ),
                         );
                       }),
@@ -112,5 +155,11 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
             ),
           ),
         ));
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 }

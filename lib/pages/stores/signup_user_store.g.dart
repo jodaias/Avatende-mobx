@@ -51,19 +51,12 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
       (_$password2ValidComputed ??= Computed<bool>(() => super.password2Valid,
               name: '_SignUpUserStoreBase.password2Valid'))
           .value;
-  Computed<bool> _$formValidComputed;
+  Computed<Function> _$signUpPressedComputed;
 
   @override
-  bool get formValid =>
-      (_$formValidComputed ??= Computed<bool>(() => super.formValid,
-              name: '_SignUpUserStoreBase.formValid'))
-          .value;
-  Computed<bool> _$isLoadingComputed;
-
-  @override
-  bool get isLoading =>
-      (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
-              name: '_SignUpUserStoreBase.isLoading'))
+  Function get signUpPressed =>
+      (_$signUpPressedComputed ??= Computed<Function>(() => super.signUpPressed,
+              name: '_SignUpUserStoreBase.signUpPressed'))
           .value;
 
   final _$loadingAtom = Atom(name: '_SignUpUserStoreBase.loading');
@@ -171,6 +164,36 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
+  final _$activeAtom = Atom(name: '_SignUpUserStoreBase.active');
+
+  @override
+  bool get active {
+    _$activeAtom.reportRead();
+    return super.active;
+  }
+
+  @override
+  set active(bool value) {
+    _$activeAtom.reportWrite(value, super.active, () {
+      super.active = value;
+    });
+  }
+
+  final _$signupSuccessAtom = Atom(name: '_SignUpUserStoreBase.signupSuccess');
+
+  @override
+  bool get signupSuccess {
+    _$signupSuccessAtom.reportRead();
+    return super.signupSuccess;
+  }
+
+  @override
+  set signupSuccess(bool value) {
+    _$signupSuccessAtom.reportWrite(value, super.signupSuccess, () {
+      super.signupSuccess = value;
+    });
+  }
+
   final _$isObscureTextAtom = Atom(name: '_SignUpUserStoreBase.isObscureText');
 
   @override
@@ -184,6 +207,13 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     _$isObscureTextAtom.reportWrite(value, super.isObscureText, () {
       super.isObscureText = value;
     });
+  }
+
+  final _$signUpAsyncAction = AsyncAction('_SignUpUserStoreBase.signUp');
+
+  @override
+  Future<void> signUp() {
+    return _$signUpAsyncAction.run(() => super.signUp());
   }
 
   final _$_SignUpUserStoreBaseActionController =
@@ -287,6 +317,8 @@ password1: ${password1},
 password2: ${password2},
 name: ${name},
 email: ${email},
+active: ${active},
+signupSuccess: ${signupSuccess},
 isObscureText: ${isObscureText},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
@@ -294,8 +326,7 @@ phoneValid: ${phoneValid},
 userTypeValid: ${userTypeValid},
 password1Valid: ${password1Valid},
 password2Valid: ${password2Valid},
-formValid: ${formValid},
-isLoading: ${isLoading}
+signUpPressed: ${signUpPressed}
     ''';
   }
 }

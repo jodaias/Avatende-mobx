@@ -23,12 +23,19 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
       (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
               name: '_SignupCompanyStoreBase.phoneValid'))
           .value;
-  Computed<bool> _$formValidComputed;
+  Computed<bool> _$addressValidComputed;
 
   @override
-  bool get formValid =>
-      (_$formValidComputed ??= Computed<bool>(() => super.formValid,
-              name: '_SignupCompanyStoreBase.formValid'))
+  bool get addressValid =>
+      (_$addressValidComputed ??= Computed<bool>(() => super.addressValid,
+              name: '_SignupCompanyStoreBase.addressValid'))
+          .value;
+  Computed<Function> _$signUpPressedComputed;
+
+  @override
+  Function get signUpPressed =>
+      (_$signUpPressedComputed ??= Computed<Function>(() => super.signUpPressed,
+              name: '_SignupCompanyStoreBase.signUpPressed'))
           .value;
 
   final _$nameAtom = Atom(name: '_SignupCompanyStoreBase.name');
@@ -43,6 +50,51 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   set name(String value) {
     _$nameAtom.reportWrite(value, super.name, () {
       super.name = value;
+    });
+  }
+
+  final _$addressAtom = Atom(name: '_SignupCompanyStoreBase.address');
+
+  @override
+  String get address {
+    _$addressAtom.reportRead();
+    return super.address;
+  }
+
+  @override
+  set address(String value) {
+    _$addressAtom.reportWrite(value, super.address, () {
+      super.address = value;
+    });
+  }
+
+  final _$phoneAtom = Atom(name: '_SignupCompanyStoreBase.phone');
+
+  @override
+  String get phone {
+    _$phoneAtom.reportRead();
+    return super.phone;
+  }
+
+  @override
+  set phone(String value) {
+    _$phoneAtom.reportWrite(value, super.phone, () {
+      super.phone = value;
+    });
+  }
+
+  final _$activeAtom = Atom(name: '_SignupCompanyStoreBase.active');
+
+  @override
+  bool get active {
+    _$activeAtom.reportRead();
+    return super.active;
+  }
+
+  @override
+  set active(bool value) {
+    _$activeAtom.reportWrite(value, super.active, () {
+      super.active = value;
     });
   }
 
@@ -61,19 +113,27 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
     });
   }
 
-  final _$phoneAtom = Atom(name: '_SignupCompanyStoreBase.phone');
+  final _$signupSuccessAtom =
+      Atom(name: '_SignupCompanyStoreBase.signupSuccess');
 
   @override
-  String get phone {
-    _$phoneAtom.reportRead();
-    return super.phone;
+  bool get signupSuccess {
+    _$signupSuccessAtom.reportRead();
+    return super.signupSuccess;
   }
 
   @override
-  set phone(String value) {
-    _$phoneAtom.reportWrite(value, super.phone, () {
-      super.phone = value;
+  set signupSuccess(bool value) {
+    _$signupSuccessAtom.reportWrite(value, super.signupSuccess, () {
+      super.signupSuccess = value;
     });
+  }
+
+  final _$signUpAsyncAction = AsyncAction('_SignupCompanyStoreBase.signUp');
+
+  @override
+  Future<void> signUp() {
+    return _$signUpAsyncAction.run(() => super.signUp());
   }
 
   final _$_SignupCompanyStoreBaseActionController =
@@ -102,14 +162,40 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   }
 
   @override
+  void setActive(bool value) {
+    final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
+        name: '_SignupCompanyStoreBase.setActive');
+    try {
+      return super.setActive(value);
+    } finally {
+      _$_SignupCompanyStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setAddress(String value) {
+    final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
+        name: '_SignupCompanyStoreBase.setAddress');
+    try {
+      return super.setAddress(value);
+    } finally {
+      _$_SignupCompanyStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 name: ${name},
-loading: ${loading},
+address: ${address},
 phone: ${phone},
+active: ${active},
+loading: ${loading},
+signupSuccess: ${signupSuccess},
 nameValid: ${nameValid},
 phoneValid: ${phoneValid},
-formValid: ${formValid}
+addressValid: ${addressValid},
+signUpPressed: ${signUpPressed}
     ''';
   }
 }

@@ -1,3 +1,4 @@
+import 'package:avatende/repositories/repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:avatende/models/user_model.dart';
@@ -9,6 +10,10 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStoreBase with _$LoginStore;
 
 abstract class _LoginStoreBase with Store {
+  //REPOSITÓRIO
+  Repository repository = Repository();
+
+  //extensão do app
   final appStore = GetIt.I<AppStore>();
 
   //OBSERVABLEs
@@ -70,18 +75,21 @@ abstract class _LoginStoreBase with Store {
     //no usuario modelo via appStore
     await Future.delayed(Duration(seconds: 2));
 
-    appStore.setUser(UserModel(
-      email: email,
-      name: 'Jodaías Barreto',
-      password: password,
-      userType: "1",
-      phone: '43204324',
-      departmentId: 1,
-      active: false,
-    ));
-
-    loading = false;
-    loggedIn = true;
+    await repository
+        .signIn(usermodel: UserModel(email: email), password: password)
+        .then((data) {
+      appStore.setUser(data);
+      loading = false;
+      if (data.active != null &&
+          data.email != null &&
+          data.name != null &&
+          data.phone != null &&
+          data.departmentId != null &&
+          data.userType != null) loggedIn = true;
+    }).catchError((error) {
+      loading = false;
+      print("Error01: $error");
+    });
   }
 
   @action

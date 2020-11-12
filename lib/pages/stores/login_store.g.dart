@@ -30,6 +30,13 @@ mixin _$LoginStore on _LoginStoreBase, Store {
       (_$loginPressedComputed ??= Computed<Function>(() => super.loginPressed,
               name: '_LoginStoreBase.loginPressed'))
           .value;
+  Computed<Function> _$resetPasswordPressedComputed;
+
+  @override
+  Function get resetPasswordPressed => (_$resetPasswordPressedComputed ??=
+          Computed<Function>(() => super.resetPasswordPressed,
+              name: '_LoginStoreBase.resetPasswordPressed'))
+      .value;
 
   final _$emailAtom = Atom(name: '_LoginStoreBase.email');
 
@@ -98,6 +105,14 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     return _$loginAsyncAction.run(() => super.login());
   }
 
+  final _$resetPasswordAsyncAction =
+      AsyncAction('_LoginStoreBase.resetPassword');
+
+  @override
+  Future<void> resetPassword() {
+    return _$resetPasswordAsyncAction.run(() => super.resetPassword());
+  }
+
   final _$_LoginStoreBaseActionController =
       ActionController(name: '_LoginStoreBase');
 
@@ -132,7 +147,8 @@ loading: ${loading},
 loggedIn: ${loggedIn},
 emailValid: ${emailValid},
 passwordValid: ${passwordValid},
-loginPressed: ${loginPressed}
+loginPressed: ${loginPressed},
+resetPasswordPressed: ${resetPasswordPressed}
     ''';
   }
 }

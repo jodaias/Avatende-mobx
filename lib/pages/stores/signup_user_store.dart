@@ -1,3 +1,5 @@
+import 'package:avatende/models/user_model.dart';
+import 'package:avatende/repositories/repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -8,7 +10,12 @@ part 'signup_user_store.g.dart';
 class SignUpUserStore = _SignUpUserStoreBase with _$SignUpUserStore;
 
 abstract class _SignUpUserStoreBase with Store {
+  //REPOSITÓRIO
+  Repository repository = Repository();
+
+  //extensão do app
   final appStore = GetIt.I<AppStore>();
+
   //OBSERVABLES
 
   @observable
@@ -31,6 +38,12 @@ abstract class _SignUpUserStoreBase with Store {
 
   @observable
   String email;
+
+  @observable
+  bool active = false;
+
+  @observable
+  bool signupSuccess;
 
   @observable
   bool isObscureText = true;
@@ -130,17 +143,46 @@ abstract class _SignUpUserStoreBase with Store {
       return 'Senhas não coincidem';
   }
 
-  //Validando os formulários do Cadastro
   @computed
-  bool get formValid =>
-      emailValid &&
-      password1Valid &&
-      password2Valid &&
-      nameValid &&
-      phoneValid &&
-      userTypeValid;
+  Function get signUpPressed => (emailValid &&
+          password1Valid &&
+          password2Valid &&
+          nameValid &&
+          phoneValid &&
+          userTypeValid &&
+          !loading)
+      ? signUp
+      : null;
 
-  //verificando se está carregando
-  @computed
-  bool get isLoading => loading != false;
+  @action
+  Future<void> signUp() async {
+    loading = true;
+
+    //Salvar a empresa no banco
+    //e salvar no company model via appStore
+    await repository
+        .signUpUser(
+            usermodel: UserModel(
+              name: name,
+              phone: phone,
+              active: active,
+              departmentId: 1,
+              email: email,
+              userType: userType,
+            ),
+            password: password1)
+        .then((data) {
+      appStore.setUser(data);
+      loading = false;
+      if (data.active != null &&
+          data.email != null &&
+          data.name != null &&
+          data.phone != null &&
+          data.departmentId != null &&
+          data.userType != null) signupSuccess = true;
+    }).catchError((error) {
+      loading = false;
+      print("Error01: $error");
+    });
+  }
 }

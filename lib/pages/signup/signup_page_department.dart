@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
 class SignUpDepartmentPage extends StatefulWidget {
   @override
@@ -14,7 +15,22 @@ class SignUpDepartmentPage extends StatefulWidget {
 
 class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
   SignupDepartmentStore signupDepartmentStore = SignupDepartmentStore();
-  final appStore = GetIt.I<AppStore>();
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer =
+        reaction((_) => signupDepartmentStore.signupSuccess, (signupSuccess) {
+      if (signupSuccess) {
+        Navigator.of(context).pop();
+      } else {
+        print('não foi possivel cadastrar');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +78,25 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
                       height: 16,
                     ),
                     FieldTitle(
+                      title: 'Endereço',
+                      subtitle: 'Digite o endereço do departamento',
+                    ),
+                    Observer(builder: (_) {
+                      return TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          hintText:
+                              'Exemplo: Rua01, centro, nº 09, Jacobina Ba',
+                          isDense: true,
+                          errorText: signupDepartmentStore.addressError,
+                        ),
+                        onChanged: signupDepartmentStore.setAddress,
+                      );
+                    }),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    FieldTitle(
                       title: 'Telefone',
                       subtitle: 'Digite o número de telefone',
                     ),
@@ -84,24 +119,33 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
                     SizedBox(
                       height: 16,
                     ),
+                    FieldTitle(
+                      title: 'Ativa?',
+                      subtitle:
+                          'Escolha "sim" para ativo ou "não" para inativo!',
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
                     Observer(builder: (_) {
                       return Container(
                         margin: EdgeInsets.only(top: 20, bottom: 12),
                         height: 40,
                         child: RaisedButton(
                           color: Colors.orange,
-                          child: Text('CADASTRAR'),
+                          child: signupDepartmentStore.loading
+                              ? CircularProgressIndicator(
+                                  valueColor:
+                                      AlwaysStoppedAnimation(Colors.white),
+                                )
+                              : Text('CADASTRAR'),
                           textColor: Colors.white,
                           elevation: 0,
                           disabledColor: Colors.grey[500],
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          onPressed: signupDepartmentStore.formValid
-                              ? () {
-                                  Navigator.of(context).pop();
-                                }
-                              : null,
+                          onPressed: signupDepartmentStore.signUpPressed,
                         ),
                       );
                     }),
@@ -113,5 +157,11 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 }
