@@ -139,7 +139,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                         return TextField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: appStore.userModel.userType == "1"
+                            hintText: appStore.userViewModel.userType == "1"
                                 ? '1=Gestor/2=Admin/3=Atendente'
                                 : '2=Admin/3=Atendente',
                             isDense: true,

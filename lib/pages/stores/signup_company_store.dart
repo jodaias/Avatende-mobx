@@ -1,5 +1,5 @@
 import 'package:avatende/models/company_model.dart';
-import 'package:avatende/repositories/repository.dart';
+import 'package:avatende/repositories/interfaces/IRepository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -9,7 +9,7 @@ class SignupCompanyStore = _SignupCompanyStoreBase with _$SignupCompanyStore;
 
 abstract class _SignupCompanyStoreBase with Store {
   //REPOSITÓRIO
-  Repository repository = Repository();
+  IRepository repository;
 
   //extensão do app
   final appStore = GetIt.I<AppStore>();

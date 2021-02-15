@@ -1,4 +1,4 @@
-import 'package:avatende/repositories/repository.dart';
+import 'package:avatende/repositories/interfaces/IRepository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:avatende/models/user_model.dart';
@@ -11,7 +11,7 @@ class LoginStore = _LoginStoreBase with _$LoginStore;
 
 abstract class _LoginStoreBase with Store {
   //REPOSITÓRIO
-  Repository repository = Repository();
+  IRepository repository;
 
   //extensão do app
   final appStore = GetIt.I<AppStore>();
@@ -73,7 +73,6 @@ abstract class _LoginStoreBase with Store {
 
     //verificar se usuario existe no banco e salvar
     //no usuario modelo via appStore
-    await Future.delayed(Duration(seconds: 2));
 
     await repository
         .signIn(usermodel: UserModel(email: email), password: password)

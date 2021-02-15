@@ -19,11 +19,11 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (appStore.userModel != null) {
+    if (appStore.userViewModel != null) {
       print(
-        appStore.userModel.userType == "3" ? 'Avaliable page' : 'Home page',
+        appStore.userViewModel.userType == "3" ? 'Avaliable page' : 'Home page',
       );
-      return appStore.userModel.userType == "3" ? PerfilPage() : BasePage();
+      return appStore.userViewModel.userType == "3" ? PerfilPage() : BasePage();
     } else {
       print('Login page');
       return LoginPage();

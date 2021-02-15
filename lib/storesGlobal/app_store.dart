@@ -1,34 +1,35 @@
-import 'package:avatende/models/company_model.dart';
-import 'package:avatende/models/department_model.dart';
-import 'package:avatende/models/relatory_model.dart';
+import 'package:avatende/models/views/company_view_model.dart';
+import 'package:avatende/models/views/department_view_model.dart';
+import 'package:avatende/models/views/relatory_view_model.dart';
+import 'package:avatende/models/views/user_view_model.dart';
 import 'package:mobx/mobx.dart';
-import 'package:avatende/models/user_model.dart';
+
 part 'app_store.g.dart';
 
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
   @observable
-  UserModel userModel;
+  UserViewModel userViewModel;
 
   @observable
-  DepartmentModel departmentModel;
+  DepartmentViewModel departmentViewModel;
 
   @observable
-  RelatoryModel relatoryModel;
+  RelatoryViewModel relatoryViewModel;
 
   @observable
-  CompanyModel companyModel;
+  CompanyViewModel companyViewModel;
 
   @action
-  void setUser(UserModel value) => userModel = value;
+  void setUser(UserViewModel value) => userViewModel = value;
 
   @action
-  void setCompany(CompanyModel value) => companyModel = value;
+  void setCompany(CompanyViewModel value) => companyViewModel = value;
 
   @action
-  void setDepartment(DepartmentModel value) => departmentModel = value;
+  void setDepartment(DepartmentViewModel value) => departmentViewModel = value;
 
   @action
-  void setRelatory(RelatoryModel value) => relatoryModel = value;
+  void setRelatory(RelatoryViewModel value) => relatoryViewModel = value;
 }

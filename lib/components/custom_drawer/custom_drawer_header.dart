@@ -41,8 +41,8 @@ class CustomDrawerHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    appStore.userModel.name != null
-                        ? appStore.userModel.name
+                    appStore.userViewModel.name != null
+                        ? appStore.userViewModel.name
                         : '',
                     style: TextStyle(
                         color: Colors.white,
@@ -50,8 +50,8 @@ class CustomDrawerHeader extends StatelessWidget {
                         fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    appStore.userModel.email != null
-                        ? appStore.userModel.email
+                    appStore.userViewModel.email != null
+                        ? appStore.userViewModel.email
                         : '',
                     style: TextStyle(
                         color: Colors.white,

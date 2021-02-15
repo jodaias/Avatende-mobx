@@ -1,96 +1,106 @@
 import 'package:avatende/models/company_model.dart';
 import 'package:avatende/models/department_model.dart';
-import 'package:avatende/models/relatory_model.dart';
 import 'package:avatende/models/user_model.dart';
+import 'package:avatende/models/views/company_view_model.dart';
+import 'package:avatende/models/views/department_view_model.dart';
+import 'package:avatende/models/views/relatory_view_model.dart';
+import 'package:avatende/models/views/user_view_model.dart';
+import 'package:avatende/repositories/interfaces/IRepository.dart';
+import 'package:parse_server_sdk/parse_server_sdk.dart';
 
-class Repository {
-  Future<CompanyModel> signUpCompany(CompanyModel companymodel) async {
-    await Future.delayed(Duration(seconds: 2));
+class Repository implements IRepository {
+  Future<CompanyViewModel> signUpCompany(CompanyModel companymodel) async {
     //logica para salvar no banco
+    // ParseObject company = new ParseObject("Company");
+    // // Store an object
+    // company.setAdd("name", companymodel.name);
+    // company.setAdd("address", companymodel.address);
+    // company.setAdd("active", companymodel.active);
+    // company.setAdd("phone", companymodel.phone);
 
+    //com graphQL
+
+// mutation CreateObject{
+// 	  createCompany(fields: {name: "UNASP", active:false, address:"Hortolandia", phone:"1935247837"
+//     })
+//       {
+//         id,
+// 	      name,
+//         active,
+//         address,
+//         phone,
+//         createdAt
+// 	    }
+// }
     try {
-      //Tenta cadastrar a empresa
-      return companymodel;
+      // Saving object
+      // // company.save().then((response) {
+      //   return response.results;
+      // });
     } catch (e) {
       print('Error02: $e');
-      return CompanyModel();
+      return CompanyViewModel();
     }
   }
 
-  Future<DepartmentModel> signUpDepartment(DepartmentModel departmodel) async {
-    await Future.delayed(Duration(seconds: 2));
-
+  Future<DepartmentViewModel> signUpDepartment(
+      DepartmentModel departmodel) async {
     //logica para salvar no banco
     try {
       //Tenta cadastrar o departamento
-      return DepartmentModel(
-        name: departmodel.name,
-        active: departmodel.active,
-        address: departmodel.address,
-        companyId: departmodel.companyId,
-        phone: departmodel.phone,
-      );
+      return DepartmentViewModel();
     } catch (e) {
       print('Error: $e');
-      return DepartmentModel();
+      return DepartmentViewModel();
     }
   }
 
-  Future<UserModel> signUpUser({UserModel usermodel, String password}) async {
+  Future<UserViewModel> signUpUser(
+      {UserModel usermodel, String password}) async {
     await Future.delayed(Duration(seconds: 2));
 
     //logica para salvar no banco
     try {
       //Tenta cadastrar o usuario
 
-      return UserModel(
-        name: usermodel.name,
-        email: usermodel.email,
-        userType: usermodel.userType,
-        active: usermodel.active,
-        departmentId: usermodel.departmentId,
-        phone: usermodel.phone,
-      );
+      return UserViewModel();
     } catch (e) {
       print('Error: $e');
-      return UserModel();
+      return UserViewModel();
     }
   }
 
-  Future<UserModel> signIn({UserModel usermodel, String password}) async {
+  Future<UserViewModel> signIn({UserModel usermodel, String password}) async {
     await Future.delayed(Duration(seconds: 2));
 
     //Logica de enviar os dados no banco e retornar o usuario logado.
+
     try {
-      //Tenta cadastrar o departamento
-      return UserModel(
-        name: 'Jodaias',
-        email: usermodel.email,
-        userType: '1',
-        active: true,
-        departmentId: 2,
-        phone: '75991169903',
-      );
+      return UserViewModel();
     } catch (e) {
       print('Error: $e');
-      return UserModel();
+      return UserViewModel();
     }
   }
 
-  Future<List<CompanyModel>> companysList() async {
+  Future<List<CompanyViewModel>> companysList() async {
     await Future.delayed(Duration(seconds: 2));
-    List<CompanyModel> companys = [];
 
     //logica de trazer as empresas e salvar na lista companys
+    ParseObject company = new ParseObject("Company");
+
+    company.getAll().then((response) {
+      return response.results;
+    });
     try {} catch (e) {
       print('Error: $e');
+      return List<CompanyViewModel>();
     }
-    return companys;
   }
 
-  Future<List<DepartmentModel>> departmentsList() async {
+  Future<List<DepartmentViewModel>> departmentsList() async {
     await Future.delayed(Duration(seconds: 2));
-    List<DepartmentModel> departments = [];
+    List<DepartmentViewModel> departments = [];
 
     //logica de trazer os departamentos e salvar na lista departments
     try {} catch (e) {
@@ -99,9 +109,9 @@ class Repository {
     return departments;
   }
 
-  Future<List<UserModel>> usersList() async {
+  Future<List<UserViewModel>> usersList() async {
     await Future.delayed(Duration(seconds: 2));
-    List<UserModel> users = [];
+    List<UserViewModel> users = [];
 
     //logica de trazer os usuarios e salvar na lista users
     try {} catch (e) {
@@ -110,9 +120,9 @@ class Repository {
     return users;
   }
 
-  Future<List<RelatoryModel>> relatorysList() async {
+  Future<List<RelatoryViewModel>> relatorysList() async {
     await Future.delayed(Duration(seconds: 2));
-    List<RelatoryModel> relatorys = [];
+    List<RelatoryViewModel> relatorys = [];
 
     //logica de trazer os relatorios e salvar na lista relatorys
     try {} catch (e) {

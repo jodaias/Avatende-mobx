@@ -111,7 +111,7 @@ abstract class _SignUpUserStoreBase with Store {
 
   @computed
   bool get userTypeValid =>
-      userType != null && appStore.userModel.userType == "1"
+      userType != null && appStore.userViewModel.userType == "1"
           ? (userType == "1" || userType == "2" || userType == "3")
           : (userType == "2" || userType == "3");
   String get userTypeError {

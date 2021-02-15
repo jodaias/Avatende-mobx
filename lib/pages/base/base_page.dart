@@ -45,7 +45,9 @@ class _BasePageState extends State<BasePage> {
       physics: NeverScrollableScrollPhysics(),
       children: [
         HomePage(),
-        appStore.userModel.userType == "1" ? CompanysPage() : DepartmentsPage(),
+        appStore.userViewModel.userType == "1"
+            ? CompanysPage()
+            : DepartmentsPage(),
         AvaliationPage(),
         RelatoryPage(),
         SettingsPage(),

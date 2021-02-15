@@ -9,63 +9,64 @@ part of 'app_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AppStore on _AppStoreBase, Store {
-  final _$userModelAtom = Atom(name: '_AppStoreBase.userModel');
+  final _$userViewModelAtom = Atom(name: '_AppStoreBase.userViewModel');
 
   @override
-  UserModel get userModel {
-    _$userModelAtom.reportRead();
-    return super.userModel;
+  UserViewModel get userViewModel {
+    _$userViewModelAtom.reportRead();
+    return super.userViewModel;
   }
 
   @override
-  set userModel(UserModel value) {
-    _$userModelAtom.reportWrite(value, super.userModel, () {
-      super.userModel = value;
+  set userViewModel(UserViewModel value) {
+    _$userViewModelAtom.reportWrite(value, super.userViewModel, () {
+      super.userViewModel = value;
     });
   }
 
-  final _$departmentModelAtom = Atom(name: '_AppStoreBase.departmentModel');
+  final _$departmentViewModelAtom =
+      Atom(name: '_AppStoreBase.departmentViewModel');
 
   @override
-  DepartmentModel get departmentModel {
-    _$departmentModelAtom.reportRead();
-    return super.departmentModel;
+  DepartmentViewModel get departmentViewModel {
+    _$departmentViewModelAtom.reportRead();
+    return super.departmentViewModel;
   }
 
   @override
-  set departmentModel(DepartmentModel value) {
-    _$departmentModelAtom.reportWrite(value, super.departmentModel, () {
-      super.departmentModel = value;
+  set departmentViewModel(DepartmentViewModel value) {
+    _$departmentViewModelAtom.reportWrite(value, super.departmentViewModel, () {
+      super.departmentViewModel = value;
     });
   }
 
-  final _$relatoryModelAtom = Atom(name: '_AppStoreBase.relatoryModel');
+  final _$relatoryViewModelAtom = Atom(name: '_AppStoreBase.relatoryViewModel');
 
   @override
-  RelatoryModel get relatoryModel {
-    _$relatoryModelAtom.reportRead();
-    return super.relatoryModel;
+  RelatoryViewModel get relatoryViewModel {
+    _$relatoryViewModelAtom.reportRead();
+    return super.relatoryViewModel;
   }
 
   @override
-  set relatoryModel(RelatoryModel value) {
-    _$relatoryModelAtom.reportWrite(value, super.relatoryModel, () {
-      super.relatoryModel = value;
+  set relatoryViewModel(RelatoryViewModel value) {
+    _$relatoryViewModelAtom.reportWrite(value, super.relatoryViewModel, () {
+      super.relatoryViewModel = value;
     });
   }
 
-  final _$companyModelAtom = Atom(name: '_AppStoreBase.companyModel');
+  final _$companyViewModelAtom = Atom(name: '_AppStoreBase.companyViewModel');
 
   @override
-  CompanyModel get companyModel {
-    _$companyModelAtom.reportRead();
-    return super.companyModel;
+  CompanyViewModel get companyViewModel {
+    _$companyViewModelAtom.reportRead();
+    return super.companyViewModel;
   }
 
   @override
-  set companyModel(CompanyModel value) {
-    _$companyModelAtom.reportWrite(value, super.companyModel, () {
-      super.companyModel = value;
+  set companyViewModel(CompanyViewModel value) {
+    _$companyViewModelAtom.reportWrite(value, super.companyViewModel, () {
+      super.companyViewModel = value;
     });
   }
 
@@ -73,7 +74,7 @@ mixin _$AppStore on _AppStoreBase, Store {
       ActionController(name: '_AppStoreBase');
 
   @override
-  void setUser(UserModel value) {
+  void setUser(UserViewModel value) {
     final _$actionInfo = _$_AppStoreBaseActionController.startAction(
         name: '_AppStoreBase.setUser');
     try {
@@ -84,7 +85,7 @@ mixin _$AppStore on _AppStoreBase, Store {
   }
 
   @override
-  void setCompany(CompanyModel value) {
+  void setCompany(CompanyViewModel value) {
     final _$actionInfo = _$_AppStoreBaseActionController.startAction(
         name: '_AppStoreBase.setCompany');
     try {
@@ -95,7 +96,7 @@ mixin _$AppStore on _AppStoreBase, Store {
   }
 
   @override
-  void setDepartment(DepartmentModel value) {
+  void setDepartment(DepartmentViewModel value) {
     final _$actionInfo = _$_AppStoreBaseActionController.startAction(
         name: '_AppStoreBase.setDepartment');
     try {
@@ -106,7 +107,7 @@ mixin _$AppStore on _AppStoreBase, Store {
   }
 
   @override
-  void setRelatory(RelatoryModel value) {
+  void setRelatory(RelatoryViewModel value) {
     final _$actionInfo = _$_AppStoreBaseActionController.startAction(
         name: '_AppStoreBase.setRelatory');
     try {
@@ -119,10 +120,10 @@ mixin _$AppStore on _AppStoreBase, Store {
   @override
   String toString() {
     return '''
-userModel: ${userModel},
-departmentModel: ${departmentModel},
-relatoryModel: ${relatoryModel},
-companyModel: ${companyModel}
+userViewModel: ${userViewModel},
+departmentViewModel: ${departmentViewModel},
+relatoryViewModel: ${relatoryViewModel},
+companyViewModel: ${companyViewModel}
     ''';
   }
 }

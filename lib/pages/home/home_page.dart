@@ -50,10 +50,10 @@ class _HomePageState extends State<HomePage> {
                   ///Dividimento dos cards
                   CustomCard(
                     onTap: () => pageStore.setPage(1),
-                    label: appStore.userModel.userType == "1"
+                    label: appStore.userViewModel.userType == "1"
                         ? 'Empresas'
                         : 'Departamentos',
-                    iconData: appStore.userModel.userType == "1"
+                    iconData: appStore.userViewModel.userType == "1"
                         ? Icons.business
                         : Icons.people_alt,
                     edgeInsets: EdgeInsets.only(

@@ -56,7 +56,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
               MaterialPageRoute(builder: (context) => SignUpDepartmentPage()));
         },
       ),
-      drawer: appStore.userModel.userType == "2" ? CustomDrawer() : null,
+      drawer: appStore.userViewModel.userType == "2" ? CustomDrawer() : null,
       title: 'Departamentos',
       actives: 'Departamentos ativos',
       inactives: 'Departamentos inativos',

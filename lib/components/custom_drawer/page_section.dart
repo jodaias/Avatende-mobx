@@ -1,5 +1,5 @@
 import 'package:avatende/components/custom_drawer/page_tile.dart';
-import 'package:avatende/models/user_model.dart';
+import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/pages/root/root_page.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
@@ -21,9 +21,10 @@ class PageSection extends StatelessWidget {
           highlighted: pageStore.page == 0,
         ),
         PageTile(
-          label:
-              appStore.userModel.userType == "1" ? 'Empresas' : 'Departamentos',
-          iconData: appStore.userModel.userType == "1"
+          label: appStore.userViewModel.userType == "1"
+              ? 'Empresas'
+              : 'Departamentos',
+          iconData: appStore.userViewModel.userType == "1"
               ? Icons.business
               : Icons.people_alt,
           onTap: () => pageStore.setPage(1),
@@ -63,8 +64,8 @@ class PageSection extends StatelessWidget {
           label: 'Sair',
           iconData: Icons.logout,
           onTap: () {
-            UserModel userModel;
-            appStore.setUser(userModel);
+            UserViewModel userViewModel;
+            appStore.setUser(userViewModel);
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (_) => RootPage()),
