@@ -30,6 +30,13 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
       (_$addressValidComputed ??= Computed<bool>(() => super.addressValid,
               name: '_SignupCompanyStoreBase.addressValid'))
           .value;
+  Computed<bool> _$activeValidComputed;
+
+  @override
+  bool get activeValid =>
+      (_$activeValidComputed ??= Computed<bool>(() => super.activeValid,
+              name: '_SignupCompanyStoreBase.activeValid'))
+          .value;
   Computed<Function> _$signUpPressedComputed;
 
   @override
@@ -173,7 +180,18 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   }
 
   @override
-  dynamic setAddress(String value) {
+  void setSignupSuccess(bool value) {
+    final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
+        name: '_SignupCompanyStoreBase.setSignupSuccess');
+    try {
+      return super.setSignupSuccess(value);
+    } finally {
+      _$_SignupCompanyStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setAddress(String value) {
     final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
         name: '_SignupCompanyStoreBase.setAddress');
     try {
@@ -195,6 +213,7 @@ signupSuccess: ${signupSuccess},
 nameValid: ${nameValid},
 phoneValid: ${phoneValid},
 addressValid: ${addressValid},
+activeValid: ${activeValid},
 signUpPressed: ${signUpPressed}
     ''';
   }

@@ -1,4 +1,4 @@
-import 'package:avatende/pages/stores/signup_user_store.dart';
+import 'package:avatende/pages/stores/signup/signup_user_store.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/pages/signup/components/field_title.dart';
 import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
@@ -17,7 +17,7 @@ class SignUpUserPage extends StatefulWidget {
 }
 
 class _SignUpUserPageState extends State<SignUpUserPage> {
-  SignUpUserStore signupUserStore = SignUpUserStore();
+  final signupUserStore = SignUpUserStore();
   final appStore = GetIt.I<AppStore>();
 
   ReactionDisposer disposer;

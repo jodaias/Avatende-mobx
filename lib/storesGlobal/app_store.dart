@@ -10,7 +10,8 @@ class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
   @observable
-  UserViewModel userViewModel;
+  UserViewModel userViewModel =
+      UserViewModel(email: 'jodaias@gmail.com', userType: '1');
 
   @observable
   DepartmentViewModel departmentViewModel;

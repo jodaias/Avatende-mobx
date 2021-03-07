@@ -1,25 +1,24 @@
-import 'package:avatende/models/company_model.dart';
-import 'package:avatende/repositories/interfaces/IRepository.dart';
+import 'package:avatende/models/department_model.dart';
+import 'package:avatende/repositories/company/department/department_repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-part 'signup_company_store.g.dart';
+part 'signup_department_store.g.dart';
 
-class SignupCompanyStore = _SignupCompanyStoreBase with _$SignupCompanyStore;
+class SignupDepartmentStore = _SignupDepartmentStoreBase
+    with _$SignupDepartmentStore;
 
-abstract class _SignupCompanyStoreBase with Store {
+abstract class _SignupDepartmentStoreBase with Store {
   //REPOSITÓRIO
-  IRepository repository;
+  final repository = DepartmentRepository();
 
   //extensão do app
   final appStore = GetIt.I<AppStore>();
 
   //OBSERVABLES
-  @observable
-  String name;
 
   @observable
-  String address;
+  String name;
 
   @observable
   String phone;
@@ -32,6 +31,11 @@ abstract class _SignupCompanyStoreBase with Store {
 
   @observable
   bool signupSuccess = false;
+  @observable
+  bool orderByAz = true;
+
+  @observable
+  bool listActive = true;
 
   //ACTIONS
   @action
@@ -44,10 +48,10 @@ abstract class _SignupCompanyStoreBase with Store {
   void setActive(bool value) => active = value;
 
   @action
-  setAddress(String value) => address = value;
+  void setOrderByAz(bool value) => orderByAz = value;
 
-  //COMPUTEDS
-
+  @action
+  void setListActive(bool value) => listActive = value;
   //Validando variaveis
   @computed
   bool get nameValid => name != null && name.length > 6;
@@ -72,19 +76,11 @@ abstract class _SignupCompanyStoreBase with Store {
   }
 
   @computed
-  bool get addressValid => address != null && address.length > 6;
-  String get addressError {
-    if (address == null || addressValid)
-      return null;
-    else if (address.isEmpty)
-      return 'Campo obrigatório';
-    else
-      return 'Endereço muito curto';
-  }
+  bool get activeValid => active != null;
 
   @computed
   Function get signUpPressed =>
-      (nameValid && phoneValid && addressValid && !loading) ? signUp : null;
+      (nameValid && phoneValid && activeValid && !loading) ? signUp : null;
 
   @action
   Future<void> signUp() async {
@@ -93,19 +89,16 @@ abstract class _SignupCompanyStoreBase with Store {
     //Salvar a empresa no banco
     //e salvar no company model via appStore
     await repository
-        .signUpCompany(CompanyModel(
+        .createDepartment(DepartmentModel(
       name: name,
-      address: address,
       phone: phone,
       active: active,
     ))
         .then((data) {
-      appStore.setCompany(data);
+      appStore.setDepartment(data);
       loading = false;
-      if (data.active != null &&
-          data.address != null &&
-          data.name != null &&
-          data.phone != null) signupSuccess = true;
+      if (data.active != null && data.name != null && data.phone != null)
+        signupSuccess = true;
     }).catchError((error) {
       loading = false;
       print("Error01: $error");

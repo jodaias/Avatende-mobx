@@ -1,30 +1,23 @@
-import 'package:avatende/models/department_model.dart';
-import 'package:avatende/repositories/repository.dart';
-import 'package:avatende/storesGlobal/app_store.dart';
-import 'package:get_it/get_it.dart';
+import 'package:avatende/models/company_model.dart';
+import 'package:avatende/repositories/company/company_repository.dart';
 import 'package:mobx/mobx.dart';
-part 'signup_department_store.g.dart';
+part 'signup_company_store.g.dart';
 
-class SignupDepartmentStore = _SignupDepartmentStoreBase
-    with _$SignupDepartmentStore;
+class SignupCompanyStore = _SignupCompanyStoreBase with _$SignupCompanyStore;
 
-abstract class _SignupDepartmentStoreBase with Store {
+abstract class _SignupCompanyStoreBase with Store {
   //REPOSITÓRIO
-  Repository repository = Repository();
-
-  //extensão do app
-  final appStore = GetIt.I<AppStore>();
+  final repository = CompanyRepository();
 
   //OBSERVABLES
-
   @observable
   String name;
 
   @observable
-  String phone;
+  String address;
 
   @observable
-  String address;
+  String phone;
 
   @observable
   bool active = false;
@@ -35,6 +28,7 @@ abstract class _SignupDepartmentStoreBase with Store {
   @observable
   bool signupSuccess = false;
 
+  //ACTIONS
   @action
   void setName(String value) => name = value;
 
@@ -42,11 +36,19 @@ abstract class _SignupDepartmentStoreBase with Store {
   void setPhone(String value) => phone = value;
 
   @action
+  void setActive(bool value) => active = value;
+
+  @action
+  void setSignupSuccess(bool value) => signupSuccess = value;
+
+  @action
   void setAddress(String value) => address = value;
+
+  //COMPUTEDS
 
   //Validando variaveis
   @computed
-  bool get nameValid => name != null && name.length > 6;
+  bool get nameValid => name != null && name.length > 3;
   String get nameError {
     if (name == null || nameValid)
       return null;
@@ -79,32 +81,33 @@ abstract class _SignupDepartmentStoreBase with Store {
   }
 
   @computed
+  bool get activeValid => active != null;
+
+  @computed
   Function get signUpPressed =>
-      (nameValid && phoneValid && addressValid && !loading) ? signUp : null;
+      (nameValid && phoneValid && addressValid && activeValid && !loading)
+          ? signUp
+          : null;
 
   @action
   Future<void> signUp() async {
     loading = true;
 
     //Salvar a empresa no banco
-    //e salvar no company model via appStore
-    await repository
-        .signUpDepartment(DepartmentModel(
+    //e salvar no companyModel via appStore
+    var result = await repository.createCompany(CompanyModel(
       name: name,
       address: address,
       phone: phone,
       active: active,
-    ))
-        .then((data) {
-      appStore.setDepartment(data);
+    ));
+    print(result);
+    if (result.contains('sucesso')) {
+      setSignupSuccess(true);
       loading = false;
-      if (data.active != null &&
-          data.address != null &&
-          data.name != null &&
-          data.phone != null) signupSuccess = true;
-    }).catchError((error) {
+    } else {
       loading = false;
-      print("Error01: $error");
-    });
+      setSignupSuccess(false);
+    }
   }
 }

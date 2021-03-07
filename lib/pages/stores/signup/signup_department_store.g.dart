@@ -23,12 +23,12 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
       (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
               name: '_SignupDepartmentStoreBase.phoneValid'))
           .value;
-  Computed<bool> _$addressValidComputed;
+  Computed<bool> _$activeValidComputed;
 
   @override
-  bool get addressValid =>
-      (_$addressValidComputed ??= Computed<bool>(() => super.addressValid,
-              name: '_SignupDepartmentStoreBase.addressValid'))
+  bool get activeValid =>
+      (_$activeValidComputed ??= Computed<bool>(() => super.activeValid,
+              name: '_SignupDepartmentStoreBase.activeValid'))
           .value;
   Computed<Function> _$signUpPressedComputed;
 
@@ -65,21 +65,6 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
   set phone(String value) {
     _$phoneAtom.reportWrite(value, super.phone, () {
       super.phone = value;
-    });
-  }
-
-  final _$addressAtom = Atom(name: '_SignupDepartmentStoreBase.address');
-
-  @override
-  String get address {
-    _$addressAtom.reportRead();
-    return super.address;
-  }
-
-  @override
-  set address(String value) {
-    _$addressAtom.reportWrite(value, super.address, () {
-      super.address = value;
     });
   }
 
@@ -129,6 +114,36 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
     });
   }
 
+  final _$orderByAzAtom = Atom(name: '_SignupDepartmentStoreBase.orderByAz');
+
+  @override
+  bool get orderByAz {
+    _$orderByAzAtom.reportRead();
+    return super.orderByAz;
+  }
+
+  @override
+  set orderByAz(bool value) {
+    _$orderByAzAtom.reportWrite(value, super.orderByAz, () {
+      super.orderByAz = value;
+    });
+  }
+
+  final _$listActiveAtom = Atom(name: '_SignupDepartmentStoreBase.listActive');
+
+  @override
+  bool get listActive {
+    _$listActiveAtom.reportRead();
+    return super.listActive;
+  }
+
+  @override
+  set listActive(bool value) {
+    _$listActiveAtom.reportWrite(value, super.listActive, () {
+      super.listActive = value;
+    });
+  }
+
   final _$signUpAsyncAction = AsyncAction('_SignupDepartmentStoreBase.signUp');
 
   @override
@@ -162,11 +177,33 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
   }
 
   @override
-  void setAddress(String value) {
+  void setActive(bool value) {
     final _$actionInfo = _$_SignupDepartmentStoreBaseActionController
-        .startAction(name: '_SignupDepartmentStoreBase.setAddress');
+        .startAction(name: '_SignupDepartmentStoreBase.setActive');
     try {
-      return super.setAddress(value);
+      return super.setActive(value);
+    } finally {
+      _$_SignupDepartmentStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setOrderByAz(bool value) {
+    final _$actionInfo = _$_SignupDepartmentStoreBaseActionController
+        .startAction(name: '_SignupDepartmentStoreBase.setOrderByAz');
+    try {
+      return super.setOrderByAz(value);
+    } finally {
+      _$_SignupDepartmentStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setListActive(bool value) {
+    final _$actionInfo = _$_SignupDepartmentStoreBaseActionController
+        .startAction(name: '_SignupDepartmentStoreBase.setListActive');
+    try {
+      return super.setListActive(value);
     } finally {
       _$_SignupDepartmentStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -177,13 +214,14 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
     return '''
 name: ${name},
 phone: ${phone},
-address: ${address},
 active: ${active},
 loading: ${loading},
 signupSuccess: ${signupSuccess},
+orderByAz: ${orderByAz},
+listActive: ${listActive},
 nameValid: ${nameValid},
 phoneValid: ${phoneValid},
-addressValid: ${addressValid},
+activeValid: ${activeValid},
 signUpPressed: ${signUpPressed}
     ''';
   }

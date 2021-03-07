@@ -209,6 +209,36 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
+  final _$orderByAzAtom = Atom(name: '_SignUpUserStoreBase.orderByAz');
+
+  @override
+  bool get orderByAz {
+    _$orderByAzAtom.reportRead();
+    return super.orderByAz;
+  }
+
+  @override
+  set orderByAz(bool value) {
+    _$orderByAzAtom.reportWrite(value, super.orderByAz, () {
+      super.orderByAz = value;
+    });
+  }
+
+  final _$listActiveAtom = Atom(name: '_SignUpUserStoreBase.listActive');
+
+  @override
+  bool get listActive {
+    _$listActiveAtom.reportRead();
+    return super.listActive;
+  }
+
+  @override
+  set listActive(bool value) {
+    _$listActiveAtom.reportWrite(value, super.listActive, () {
+      super.listActive = value;
+    });
+  }
+
   final _$signUpAsyncAction = AsyncAction('_SignUpUserStoreBase.signUp');
 
   @override
@@ -308,6 +338,28 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
+  void setOrderByAz(bool value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setOrderByAz');
+    try {
+      return super.setOrderByAz(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setListActive(bool value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setListActive');
+    try {
+      return super.setListActive(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 loading: ${loading},
@@ -320,6 +372,8 @@ email: ${email},
 active: ${active},
 signupSuccess: ${signupSuccess},
 isObscureText: ${isObscureText},
+orderByAz: ${orderByAz},
+listActive: ${listActive},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
 phoneValid: ${phoneValid},

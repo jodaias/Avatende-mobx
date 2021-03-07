@@ -1,6 +1,4 @@
-import 'package:avatende/pages/login/login_page.dart';
-import 'package:avatende/pages/root/root_page.dart';
-import 'package:avatende/pages/stores/login_store.dart';
+import 'package:avatende/pages/stores/login/login_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';

@@ -1,11 +1,9 @@
-import 'package:avatende/pages/stores/signup_department_store.dart';
-import 'package:avatende/storesGlobal/app_store.dart';
+import 'package:avatende/pages/stores/signup/signup_department_store.dart';
 import 'package:avatende/pages/signup/components/field_title.dart';
 import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 class SignUpDepartmentPage extends StatefulWidget {
@@ -78,25 +76,6 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
                       height: 16,
                     ),
                     FieldTitle(
-                      title: 'Endereço',
-                      subtitle: 'Digite o endereço do departamento',
-                    ),
-                    Observer(builder: (_) {
-                      return TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText:
-                              'Exemplo: Rua01, centro, nº 09, Jacobina Ba',
-                          isDense: true,
-                          errorText: signupDepartmentStore.addressError,
-                        ),
-                        onChanged: signupDepartmentStore.setAddress,
-                      );
-                    }),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    FieldTitle(
                       title: 'Telefone',
                       subtitle: 'Digite o número de telefone',
                     ),
@@ -124,6 +103,28 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
                       subtitle:
                           'Escolha "sim" para ativo ou "não" para inativo!',
                     ),
+                    Observer(builder: (_) {
+                      return Row(
+                        children: <Widget>[
+                          Radio(
+                            groupValue: signupDepartmentStore.active,
+                            value: true,
+                            onChanged: (val) {
+                              signupDepartmentStore.setActive(val);
+                            },
+                          ),
+                          Text('Sim'),
+                          Radio(
+                            groupValue: signupDepartmentStore.active,
+                            value: false,
+                            onChanged: (val) {
+                              signupDepartmentStore.setActive(val);
+                            },
+                          ),
+                          Text('Não'),
+                        ],
+                      );
+                    }),
                     SizedBox(
                       height: 16,
                     ),

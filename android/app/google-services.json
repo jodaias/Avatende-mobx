@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "335931734535",
+    "project_id": "avatende-7ae97",
+    "storage_bucket": "avatende-7ae97.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335931734535:android:7e65952cee96c4013bc8a2",
+        "android_client_info": {
+          "package_name": "com.jodaias.avatende"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335931734535-vp5n6ulnkkruf45qos8j6r21o4bqgc6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT9GzdPW-Aw-IoYvzZF9slEHwfmplBOX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335931734535-vp5n6ulnkkruf45qos8j6r21o4bqgc6k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

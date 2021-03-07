@@ -1,5 +1,4 @@
-import 'package:avatende/pages/stores/signup_company_store.dart';
-import 'package:avatende/storesGlobal/app_store.dart';
+import 'package:avatende/pages/stores/signup/signup_company_store.dart';
 import 'package:avatende/pages/signup/components/field_title.dart';
 import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
     disposer =
         reaction((_) => signupCompanyStore.signupSuccess, (signupSuccess) {
       if (signupSuccess) {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(true);
       } else {
         print('não foi possivel cadastrar');
       }
@@ -123,6 +122,28 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         subtitle:
                             'Escolha "sim" para ativa ou "não" para inativa',
                       ),
+                      Observer(builder: (_) {
+                        return Row(
+                          children: <Widget>[
+                            Radio(
+                              groupValue: signupCompanyStore.active,
+                              value: true,
+                              onChanged: (val) {
+                                signupCompanyStore.setActive(val);
+                              },
+                            ),
+                            Text('Sim'),
+                            Radio(
+                              groupValue: signupCompanyStore.active,
+                              value: false,
+                              onChanged: (val) {
+                                signupCompanyStore.setActive(val);
+                              },
+                            ),
+                            Text('Não'),
+                          ],
+                        );
+                      }),
                       SizedBox(
                         height: 16,
                       ),

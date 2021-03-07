@@ -1,8 +1,8 @@
 class CompanyModel {
-  String name;
-  String address;
-  bool active;
-  String phone;
+  String name = '';
+  String address = '';
+  bool active = false;
+  String phone = '';
 
   CompanyModel({
     this.name,

@@ -1,4 +1,4 @@
-import 'package:avatende/repositories/interfaces/IRepository.dart';
+import 'package:avatende/repositories/company/department/user/user_repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:avatende/models/user_model.dart';
@@ -11,7 +11,7 @@ class LoginStore = _LoginStoreBase with _$LoginStore;
 
 abstract class _LoginStoreBase with Store {
   //REPOSITÓRIO
-  IRepository repository;
+  final repository = UserRepository();
 
   //extensão do app
   final appStore = GetIt.I<AppStore>();

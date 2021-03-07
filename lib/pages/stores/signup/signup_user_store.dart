@@ -1,5 +1,5 @@
 import 'package:avatende/models/user_model.dart';
-import 'package:avatende/repositories/repository.dart';
+import 'package:avatende/repositories/company/department/user/user_repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -11,7 +11,7 @@ class SignUpUserStore = _SignUpUserStoreBase with _$SignUpUserStore;
 
 abstract class _SignUpUserStoreBase with Store {
   //REPOSITÓRIO
-  Repository repository = Repository();
+  final repository = UserRepository();
 
   //extensão do app
   final appStore = GetIt.I<AppStore>();
@@ -47,7 +47,11 @@ abstract class _SignUpUserStoreBase with Store {
 
   @observable
   bool isObscureText = true;
+  @observable
+  bool orderByAz = true;
 
+  @observable
+  bool listActive = true;
   //ACTIONS
   @action
   void setEmail(String value) => email = value;
@@ -72,6 +76,12 @@ abstract class _SignUpUserStoreBase with Store {
 
   @action
   void setLoading(value) => loading = value;
+
+  @action
+  void setOrderByAz(bool value) => orderByAz = value;
+
+  @action
+  void setListActive(bool value) => listActive = value;
 
   //COMPUTEDS
 
