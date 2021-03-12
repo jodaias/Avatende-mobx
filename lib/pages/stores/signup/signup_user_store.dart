@@ -43,6 +43,9 @@ abstract class _SignUpUserStoreBase with Store {
   bool active = false;
 
   @observable
+  String departmentId;
+
+  @observable
   bool signupSuccess;
 
   @observable
@@ -82,6 +85,9 @@ abstract class _SignUpUserStoreBase with Store {
 
   @action
   void setListActive(bool value) => listActive = value;
+
+  @action
+  void setDepartmentId(String value) => departmentId = value;
 
   //COMPUTEDS
 
@@ -170,29 +176,18 @@ abstract class _SignUpUserStoreBase with Store {
 
     //Salvar a empresa no banco
     //e salvar no company model via appStore
-    await repository
-        .signUpUser(
-            usermodel: UserModel(
-              name: name,
-              phone: phone,
-              active: active,
-              departmentId: 1,
-              email: email,
-              userType: userType,
-            ),
-            password: password1)
-        .then((data) {
-      appStore.setUser(data);
-      loading = false;
-      if (data.active != null &&
-          data.email != null &&
-          data.name != null &&
-          data.phone != null &&
-          data.departmentId != null &&
-          data.userType != null) signupSuccess = true;
-    }).catchError((error) {
-      loading = false;
-      print("Error01: $error");
-    });
+    await repository.signUpUser(
+        usermodel: UserModel(
+          name: name,
+          phone: phone,
+          active: active,
+          departmentId: departmentId,
+          email: email,
+          userType: userType,
+        ),
+        password: password1);
+
+    loading = false;
+    signupSuccess = true;
   }
 }

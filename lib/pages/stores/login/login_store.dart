@@ -74,17 +74,11 @@ abstract class _LoginStoreBase with Store {
     //verificar se usuario existe no banco e salvar
     //no usuario modelo via appStore
 
-    await repository
-        .signIn(usermodel: UserModel(email: email), password: password)
-        .then((data) {
+    await repository.signIn(email: email, password: password).then((data) {
+      print(data);
       appStore.setUser(data);
       loading = false;
-      if (data.active != null &&
-          data.email != null &&
-          data.name != null &&
-          data.phone != null &&
-          data.departmentId != null &&
-          data.userType != null) loggedIn = true;
+      if (data != null) loggedIn = true;
     }).catchError((error) {
       loading = false;
       print("Error01: $error");

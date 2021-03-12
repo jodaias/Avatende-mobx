@@ -3,12 +3,14 @@ import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/pages/root/root_page.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class PageSection extends StatelessWidget {
   final pageStore = GetIt.I<PageStore>();
   final appStore = GetIt.I<AppStore>();
+  var _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,7 @@ class PageSection extends StatelessWidget {
           onTap: () {
             UserViewModel userViewModel;
             appStore.setUser(userViewModel);
+            _auth.signOut();
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (_) => RootPage()),

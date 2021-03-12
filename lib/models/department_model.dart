@@ -1,6 +1,6 @@
 class DepartmentModel {
   String name;
-  int companyId;
+  String companyId;
   String phone;
   bool active;
 

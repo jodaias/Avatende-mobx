@@ -1,7 +1,8 @@
+import 'package:avatende/pages/avaliation/avaliation_page.dart';
 import 'package:avatende/pages/base/base_page.dart';
 import 'package:avatende/pages/login/login_page.dart';
-import 'package:avatende/pages/perfil/perfil_page.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -14,18 +15,27 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
+  var _auth = FirebaseAuth.instance;
+
   //use 'controller' variable to access controller
   final appStore = GetIt.I<AppStore>();
 
+  Future<void> getUser() async {
+    await appStore.getUser(_auth.currentUser.uid);
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (appStore.userViewModel != null) {
-      print(
-        appStore.userViewModel.userType == "3" ? 'Avaliable page' : 'Home page',
-      );
-      return appStore.userViewModel.userType == "3" ? PerfilPage() : BasePage();
+    setState(() {
+      getUser();
+    });
+
+    if (_auth.currentUser != null) {
+      return appStore.userViewModel?.userType == "3" ||
+              appStore.userViewModel?.userType == "3-Dev"
+          ? AvaliationPage()
+          : BasePage();
     } else {
-      print('Login page');
       return LoginPage();
     }
   }

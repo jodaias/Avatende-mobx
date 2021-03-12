@@ -17,7 +17,6 @@ class CompanyViewModel {
     this.phone = document.data()["Phone"];
   }
 
-  @override
   toMap() {
     var map = new Map<String, dynamic>();
     map['Name'] = this.name;
@@ -27,6 +26,5 @@ class CompanyViewModel {
     return map;
   }
 
-  @override
   String companyId() => _companyId;
 }

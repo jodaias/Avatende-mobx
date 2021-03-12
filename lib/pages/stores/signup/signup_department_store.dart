@@ -88,20 +88,16 @@ abstract class _SignupDepartmentStoreBase with Store {
 
     //Salvar a empresa no banco
     //e salvar no company model via appStore
-    await repository
-        .createDepartment(DepartmentModel(
+    var result = await repository.createDepartment(DepartmentModel(
       name: name,
       phone: phone,
       active: active,
-    ))
-        .then((data) {
-      appStore.setDepartment(data);
+    ));
+    if (result.contains('sucesso')) {
+      signupSuccess = true;
       loading = false;
-      if (data.active != null && data.name != null && data.phone != null)
-        signupSuccess = true;
-    }).catchError((error) {
+    } else {
       loading = false;
-      print("Error01: $error");
-    });
+    }
   }
 }

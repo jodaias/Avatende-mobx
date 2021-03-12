@@ -179,6 +179,21 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
+  final _$departmentIdAtom = Atom(name: '_SignUpUserStoreBase.departmentId');
+
+  @override
+  String get departmentId {
+    _$departmentIdAtom.reportRead();
+    return super.departmentId;
+  }
+
+  @override
+  set departmentId(String value) {
+    _$departmentIdAtom.reportWrite(value, super.departmentId, () {
+      super.departmentId = value;
+    });
+  }
+
   final _$signupSuccessAtom = Atom(name: '_SignUpUserStoreBase.signupSuccess');
 
   @override
@@ -360,6 +375,17 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
+  void setDepartmentId(String value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setDepartmentId');
+    try {
+      return super.setDepartmentId(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 loading: ${loading},
@@ -370,6 +396,7 @@ password2: ${password2},
 name: ${name},
 email: ${email},
 active: ${active},
+departmentId: ${departmentId},
 signupSuccess: ${signupSuccess},
 isObscureText: ${isObscureText},
 orderByAz: ${orderByAz},

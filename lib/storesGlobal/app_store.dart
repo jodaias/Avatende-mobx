@@ -2,6 +2,7 @@ import 'package:avatende/models/views/company_view_model.dart';
 import 'package:avatende/models/views/department_view_model.dart';
 import 'package:avatende/models/views/relatory_view_model.dart';
 import 'package:avatende/models/views/user_view_model.dart';
+import 'package:avatende/repositories/company/department/user/user_repository.dart';
 import 'package:mobx/mobx.dart';
 
 part 'app_store.g.dart';
@@ -9,18 +10,19 @@ part 'app_store.g.dart';
 class AppStore = _AppStoreBase with _$AppStore;
 
 abstract class _AppStoreBase with Store {
-  @observable
-  UserViewModel userViewModel =
-      UserViewModel(email: 'jodaias@gmail.com', userType: '1');
+  var repositoryUser = new UserRepository();
 
   @observable
-  DepartmentViewModel departmentViewModel;
+  bool producao;
 
   @observable
-  RelatoryViewModel relatoryViewModel;
+  UserViewModel userViewModel;
 
   @observable
   CompanyViewModel companyViewModel;
+
+  @action
+  void setProducao(bool value) => producao = value;
 
   @action
   void setUser(UserViewModel value) => userViewModel = value;
@@ -28,9 +30,17 @@ abstract class _AppStoreBase with Store {
   @action
   void setCompany(CompanyViewModel value) => companyViewModel = value;
 
-  @action
-  void setDepartment(DepartmentViewModel value) => departmentViewModel = value;
+  Future<void> getUser(String userId) async {
+    var user = await repositoryUser.getUserbyId(userId);
 
-  @action
-  void setRelatory(RelatoryViewModel value) => relatoryViewModel = value;
+    setUser(UserViewModel(
+      name: user.name,
+      email: user.email,
+      active: user.active,
+      departmentId: user.departmentId,
+      phone: user.phone,
+      userId: user.userId,
+      userType: user.userType,
+    ));
+  }
 }

@@ -2,7 +2,7 @@ class UserModel {
   String name;
   String email;
   String phone;
-  int departmentId;
+  String departmentId;
   bool active;
   String userType;
 
