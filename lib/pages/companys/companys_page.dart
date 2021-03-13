@@ -2,11 +2,14 @@ import 'package:avatende/components/custom_drawer/custom_drawer.dart';
 import 'package:avatende/models/views/company_view_model.dart';
 import 'package:avatende/pages/companys/components/custom_floating_action_button/custom_floating_action_button.dart';
 import 'package:avatende/pages/companys/departments/departments_page.dart';
+import 'package:avatende/pages/companys/departments/users/users_page.dart';
 import 'package:avatende/pages/signup/signup_company_page.dart';
 import 'package:avatende/pages/stores/company/company_store.dart';
+import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get_it/get_it.dart';
 
 class CompanysPage extends StatefulWidget {
   CompanysPage({Key key, this.title = "Empresas"}) : super(key: key);
@@ -19,6 +22,7 @@ class CompanysPage extends StatefulWidget {
 
 class _CompanysPageState extends State<CompanysPage> {
   final companyStore = new CompanyStore();
+  final appStore = GetIt.I<AppStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -140,10 +144,23 @@ class _CompanysPageState extends State<CompanysPage> {
                               IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => DepartmentsPage()));
+                                  appStore.userViewModel.userType != "1"
+                                      ? Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => DepartmentsPage(
+                                              companyId: company.companyId(),
+                                            ),
+                                          ),
+                                        )
+                                      : Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => UsersPage(
+                                              companyId: company.companyId(),
+                                            ),
+                                          ),
+                                        );
                                 },
                               ),
                             ],

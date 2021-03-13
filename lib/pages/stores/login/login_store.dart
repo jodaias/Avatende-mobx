@@ -49,7 +49,7 @@ abstract class _LoginStoreBase with Store {
   }
 
   @computed
-  bool get passwordValid => password != null && password.isPasswordValid();
+  bool get passwordValid => password != null && password.length >= 6;
   String get passwordError {
     if (password == null || passwordValid)
       return null;

@@ -9,6 +9,21 @@ part of 'user_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$UserStore on _UserStoreBase, Store {
+  Computed<dynamic> _$userListComputed;
+
+  @override
+  dynamic get userList =>
+      (_$userListComputed ??= Computed<dynamic>(() => super.userList,
+              name: '_UserStoreBase.userList'))
+          .value;
+  Computed<dynamic> _$userListInactiveComputed;
+
+  @override
+  dynamic get userListInactive => (_$userListInactiveComputed ??=
+          Computed<dynamic>(() => super.userListInactive,
+              name: '_UserStoreBase.userListInactive'))
+      .value;
+
   final _$loadingAtom = Atom(name: '_UserStoreBase.loading');
 
   @override
@@ -54,38 +69,60 @@ mixin _$UserStore on _UserStoreBase, Store {
     });
   }
 
-  final _$userListAtom = Atom(name: '_UserStoreBase.userList');
+  final _$departmentIdAtom = Atom(name: '_UserStoreBase.departmentId');
 
   @override
-  List<UserViewModel> get userList {
-    _$userListAtom.reportRead();
-    return super.userList;
+  String get departmentId {
+    _$departmentIdAtom.reportRead();
+    return super.departmentId;
   }
 
   @override
-  set userList(List<UserViewModel> value) {
-    _$userListAtom.reportWrite(value, super.userList, () {
-      super.userList = value;
+  set departmentId(String value) {
+    _$departmentIdAtom.reportWrite(value, super.departmentId, () {
+      super.departmentId = value;
     });
   }
 
-  final _$userListInactiveAtom = Atom(name: '_UserStoreBase.userListInactive');
+  final _$companyIdAtom = Atom(name: '_UserStoreBase.companyId');
 
   @override
-  List<UserViewModel> get userListInactive {
-    _$userListInactiveAtom.reportRead();
-    return super.userListInactive;
+  String get companyId {
+    _$companyIdAtom.reportRead();
+    return super.companyId;
   }
 
   @override
-  set userListInactive(List<UserViewModel> value) {
-    _$userListInactiveAtom.reportWrite(value, super.userListInactive, () {
-      super.userListInactive = value;
+  set companyId(String value) {
+    _$companyIdAtom.reportWrite(value, super.companyId, () {
+      super.companyId = value;
     });
   }
 
   final _$_UserStoreBaseActionController =
       ActionController(name: '_UserStoreBase');
+
+  @override
+  void setDepartmentId(String value) {
+    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
+        name: '_UserStoreBase.setDepartmentId');
+    try {
+      return super.setDepartmentId(value);
+    } finally {
+      _$_UserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCompanyId(String value) {
+    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
+        name: '_UserStoreBase.setCompanyId');
+    try {
+      return super.setCompanyId(value);
+    } finally {
+      _$_UserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setOrderByAz(bool value) {
@@ -110,39 +147,6 @@ mixin _$UserStore on _UserStoreBase, Store {
   }
 
   @override
-  dynamic setUserList(List<UserViewModel> value) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.setUserList');
-    try {
-      return super.setUserList(value);
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setUserListInactive(List<UserViewModel> value) {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.setUserListInactive');
-    try {
-      return super.setUserListInactive(value);
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  List<UserViewModel> listUsers() {
-    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
-        name: '_UserStoreBase.listUsers');
-    try {
-      return super.listUsers();
-    } finally {
-      _$_UserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void activeOrOrderList(ActivesOrOrderByUser result) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.activeOrOrderList');
@@ -159,6 +163,8 @@ mixin _$UserStore on _UserStoreBase, Store {
 loading: ${loading},
 orderByAz: ${orderByAz},
 listActive: ${listActive},
+departmentId: ${departmentId},
+companyId: ${companyId},
 userList: ${userList},
 userListInactive: ${userListInactive}
     ''';

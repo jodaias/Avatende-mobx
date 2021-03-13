@@ -1,4 +1,3 @@
-import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/repositories/company/department/user/user_repository.dart';
 import 'package:mobx/mobx.dart';
 part 'user_store.g.dart';
@@ -6,8 +5,8 @@ part 'user_store.g.dart';
 enum ActivesOrOrderByUser {
   actives,
   inactives,
-  orderByAZ,
-  orderByZA,
+  // orderByAZ,
+  // orderByZA,
 }
 
 class UserStore = _UserStoreBase with _$UserStore;
@@ -25,58 +24,25 @@ abstract class _UserStoreBase with Store {
 
   @observable
   bool listActive = true;
-  @observable
-  List<UserViewModel> userList = [];
 
   @observable
-  List<UserViewModel> userListInactive = [];
+  String departmentId;
+
+  @observable
+  String companyId;
 
   //ACTIONS
+  @action
+  void setDepartmentId(String value) => departmentId = value;
+
+  @action
+  void setCompanyId(String value) => companyId = value;
+
   @action
   void setOrderByAz(bool value) => orderByAz = value;
 
   @action
   void setListActive(bool value) => listActive = value;
-
-  @action
-  setUserList(List<UserViewModel> value) => userList = value;
-
-  @action
-  setUserListInactive(List<UserViewModel> value) => userListInactive = value;
-
-  @action
-  List<UserViewModel> listUsers() {
-    loading = true;
-
-    repository.usersList().then((value) {
-      cleanLists();
-      value.forEach((element) {
-        if (element.active) {
-          print('passou aqui');
-          userList.add(element);
-        } else {
-          userListInactive.add(element);
-        }
-      });
-      userListInactive.forEach((element) {
-        print(listActive);
-      });
-    }).catchError((error) {
-      loading = false;
-      print("Error01: $error");
-    });
-
-    if (listActive) {
-      return userList;
-    } else {
-      return userListInactive;
-    }
-  }
-
-  void cleanLists() {
-    setUserList(new List<UserViewModel>());
-    setUserListInactive(new List<UserViewModel>());
-  }
 
   @action
   void activeOrOrderList(ActivesOrOrderByUser result) {
@@ -87,14 +53,23 @@ abstract class _UserStoreBase with Store {
       case ActivesOrOrderByUser.inactives:
         setListActive(false);
         break;
-      case ActivesOrOrderByUser.orderByAZ:
-        setOrderByAz(true);
-        break;
-      case ActivesOrOrderByUser.orderByZA:
-        setOrderByAz(false);
-        break;
+      // case ActivesOrOrderByUser.orderByAZ:
+      //   setOrderByAz(true);
+      //   break;
+      // case ActivesOrOrderByUser.orderByZA:
+      //   setOrderByAz(false);
+      //   break;
     }
   }
 
   //COMPUTEDS
+  @computed
+  get userList => repository
+      .usersActives(departmentId != null ? departmentId : companyId)
+      .value;
+
+  @computed
+  get userListInactive => repository
+      .usersInactives(departmentId != null ? departmentId : companyId)
+      .value;
 }

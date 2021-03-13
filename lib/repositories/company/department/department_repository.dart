@@ -11,17 +11,19 @@ class DepartmentRepository {
 
   Future<String> createDepartment(DepartmentModel departmodel) async {
     try {
-      if (_auth.currentUser.email != 'empresa@empresa.com') {
-        _collection = 'Departments';
-      } else {
+      if (_auth.currentUser.email == 'empresa@empresa.com') {
         _collection = 'DepartmentsDev';
+      } else {
+        _collection = 'Departments';
       }
+
       //logica para salvar no banco
       await _instance.collection(_collection).add({
         'Name': departmodel.name,
         'Phone': departmodel.phone,
         'Active': departmodel.active,
         'CompanyId': departmodel.companyId,
+        'CreatedAt': DateTime.now(),
       });
       return 'Departamento criado com sucesso!';
     } catch (e) {
@@ -44,14 +46,18 @@ class DepartmentRepository {
   }
 
   //lista de Departamentos Ativas
-  Observable<Stream<List<DepartmentViewModel>>> get departmentsActives {
-    if (_auth.currentUser.email != 'empresa@empresa.com') {
-      _collection = 'Departments';
-    } else {
+  Observable<Stream<List<DepartmentViewModel>>> departmentsActives(
+      String companyId) {
+    if (_auth.currentUser.email == 'empresa@empresa.com') {
       _collection = 'DepartmentsDev';
+    } else {
+      _collection = 'Departments';
     }
+    print('meu companyId repo: $companyId');
+
     return Observable(_instance
         .collection(_collection)
+        .where("CompanyId", isEqualTo: companyId)
         .where("Active", isEqualTo: true)
         .snapshots()
         .map((query) => query.docs
@@ -61,14 +67,17 @@ class DepartmentRepository {
   }
 
   //lista de Departamentos Inativas
-  Observable<Stream<List<DepartmentViewModel>>> get departmentsInactives {
-    if (_auth.currentUser.email != 'empresa@empresa.com') {
-      _collection = 'Departments';
-    } else {
+  Observable<Stream<List<DepartmentViewModel>>> departmentsInactives(
+      String companyId) {
+    if (_auth.currentUser.email == 'empresa@empresa.com') {
       _collection = 'DepartmentsDev';
+    } else {
+      _collection = 'Departments';
     }
 
-    return Observable(_collection
+    return Observable(_instance
+        .collection(_collection)
+        .where("CompanyId", isEqualTo: companyId)
         .where("Active", isEqualTo: false)
         .snapshots()
         .map((query) => query.docs

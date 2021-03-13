@@ -3,6 +3,7 @@ class UserModel {
   String email;
   String phone;
   String departmentId;
+  String companyId;
   bool active;
   String userType;
 
@@ -10,8 +11,9 @@ class UserModel {
     this.name,
     this.email,
     this.phone,
-    this.departmentId,
     this.active,
     this.userType,
+    this.departmentId,
+    this.companyId,
   });
 }

@@ -12,6 +12,12 @@ final String url =
     'https://i.pinimg.com/236x/12/fa/d7/12fad712035c2df9aa0562d8a6c6afd9.jpg';
 
 class SignUpUserPage extends StatefulWidget {
+  const SignUpUserPage({Key key, this.departmentId, this.companyId})
+      : super(key: key);
+
+  final String departmentId;
+  final String companyId;
+
   @override
   _SignUpUserPageState createState() => _SignUpUserPageState();
 }

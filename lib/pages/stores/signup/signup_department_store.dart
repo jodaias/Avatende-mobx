@@ -24,6 +24,9 @@ abstract class _SignupDepartmentStoreBase with Store {
   String phone;
 
   @observable
+  String companyId;
+
+  @observable
   bool active = false;
 
   @observable
@@ -46,6 +49,9 @@ abstract class _SignupDepartmentStoreBase with Store {
 
   @action
   void setActive(bool value) => active = value;
+
+  @action
+  void setCompanyId(String value) => companyId = value;
 
   @action
   void setOrderByAz(bool value) => orderByAz = value;
@@ -92,6 +98,7 @@ abstract class _SignupDepartmentStoreBase with Store {
       name: name,
       phone: phone,
       active: active,
+      companyId: companyId,
     ));
     if (result.contains('sucesso')) {
       signupSuccess = true;

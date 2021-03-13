@@ -13,9 +13,11 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get_it/get_it.dart';
 
 class DepartmentsPage extends StatefulWidget {
-  DepartmentsPage({Key key, this.title = "Departamentos"}) : super(key: key);
+  DepartmentsPage({Key key, this.title = "Departamentos", this.companyId})
+      : super(key: key);
 
   final String title;
+  final String companyId;
 
   @override
   _DepartmentsPageState createState() => _DepartmentsPageState();
@@ -26,7 +28,17 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
   final departmentStore = new DepartmentStore();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      departmentStore.setCompanyId(widget.companyId);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('company id: ${departmentStore.companyId}');
     return Observer(builder: (_) {
       return Scaffold(
         floatingActionButton: CustomFloatingActionButton(
@@ -35,7 +47,9 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => SignUpDepartmentPage()));
+                    builder: (context) => SignUpDepartmentPage(
+                          companyId: widget.companyId,
+                        )));
           },
         ),
         appBar: AppBar(
@@ -127,7 +141,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                               child: ListBody(
                                                 children: <Widget>[
                                                   Text(
-                                                    '\nNome: ${department.name}\nAtivo? ${department.active ? "Sim" : "Não"}\n',
+                                                    '\nNome: ${department.name}\nPhone: ${department.phone}\nAtivo? ${department.active ? "Sim" : "Não"}\n',
                                                   ),
                                                 ],
                                               ),
@@ -154,7 +168,9 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (_) => UsersPage()));
+                                            builder: (_) => UsersPage(
+                                                departmentId: department
+                                                    .departmentId())));
                                   },
                                 ),
                               ],
@@ -172,7 +188,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                         child: ListBody(
                                           children: <Widget>[
                                             Text(
-                                              '\nNome: ${department.name}\nAtivo? ${department.active}\n',
+                                              '\nNome: ${department.name}\nPhone: ${department.phone}\nAtivo? ${department.active}\n',
                                             ),
                                           ],
                                         ),

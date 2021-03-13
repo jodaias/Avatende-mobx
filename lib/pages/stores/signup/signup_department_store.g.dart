@@ -68,6 +68,21 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
     });
   }
 
+  final _$companyIdAtom = Atom(name: '_SignupDepartmentStoreBase.companyId');
+
+  @override
+  String get companyId {
+    _$companyIdAtom.reportRead();
+    return super.companyId;
+  }
+
+  @override
+  set companyId(String value) {
+    _$companyIdAtom.reportWrite(value, super.companyId, () {
+      super.companyId = value;
+    });
+  }
+
   final _$activeAtom = Atom(name: '_SignupDepartmentStoreBase.active');
 
   @override
@@ -188,6 +203,17 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
   }
 
   @override
+  void setCompanyId(String value) {
+    final _$actionInfo = _$_SignupDepartmentStoreBaseActionController
+        .startAction(name: '_SignupDepartmentStoreBase.setCompanyId');
+    try {
+      return super.setCompanyId(value);
+    } finally {
+      _$_SignupDepartmentStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setOrderByAz(bool value) {
     final _$actionInfo = _$_SignupDepartmentStoreBaseActionController
         .startAction(name: '_SignupDepartmentStoreBase.setOrderByAz');
@@ -214,6 +240,7 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
     return '''
 name: ${name},
 phone: ${phone},
+companyId: ${companyId},
 active: ${active},
 loading: ${loading},
 signupSuccess: ${signupSuccess},

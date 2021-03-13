@@ -54,8 +54,34 @@ mixin _$DepartmentStore on _DepartmentStoreBase, Store {
     });
   }
 
+  final _$companyIdAtom = Atom(name: '_DepartmentStoreBase.companyId');
+
+  @override
+  String get companyId {
+    _$companyIdAtom.reportRead();
+    return super.companyId;
+  }
+
+  @override
+  set companyId(String value) {
+    _$companyIdAtom.reportWrite(value, super.companyId, () {
+      super.companyId = value;
+    });
+  }
+
   final _$_DepartmentStoreBaseActionController =
       ActionController(name: '_DepartmentStoreBase');
+
+  @override
+  void setCompanyId(String value) {
+    final _$actionInfo = _$_DepartmentStoreBaseActionController.startAction(
+        name: '_DepartmentStoreBase.setCompanyId');
+    try {
+      return super.setCompanyId(value);
+    } finally {
+      _$_DepartmentStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setListActive(bool value) {
@@ -73,6 +99,7 @@ mixin _$DepartmentStore on _DepartmentStoreBase, Store {
     return '''
 loading: ${loading},
 listActive: ${listActive},
+companyId: ${companyId},
 departmentList: ${departmentList},
 departmentListInactive: ${departmentListInactive}
     ''';

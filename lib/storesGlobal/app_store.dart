@@ -29,18 +29,4 @@ abstract class _AppStoreBase with Store {
 
   @action
   void setCompany(CompanyViewModel value) => companyViewModel = value;
-
-  Future<void> getUser(String userId) async {
-    var user = await repositoryUser.getUserbyId(userId);
-
-    setUser(UserViewModel(
-      name: user.name,
-      email: user.email,
-      active: user.active,
-      departmentId: user.departmentId,
-      phone: user.phone,
-      userId: user.userId,
-      userType: user.userType,
-    ));
-  }
 }

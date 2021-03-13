@@ -5,8 +5,8 @@ part 'company_store.g.dart';
 enum ActivesOrOrderByCompany {
   actives,
   inactives,
-  orderByAZ,
-  orderByZA,
+  // orderByAZ,
+  // orderByZA,
 }
 
 class CompanyStore = _CompanyStoreBase with _$CompanyStore;

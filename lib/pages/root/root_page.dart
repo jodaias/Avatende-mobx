@@ -20,16 +20,9 @@ class _RootPageState extends State<RootPage> {
   //use 'controller' variable to access controller
   final appStore = GetIt.I<AppStore>();
 
-  Future<void> getUser() async {
-    await appStore.getUser(_auth.currentUser.uid);
-  }
-
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      getUser();
-    });
-
+    print('usertype ${appStore.userViewModel?.userType}');
     if (_auth.currentUser != null) {
       return appStore.userViewModel?.userType == "3" ||
               appStore.userViewModel?.userType == "3-Dev"

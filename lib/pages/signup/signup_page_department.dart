@@ -7,6 +7,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 class SignUpDepartmentPage extends StatefulWidget {
+  const SignUpDepartmentPage({Key key, this.companyId}) : super(key: key);
+
+  final String companyId;
+
   @override
   _SignUpDepartmentPageState createState() => _SignUpDepartmentPageState();
 }
@@ -32,6 +36,7 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
 
   @override
   Widget build(BuildContext context) {
+    signupDepartmentStore.setCompanyId(widget.companyId);
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastro'),

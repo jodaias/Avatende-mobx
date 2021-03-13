@@ -26,7 +26,12 @@ abstract class _DepartmentStoreBase with Store {
   @observable
   bool listActive = true;
 
+  @observable
+  String companyId;
+
   //ACTIONS
+  @action
+  void setCompanyId(String value) => companyId = value;
 
   // @action
   // void setOrderByAz(bool value) => orderByAz = value;
@@ -53,8 +58,9 @@ abstract class _DepartmentStoreBase with Store {
 
   //COMPUTEDS
   @computed
-  get departmentList => repository.departmentsActives.value;
+  get departmentList => repository.departmentsActives(companyId).value;
 
   @computed
-  get departmentListInactive => repository.departmentsInactives.value;
+  get departmentListInactive =>
+      repository.departmentsInactives(companyId).value;
 }

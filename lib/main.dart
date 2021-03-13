@@ -1,8 +1,9 @@
+import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/pages/root/root_page.dart';
-import 'package:avatende/pages/stores/company/company_store.dart';
-import 'package:avatende/repositories/company/company_repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
@@ -12,7 +13,34 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocators();
+  await getUser();
   runApp(MyApp());
+}
+
+Future<void> getUser() async {
+  //use 'controller' variable to access controller
+  final appStore = GetIt.I<AppStore>();
+  final _auth = FirebaseAuth.instance;
+
+  final _instance = FirebaseFirestore.instance;
+  var _collection;
+
+  if (_auth.currentUser?.email != 'empresa@empresa.com') {
+    _collection = 'Users';
+  } else {
+    _collection = 'UsersDev';
+  }
+
+  if (_auth.currentUser?.email == 'jodaias2013@gmail.com') {
+    _collection = 'UsersMaster';
+  }
+  print('meu email: ${_auth.currentUser?.email}\nminha colecao: $_collection');
+  var user =
+      await _instance.collection(_collection).doc(_auth.currentUser?.uid).get();
+  print('meu nome: ${user.data()['Name']}');
+  if (user.data() != null) {
+    appStore.setUser(new UserViewModel.fromMap(user));
+  }
 }
 
 void setupLocators() {
