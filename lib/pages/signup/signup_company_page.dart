@@ -83,8 +83,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         return TextField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText:
-                                'Exemplo: Rua01, centro, nº 09, Jacobina Ba',
+                            hintText: 'Exemplo: Rua01, nº 09, Cidade-Estado',
                             isDense: true,
                             errorText: signupCompanyStore.addressError,
                           ),
@@ -149,6 +148,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                       ),
                       Observer(builder: (_) {
                         return Container(
+                          alignment: Alignment.center,
                           margin: EdgeInsets.only(top: 20, bottom: 12),
                           height: 40,
                           child: RaisedButton(

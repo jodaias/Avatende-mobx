@@ -135,6 +135,7 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
                     ),
                     Observer(builder: (_) {
                       return Container(
+                        alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 20, bottom: 12),
                         height: 40,
                         child: RaisedButton(

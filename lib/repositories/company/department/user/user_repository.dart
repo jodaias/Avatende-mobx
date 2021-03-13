@@ -10,22 +10,33 @@ class UserRepository {
   var _collection;
 
   Future<String> signUpUser({UserModel usermodel, String password}) async {
-    if (_auth.currentUser.email != 'empresa@empresa.com') {
-      _collection = 'Users';
-    } else {
+    if (_auth.currentUser.email == 'empresa@empresa.com') {
       _collection = 'UsersDev';
       usermodel.userType += '-Dev';
+    } else {
+      _collection = 'Users';
     }
 
-    if (_auth.currentUser.email == 'jodaias2013@gmail.com') {
+    if (usermodel.userType == '1') {
       _collection = 'UsersMaster';
     }
 
     try {
       //Criando user no authentication
+      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       var result = await _auth.createUserWithEmailAndPassword(
           email: usermodel.email, password: password);
-      var type = usermodel.userType;
+      var stringKey;
+      var stringValue;
+      if (usermodel.userType == "2") {
+        stringKey = 'CompanyId';
+        stringValue = usermodel.companyId;
+      } else {
+        stringKey = 'DepartmentId';
+        stringValue = usermodel.departmentId;
+      }
+
+      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       //logica para salvar no banco firestore
       await _instance.collection(_collection).doc(result.user.uid).set({
         'Name': usermodel.name,
@@ -33,8 +44,9 @@ class UserRepository {
         'Active': usermodel.active,
         'Email': usermodel.email,
         'UserType': usermodel.userType,
-        type.toString().contains("3") ?? 'DepartmentId': usermodel.departmentId,
-        type.toString().contains("2") ?? 'CompanyId': usermodel.companyId,
+        'Address': usermodel.address,
+        'CreatedAt': DateTime.now(),
+        stringKey: stringValue,
       });
 
       return 'Usuário criado com sucesso!';
@@ -45,21 +57,18 @@ class UserRepository {
   }
 
   Future<UserViewModel> signIn({String email, String password}) async {
-    if (_auth.currentUser.email != 'empresa@empresa.com') {
-      _collection = 'Users';
-    } else {
-      _collection = 'UsersDev';
-    }
+    var listColections = ["Users", "UsersDev", "UsersMaster"];
 
-    if (_auth.currentUser.email == 'jodaias2013@gmail.com') {
-      _collection = 'UsersMaster';
-    }
     try {
-      //Logica de enviar os dados no banco e retornar o usuario logado.
-      var result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      var user =
-          await _instance.collection(_collection).doc(result.user.uid).get();
+      var user;
+
+      for (var collection in listColections) {
+        //Logica de enviar os dados no banco e retornar o usuario logado.
+        var result = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        user =
+            await _instance.collection(collection).doc(result.user.uid).get();
+      }
 
       return UserViewModel.fromMap(user);
     } catch (e) {

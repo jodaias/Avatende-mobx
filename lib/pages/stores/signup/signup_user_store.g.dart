@@ -30,6 +30,13 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
       (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
               name: '_SignUpUserStoreBase.phoneValid'))
           .value;
+  Computed<bool> _$addressValidComputed;
+
+  @override
+  bool get addressValid =>
+      (_$addressValidComputed ??= Computed<bool>(() => super.addressValid,
+              name: '_SignUpUserStoreBase.addressValid'))
+          .value;
   Computed<bool> _$userTypeValidComputed;
 
   @override
@@ -179,6 +186,21 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
+  final _$addressAtom = Atom(name: '_SignUpUserStoreBase.address');
+
+  @override
+  String get address {
+    _$addressAtom.reportRead();
+    return super.address;
+  }
+
+  @override
+  set address(String value) {
+    _$addressAtom.reportWrite(value, super.address, () {
+      super.address = value;
+    });
+  }
+
   final _$departmentIdAtom = Atom(name: '_SignUpUserStoreBase.departmentId');
 
   @override
@@ -191,6 +213,21 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   set departmentId(String value) {
     _$departmentIdAtom.reportWrite(value, super.departmentId, () {
       super.departmentId = value;
+    });
+  }
+
+  final _$companyIdAtom = Atom(name: '_SignUpUserStoreBase.companyId');
+
+  @override
+  String get companyId {
+    _$companyIdAtom.reportRead();
+    return super.companyId;
+  }
+
+  @override
+  set companyId(String value) {
+    _$companyIdAtom.reportWrite(value, super.companyId, () {
+      super.companyId = value;
     });
   }
 
@@ -309,6 +346,17 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
+  void setAddress(String value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setAddress');
+    try {
+      return super.setAddress(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setPhone(String value) {
     final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
         name: '_SignUpUserStoreBase.setPhone');
@@ -325,6 +373,17 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
         name: '_SignUpUserStoreBase.setUserType');
     try {
       return super.setUserType(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setActive(bool value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setActive');
+    try {
+      return super.setActive(value);
     } finally {
       _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -386,6 +445,17 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
+  void setCompanyId(String value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setCompanyId');
+    try {
+      return super.setCompanyId(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 loading: ${loading},
@@ -396,7 +466,9 @@ password2: ${password2},
 name: ${name},
 email: ${email},
 active: ${active},
+address: ${address},
 departmentId: ${departmentId},
+companyId: ${companyId},
 signupSuccess: ${signupSuccess},
 isObscureText: ${isObscureText},
 orderByAz: ${orderByAz},
@@ -404,6 +476,7 @@ listActive: ${listActive},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
 phoneValid: ${phoneValid},
+addressValid: ${addressValid},
 userTypeValid: ${userTypeValid},
 password1Valid: ${password1Valid},
 password2Valid: ${password2Valid},

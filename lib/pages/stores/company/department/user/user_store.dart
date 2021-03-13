@@ -5,8 +5,6 @@ part 'user_store.g.dart';
 enum ActivesOrOrderByUser {
   actives,
   inactives,
-  // orderByAZ,
-  // orderByZA,
 }
 
 class UserStore = _UserStoreBase with _$UserStore;
@@ -53,12 +51,6 @@ abstract class _UserStoreBase with Store {
       case ActivesOrOrderByUser.inactives:
         setListActive(false);
         break;
-      // case ActivesOrOrderByUser.orderByAZ:
-      //   setOrderByAz(true);
-      //   break;
-      // case ActivesOrOrderByUser.orderByZA:
-      //   setOrderByAz(false);
-      //   break;
     }
   }
 

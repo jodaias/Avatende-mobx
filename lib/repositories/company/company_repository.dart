@@ -7,16 +7,12 @@ import 'package:mobx/mobx.dart';
 class CompanyRepository {
   var _auth = FirebaseAuth.instance;
   var _instance = FirebaseFirestore.instance;
-  var _collection;
+  var _collection = 'Companys';
 
   //add uma empresa
   Future<String> createCompany(CompanyModel companymodel) async {
     try {
-      if (_auth.currentUser.email == 'empresa@empresa.com') {
-        _collection = 'DepartmentsDev';
-      } else {
-        _collection = 'Departments';
-      }
+      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       //logica para salvar no banco
       await _instance.collection(_collection).add({
         'Name': companymodel.name,
@@ -35,12 +31,6 @@ class CompanyRepository {
 
   //lista de empresas Ativas
   Observable<Stream<List<CompanyViewModel>>> get companiesActives {
-    if (_auth.currentUser.email == 'empresa@empresa.com') {
-      _collection = 'CompanysDev';
-    } else {
-      _collection = 'Companys';
-    }
-
     print('$_collection');
 
     return Observable(_instance
@@ -55,12 +45,6 @@ class CompanyRepository {
 
   //lista de empresas Inativas
   Observable<Stream<List<CompanyViewModel>>> get companiesInactives {
-    if (_auth.currentUser.email == 'empresa@empresa.com') {
-      _collection = 'CompanysDev';
-    } else {
-      _collection = 'Companys';
-    }
-
     return Observable(_instance
         .collection(_collection)
         .where("Active", isEqualTo: false)

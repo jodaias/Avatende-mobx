@@ -43,7 +43,13 @@ abstract class _SignUpUserStoreBase with Store {
   bool active = false;
 
   @observable
+  String address;
+
+  @observable
   String departmentId;
+
+  @observable
+  String companyId;
 
   @observable
   bool signupSuccess;
@@ -69,10 +75,16 @@ abstract class _SignUpUserStoreBase with Store {
   void setName(String value) => name = value;
 
   @action
+  void setAddress(String value) => address = value;
+
+  @action
   void setPhone(String value) => phone = value;
 
   @action
   void setUserType(String value) => userType = value;
+
+  @action
+  void setActive(bool value) => active = value;
 
   @action
   void setObscureText() => isObscureText = !isObscureText;
@@ -88,6 +100,9 @@ abstract class _SignUpUserStoreBase with Store {
 
   @action
   void setDepartmentId(String value) => departmentId = value;
+
+  @action
+  void setCompanyId(String value) => companyId = value;
 
   //COMPUTEDS
 
@@ -123,6 +138,17 @@ abstract class _SignUpUserStoreBase with Store {
       return 'Campo obrigatório';
     else
       return 'Número inválido';
+  }
+
+  @computed
+  bool get addressValid => address != null && address.length > 6;
+  String get addressError {
+    if (address == null || addressValid)
+      return null;
+    else if (address.isEmpty)
+      return 'Campo obrigatório';
+    else
+      return 'Endereço muito curto';
   }
 
   @computed
@@ -165,6 +191,7 @@ abstract class _SignUpUserStoreBase with Store {
           password2Valid &&
           nameValid &&
           phoneValid &&
+          addressValid &&
           userTypeValid &&
           !loading)
       ? signUp
@@ -182,7 +209,9 @@ abstract class _SignUpUserStoreBase with Store {
           phone: phone,
           active: active,
           departmentId: departmentId,
+          companyId: companyId,
           email: email,
+          address: address,
           userType: userType,
         ),
         password: password1);

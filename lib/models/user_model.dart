@@ -4,6 +4,7 @@ class UserModel {
   String phone;
   String departmentId;
   String companyId;
+  String address;
   bool active;
   String userType;
 
@@ -11,6 +12,7 @@ class UserModel {
     this.name,
     this.email,
     this.phone,
+    this.address,
     this.active,
     this.userType,
     this.departmentId,

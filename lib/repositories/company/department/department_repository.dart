@@ -16,7 +16,7 @@ class DepartmentRepository {
       } else {
         _collection = 'Departments';
       }
-
+      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       //logica para salvar no banco
       await _instance.collection(_collection).add({
         'Name': departmodel.name,
@@ -30,19 +30,6 @@ class DepartmentRepository {
       print('Error: $e');
       return 'Erro: Falha ao criar departamento!';
     }
-  }
-
-  Future<List<DepartmentViewModel>> departmentsList() async {
-    List<DepartmentViewModel> departments = [];
-
-    try {
-      //logica de trazer os departamentos e salvar na lista departments
-
-      return departments;
-    } catch (e) {
-      print('Error: $e');
-    }
-    return departments;
   }
 
   //lista de Departamentos Ativas

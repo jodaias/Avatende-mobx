@@ -43,6 +43,8 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
 
   @override
   Widget build(BuildContext context) {
+    signupUserStore.setCompanyId(widget.companyId);
+    signupUserStore.setDepartmentId(widget.departmentId);
     return Scaffold(
         appBar: AppBar(
           title: Text('Cadastro'),
@@ -109,6 +111,24 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                           onChanged: signupUserStore.setEmail,
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
+                        );
+                      }),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      FieldTitle(
+                        title: 'Endereço',
+                        subtitle: 'Digite o endereço da empresa',
+                      ),
+                      Observer(builder: (_) {
+                        return TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Exemplo: Rua01, nº 09, Cidade-Estado',
+                            isDense: true,
+                            errorText: signupUserStore.addressError,
+                          ),
+                          onChanged: signupUserStore.setAddress,
                         );
                       }),
                       SizedBox(
@@ -195,13 +215,36 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                       FieldTitle(
                         title: 'Ativa?',
                         subtitle:
-                            'Escolha "sim" para ativo ou "não" para inativo',
+                            'Escolha "sim" para ativo ou "não" para inativo!',
                       ),
+                      Observer(builder: (_) {
+                        return Row(
+                          children: <Widget>[
+                            Radio(
+                              groupValue: signupUserStore.active,
+                              value: true,
+                              onChanged: (val) {
+                                signupUserStore.setActive(val);
+                              },
+                            ),
+                            Text('Sim'),
+                            Radio(
+                              groupValue: signupUserStore.active,
+                              value: false,
+                              onChanged: (val) {
+                                signupUserStore.setActive(val);
+                              },
+                            ),
+                            Text('Não'),
+                          ],
+                        );
+                      }),
                       SizedBox(
                         height: 16,
                       ),
                       Observer(builder: (_) {
                         return Container(
+                          alignment: Alignment.center,
                           margin: EdgeInsets.only(top: 20, bottom: 12),
                           height: 40,
                           child: RaisedButton(

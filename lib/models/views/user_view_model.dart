@@ -5,6 +5,7 @@ class UserViewModel {
   String name;
   String email;
   String phone;
+  String address;
   String departmentId;
   String companyId;
   bool active;
@@ -25,6 +26,7 @@ class UserViewModel {
     this.email = document.data()['Email'];
     this.phone = document.data()["Phone"];
     this.userType = document.data()['UserType'];
+    this.address = document.data()['Address'];
   }
 
   toMap() {
@@ -35,6 +37,7 @@ class UserViewModel {
     map['DepartmentId'] = this.departmentId;
     map['Email'] = this.email;
     map['UserType'] = this.userType;
+    map['Address'] = this.address;
     map['CompanyId'] = this.companyId;
     map['UserId'] = this.userId();
     return map;

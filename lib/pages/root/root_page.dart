@@ -22,7 +22,6 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('usertype ${appStore.userViewModel?.userType}');
     if (_auth.currentUser != null) {
       return appStore.userViewModel?.userType == "3" ||
               appStore.userViewModel?.userType == "3-Dev"

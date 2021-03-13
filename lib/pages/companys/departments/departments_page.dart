@@ -188,7 +188,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                         child: ListBody(
                                           children: <Widget>[
                                             Text(
-                                              '\nNome: ${department.name}\nPhone: ${department.phone}\nAtivo? ${department.active}\n',
+                                              '\nNome: ${department.name}\nPhone: ${department.phone}\nAtivo? ${department.active ? "Sim" : "Não"}\n',
                                             ),
                                           ],
                                         ),

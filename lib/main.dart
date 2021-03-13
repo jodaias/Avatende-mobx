@@ -24,20 +24,23 @@ Future<void> getUser() async {
 
   final _instance = FirebaseFirestore.instance;
   var _collection;
+  await _auth.signOut();
 
-  if (_auth.currentUser?.email != 'empresa@empresa.com') {
-    _collection = 'Users';
-  } else {
+  if (_auth.currentUser?.email == 'empresa@empresa.com' ||
+      _auth.currentUser?.email == 'atendente@atendente.com') {
     _collection = 'UsersDev';
+  } else {
+    _collection = 'Users';
   }
 
-  if (_auth.currentUser?.email == 'jodaias2013@gmail.com') {
+  if (_auth.currentUser?.email == 'jodaias2013@gmail.com' ||
+      _auth.currentUser?.email == 'gestor@gestor.com') {
     _collection = 'UsersMaster';
   }
   print('meu email: ${_auth.currentUser?.email}\nminha colecao: $_collection');
   var user =
       await _instance.collection(_collection).doc(_auth.currentUser?.uid).get();
-  print('meu nome: ${user.data()['Name']}');
+
   if (user.data() != null) {
     appStore.setUser(new UserViewModel.fromMap(user));
   }
