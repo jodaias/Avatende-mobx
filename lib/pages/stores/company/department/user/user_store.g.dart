@@ -99,6 +99,13 @@ mixin _$UserStore on _UserStoreBase, Store {
     });
   }
 
+  final _$activeUserAsyncAction = AsyncAction('_UserStoreBase.activeUser');
+
+  @override
+  Future<String> activeUser(String userId) {
+    return _$activeUserAsyncAction.run(() => super.activeUser(userId));
+  }
+
   final _$_UserStoreBaseActionController =
       ActionController(name: '_UserStoreBase');
 

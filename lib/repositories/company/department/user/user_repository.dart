@@ -77,6 +77,26 @@ class UserRepository {
     }
   }
 
+  Future<String> activeUser(String userId) async {
+    if (_auth.currentUser.email == 'empresa@empresa.com') {
+      _collection = 'UsersDev';
+    } else {
+      _collection = 'Users';
+    }
+    try {
+      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+      await _instance
+          .collection(_collection)
+          .doc(userId)
+          .update({'Active': true});
+
+      return 'Usuário criado com sucesso!';
+    } catch (e) {
+      print('Error: $e');
+      return 'Erro: Falha ao criar usuário!';
+    }
+  }
+
   //lista de Departamentos Ativas
   Observable<Stream<List<UserViewModel>>> usersActives(String deptOrCompId) {
     var stringWhere = '';

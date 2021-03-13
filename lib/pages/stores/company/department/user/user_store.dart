@@ -54,6 +54,11 @@ abstract class _UserStoreBase with Store {
     }
   }
 
+  @action
+  Future<String> activeUser(String userId) async {
+    return await repository.activeUser(userId);
+  }
+
   //COMPUTEDS
   @computed
   get userList => repository
