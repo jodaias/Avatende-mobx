@@ -131,7 +131,7 @@ class _CompanysPageState extends State<CompanysPage> {
                                               child: Text('Ok',
                                                   style: TextStyle(
                                                       color:
-                                                          Colors.greenAccent)),
+                                                          Colors.purple[400])),
                                               onPressed: () {
                                                 Navigator.of(ctx).pop();
                                               },
@@ -186,7 +186,7 @@ class _CompanysPageState extends State<CompanysPage> {
                                         color: Colors.white,
                                         child: Text('Ok',
                                             style: TextStyle(
-                                                color: Colors.greenAccent)),
+                                                color: Colors.purple[400])),
                                         onPressed: () {
                                           Navigator.of(ctx).pop();
                                         },
@@ -254,7 +254,7 @@ class _CompanysPageState extends State<CompanysPage> {
                                           color: Colors.white,
                                           child: Text('Salvar',
                                               style: TextStyle(
-                                                  color: Colors.greenAccent)),
+                                                  color: Colors.purple[400])),
                                           onPressed: () {
                                             //atualiza a informação no banco de dados
                                             //salva um dado na tabela LOG dizendo que atualizou um dado
@@ -283,7 +283,7 @@ class _CompanysPageState extends State<CompanysPage> {
                                           'Esta ação irá desativar a empresa selecionada!'),
                                       actions: <Widget>[
                                         RaisedButton(
-                                          color: Colors.greenAccent,
+                                          color: Colors.purple[400],
                                           child: Text('Cancelar',
                                               style: TextStyle(
                                                   color: Colors.white)),
@@ -295,7 +295,7 @@ class _CompanysPageState extends State<CompanysPage> {
                                             color: Colors.white,
                                             child: Text('Desativar',
                                                 style: TextStyle(
-                                                    color: Colors.red)),
+                                                    color: Colors.purple[400])),
                                             onPressed: () {
                                               setState(() {
                                                 //alguma ação para desativar o usuario

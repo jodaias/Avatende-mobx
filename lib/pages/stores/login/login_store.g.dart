@@ -98,6 +98,21 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
+  final _$isObscureTextAtom = Atom(name: '_LoginStoreBase.isObscureText');
+
+  @override
+  bool get isObscureText {
+    _$isObscureTextAtom.reportRead();
+    return super.isObscureText;
+  }
+
+  @override
+  set isObscureText(bool value) {
+    _$isObscureTextAtom.reportWrite(value, super.isObscureText, () {
+      super.isObscureText = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_LoginStoreBase.login');
 
   @override
@@ -139,12 +154,24 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   }
 
   @override
+  void setObscureText() {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.setObscureText');
+    try {
+      return super.setObscureText();
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 password: ${password},
 loading: ${loading},
 loggedIn: ${loggedIn},
+isObscureText: ${isObscureText},
 emailValid: ${emailValid},
 passwordValid: ${passwordValid},
 loginPressed: ${loginPressed},

@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       Observer(builder: (_) {
-                        return TextField(
+                        return TextFormField(
                           decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               isDense: true,
@@ -133,14 +133,23 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       Observer(builder: (_) {
-                        return TextField(
+                        return TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             isDense: true,
+                            suffixIcon: loginStore.isObscureText
+                                ? IconButton(
+                                    icon: Icon(Icons.visibility_outlined),
+                                    onPressed: loginStore.setObscureText,
+                                  )
+                                : IconButton(
+                                    icon: Icon(Icons.visibility_off_outlined),
+                                    onPressed: loginStore.setObscureText,
+                                  ),
                             errorText: loginStore.passwordError,
                           ),
                           onChanged: loginStore.setPassword,
-                          obscureText: true,
+                          obscureText: loginStore.isObscureText,
                           enabled: !loginStore.loading,
                         );
                       }),

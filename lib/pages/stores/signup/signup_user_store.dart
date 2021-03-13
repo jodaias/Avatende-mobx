@@ -40,7 +40,7 @@ abstract class _SignUpUserStoreBase with Store {
   String email;
 
   @observable
-  bool active = false;
+  bool active = true;
 
   @observable
   String address;
@@ -50,6 +50,9 @@ abstract class _SignUpUserStoreBase with Store {
 
   @observable
   String companyId;
+
+  @observable
+  String userId;
 
   @observable
   bool signupSuccess;
@@ -104,6 +107,8 @@ abstract class _SignUpUserStoreBase with Store {
   @action
   void setCompanyId(String value) => companyId = value;
 
+  @action
+  void setUserId(String value) => userId = value;
   //COMPUTEDS
 
   //Validando variaveis
@@ -197,6 +202,12 @@ abstract class _SignUpUserStoreBase with Store {
       ? signUp
       : null;
 
+  @computed
+  Function get updatePressed =>
+      (nameValid && phoneValid && addressValid && userTypeValid && !loading)
+          ? updateUser
+          : null;
+
   @action
   Future<void> signUp() async {
     loading = true;
@@ -215,6 +226,35 @@ abstract class _SignUpUserStoreBase with Store {
           userType: userType,
         ),
         password: password1);
+
+    loading = false;
+    signupSuccess = true;
+  }
+
+  @action
+  Future<void> updateUser() async {
+    loading = true;
+
+    // var stringKey;
+    // var stringValue;
+    // if (userType == "2") {
+    //   stringKey = 'CompanyId';
+    //   stringValue = companyId;
+    // } else {
+    //   stringKey = 'DepartmentId';
+    //   stringValue = departmentId;
+    // }
+
+    //Salvar a empresa no banco
+    //e salvar no company model via appStore
+    await repository.updateUser(userId: userId, userData: {
+      'Name': name,
+      'Phone': phone,
+      'Active': active,
+      'UserType': userType,
+      'Address': address,
+      'UpdatedAt': DateTime.now()
+    });
 
     loading = false;
     signupSuccess = true;

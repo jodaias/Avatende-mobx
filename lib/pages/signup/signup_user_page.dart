@@ -1,3 +1,4 @@
+import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/pages/stores/signup/signup_user_store.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/pages/signup/components/field_title.dart';
@@ -12,11 +13,18 @@ final String url =
     'https://i.pinimg.com/236x/12/fa/d7/12fad712035c2df9aa0562d8a6c6afd9.jpg';
 
 class SignUpUserPage extends StatefulWidget {
-  const SignUpUserPage({Key key, this.departmentId, this.companyId})
-      : super(key: key);
+  const SignUpUserPage({
+    Key key,
+    this.isUpdate,
+    this.departmentId,
+    this.companyId,
+    this.userViewModel,
+  }) : super(key: key);
 
   final String departmentId;
   final String companyId;
+  final UserViewModel userViewModel;
+  final bool isUpdate;
 
   @override
   _SignUpUserPageState createState() => _SignUpUserPageState();
@@ -45,16 +53,25 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
   Widget build(BuildContext context) {
     signupUserStore.setCompanyId(widget.companyId);
     signupUserStore.setDepartmentId(widget.departmentId);
+    if (widget.isUpdate) {
+      signupUserStore.setName(widget.userViewModel.name);
+      signupUserStore.setAddress(widget.userViewModel.address);
+      signupUserStore.setActive(widget.userViewModel.active);
+      signupUserStore.setPhone(widget.userViewModel.phone);
+      signupUserStore.setUserType(widget.userViewModel.userType);
+      signupUserStore.setUserId(widget.userViewModel.userId());
+    }
+
     return Scaffold(
         appBar: AppBar(
-          title: Text('Cadastro'),
+          title: Text('${widget.isUpdate ? "Atualização" : "Cadastro"}'),
           centerTitle: true,
         ),
         body: Container(
           alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.only(top: 32, bottom: 32),
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -67,23 +84,41 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                fit: BoxFit.cover, image: NetworkImage(url))),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
+                      widget.isUpdate
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FieldTitle(
+                                  title: 'Id',
+                                  subtitle: '',
+                                ),
+                                Observer(builder: (_) {
+                                  return TextFormField(
+                                    initialValue: widget.userViewModel.userId(),
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        isDense: true,
+                                        hoverColor: Colors.grey),
+                                    enabled: false,
+                                    readOnly: true,
+                                  );
+                                }),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            )
+                          : SizedBox(
+                              height: 0,
+                            ),
                       FieldTitle(
                         title: 'Nome',
                         subtitle: 'Digite o nome completo',
                       ),
                       Observer(builder: (_) {
-                        return TextField(
+                        return TextFormField(
+                          initialValue:
+                              widget.isUpdate ? widget.userViewModel.name : '',
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Exemplo: João Silva',
@@ -94,34 +129,52 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                         );
                       }),
                       SizedBox(
-                        height: 16,
+                        height: widget.isUpdate ? 8 : 16,
                       ),
-                      FieldTitle(
-                        title: 'Email',
-                        subtitle: 'Digite seu email',
-                      ),
-                      Observer(builder: (_) {
-                        return TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            errorText: signupUserStore.emailError,
-                            hintText: 'Exemplo: joão@gmail.com',
-                            isDense: true,
-                          ),
-                          onChanged: signupUserStore.setEmail,
-                          keyboardType: TextInputType.emailAddress,
-                          autocorrect: false,
-                        );
-                      }),
+                      !widget.isUpdate
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FieldTitle(
+                                  title: 'Email',
+                                  subtitle: 'Digite o email',
+                                ),
+                                Observer(builder: (_) {
+                                  return TextFormField(
+                                    initialValue: widget.isUpdate
+                                        ? widget.userViewModel.email
+                                        : '',
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      errorText: signupUserStore.emailError,
+                                      hintText: 'Exemplo: joão@gmail.com',
+                                      isDense: true,
+                                    ),
+                                    onChanged: signupUserStore.setEmail,
+                                    keyboardType: TextInputType.emailAddress,
+                                    autocorrect: false,
+                                  );
+                                }),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            )
+                          : SizedBox(
+                              height: 8,
+                            ),
                       SizedBox(
-                        height: 16,
+                        height: widget.isUpdate ? 8 : 0,
                       ),
                       FieldTitle(
                         title: 'Endereço',
                         subtitle: 'Digite o endereço da empresa',
                       ),
                       Observer(builder: (_) {
-                        return TextField(
+                        return TextFormField(
+                          initialValue: widget.isUpdate
+                              ? widget.userViewModel.address
+                              : '',
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Exemplo: Rua01, nº 09, Cidade-Estado',
@@ -139,7 +192,9 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                         subtitle: 'Digite o número de telefone',
                       ),
                       Observer(builder: (_) {
-                        return TextField(
+                        return TextFormField(
+                          initialValue:
+                              widget.isUpdate ? widget.userViewModel.phone : '',
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: '(99) 99999-9999',
@@ -162,12 +217,15 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                         subtitle: 'Digite o nível do usuário',
                       ),
                       Observer(builder: (_) {
-                        return TextField(
+                        return TextFormField(
+                          initialValue: widget.isUpdate
+                              ? widget.userViewModel.userType
+                              : '',
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: appStore.userViewModel.userType == "1"
-                                ? '1=Gestor/2=Admin/3=Atendente'
-                                : '2=Admin/3=Atendente',
+                                ? 'Digite 2 para Admin'
+                                : '2 p/ Admin | 3 p/ Atendente',
                             isDense: true,
                             errorText: signupUserStore.userTypeError,
                           ),
@@ -175,42 +233,81 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                           onChanged: signupUserStore.setUserType,
                         );
                       }),
+                      !widget.isUpdate
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                FieldTitle(
+                                  title: 'Senha',
+                                  subtitle:
+                                      'Use letras, números, caracteres especiais. Mínimo: 6 caracteres',
+                                ),
+                                Observer(builder: (_) {
+                                  return TextField(
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          isDense: true,
+                                          suffixIcon: signupUserStore
+                                                  .isObscureText
+                                              ? IconButton(
+                                                  icon: Icon(Icons.visibility),
+                                                  onPressed: signupUserStore
+                                                      .setObscureText,
+                                                )
+                                              : IconButton(
+                                                  icon: Icon(Icons
+                                                      .visibility_off_outlined),
+                                                  onPressed: signupUserStore
+                                                      .setObscureText,
+                                                ),
+                                          errorText:
+                                              signupUserStore.password1Error),
+                                      obscureText:
+                                          signupUserStore.isObscureText,
+                                      onChanged: signupUserStore.setPassword1);
+                                }),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                FieldTitle(
+                                  title: 'Confirmar Senha',
+                                  subtitle: 'Repita a senha',
+                                ),
+                                Observer(builder: (_) {
+                                  return TextField(
+                                    decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        isDense: true,
+                                        suffixIcon: signupUserStore
+                                                .isObscureText
+                                            ? IconButton(
+                                                icon: Icon(
+                                                    Icons.visibility_outlined),
+                                                onPressed: signupUserStore
+                                                    .setObscureText,
+                                              )
+                                            : IconButton(
+                                                icon: Icon(Icons
+                                                    .visibility_off_outlined),
+                                                onPressed: signupUserStore
+                                                    .setObscureText,
+                                              ),
+                                        errorText:
+                                            signupUserStore.password2Error),
+                                    obscureText: signupUserStore.isObscureText,
+                                    onChanged: signupUserStore.setPassword2,
+                                  );
+                                }),
+                              ],
+                            )
+                          : SizedBox(
+                              height: 16,
+                            ),
                       SizedBox(
-                        height: 16,
-                      ),
-                      FieldTitle(
-                        title: 'Senha',
-                        subtitle:
-                            'Use letras, números, caracteres especiais. Mínimo: 6 caracteres',
-                      ),
-                      Observer(builder: (_) {
-                        return TextField(
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                isDense: true,
-                                errorText: signupUserStore.password1Error),
-                            obscureText: true,
-                            onChanged: signupUserStore.setPassword1);
-                      }),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      FieldTitle(
-                        title: 'Confirmar Senha',
-                        subtitle: 'Repita a senha',
-                      ),
-                      Observer(builder: (_) {
-                        return TextField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              isDense: true,
-                              errorText: signupUserStore.password2Error),
-                          obscureText: true,
-                          onChanged: signupUserStore.setPassword2,
-                        );
-                      }),
-                      SizedBox(
-                        height: 16,
+                        height: widget.isUpdate ? 0 : 16,
                       ),
                       FieldTitle(
                         title: 'Ativa?',
@@ -242,6 +339,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                       SizedBox(
                         height: 16,
                       ),
+
                       Observer(builder: (_) {
                         return Container(
                           alignment: Alignment.center,
@@ -254,14 +352,17 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                     valueColor:
                                         AlwaysStoppedAnimation(Colors.white),
                                   )
-                                : Text('CADASTRAR'),
+                                : Text(
+                                    '${widget.isUpdate ? "ATUALIZAR" : "CADASTRAR"}'),
                             textColor: Colors.white,
                             elevation: 0,
                             disabledColor: Colors.grey[500],
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            onPressed: signupUserStore.signUpPressed,
+                            onPressed: widget.isUpdate
+                                ? signupUserStore.updatePressed
+                                : signupUserStore.signUpPressed,
                           ),
                         );
                       }),

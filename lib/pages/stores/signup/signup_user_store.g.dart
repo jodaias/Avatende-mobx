@@ -65,6 +65,13 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
       (_$signUpPressedComputed ??= Computed<Function>(() => super.signUpPressed,
               name: '_SignUpUserStoreBase.signUpPressed'))
           .value;
+  Computed<Function> _$updatePressedComputed;
+
+  @override
+  Function get updatePressed =>
+      (_$updatePressedComputed ??= Computed<Function>(() => super.updatePressed,
+              name: '_SignUpUserStoreBase.updatePressed'))
+          .value;
 
   final _$loadingAtom = Atom(name: '_SignUpUserStoreBase.loading');
 
@@ -231,6 +238,21 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
+  final _$userIdAtom = Atom(name: '_SignUpUserStoreBase.userId');
+
+  @override
+  String get userId {
+    _$userIdAtom.reportRead();
+    return super.userId;
+  }
+
+  @override
+  set userId(String value) {
+    _$userIdAtom.reportWrite(value, super.userId, () {
+      super.userId = value;
+    });
+  }
+
   final _$signupSuccessAtom = Atom(name: '_SignUpUserStoreBase.signupSuccess');
 
   @override
@@ -296,6 +318,14 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   @override
   Future<void> signUp() {
     return _$signUpAsyncAction.run(() => super.signUp());
+  }
+
+  final _$updateUserAsyncAction =
+      AsyncAction('_SignUpUserStoreBase.updateUser');
+
+  @override
+  Future<void> updateUser() {
+    return _$updateUserAsyncAction.run(() => super.updateUser());
   }
 
   final _$_SignUpUserStoreBaseActionController =
@@ -456,6 +486,17 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
+  void setUserId(String value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setUserId');
+    try {
+      return super.setUserId(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 loading: ${loading},
@@ -469,6 +510,7 @@ active: ${active},
 address: ${address},
 departmentId: ${departmentId},
 companyId: ${companyId},
+userId: ${userId},
 signupSuccess: ${signupSuccess},
 isObscureText: ${isObscureText},
 orderByAz: ${orderByAz},
@@ -480,7 +522,8 @@ addressValid: ${addressValid},
 userTypeValid: ${userTypeValid},
 password1Valid: ${password1Valid},
 password2Valid: ${password2Valid},
-signUpPressed: ${signUpPressed}
+signUpPressed: ${signUpPressed},
+updatePressed: ${updatePressed}
     ''';
   }
 }

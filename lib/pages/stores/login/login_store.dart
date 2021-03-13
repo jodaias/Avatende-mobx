@@ -29,12 +29,18 @@ abstract class _LoginStoreBase with Store {
   @observable
   bool loggedIn = false;
 
+  @observable
+  bool isObscureText = true;
+
   //ACTIONS
   @action
   void setEmail(String value) => email = value;
 
   @action
   void setPassword(String value) => password = value;
+
+  @action
+  void setObscureText() => isObscureText = !isObscureText;
 
   //COMPUTEDs
   @computed

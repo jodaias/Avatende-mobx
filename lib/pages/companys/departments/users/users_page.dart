@@ -1,7 +1,5 @@
-import 'package:avatende/models/user_model.dart';
 import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/pages/companys/components/custom_floating_action_button/custom_floating_action_button.dart';
-import 'package:avatende/pages/companys/components/custom_scaffold/custom_scaffold.dart';
 import 'package:avatende/pages/signup/signup_user_page.dart';
 import 'package:avatende/pages/stores/company/department/user/user_store.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +45,7 @@ class _UsersPageState extends State<UsersPage> {
                     builder: (context) => SignUpUserPage(
                           companyId: widget.companyId,
                           departmentId: widget.departmentId,
+                          isUpdate: false,
                         )));
           },
         ),
@@ -132,7 +131,7 @@ class _UsersPageState extends State<UsersPage> {
                                           color: Colors.white,
                                           child: Text('Ok',
                                               style: TextStyle(
-                                                  color: Colors.greenAccent)),
+                                                  color: Colors.purple[400])),
                                           onPressed: () {
                                             Navigator.of(ctx).pop();
                                           },
@@ -157,67 +156,13 @@ class _UsersPageState extends State<UsersPage> {
                                       //joga no campo de texto o nomeAnterior
                                       print(
                                           'Nome anterior jogado no campo de text');
-
-                                      showDialog(
-                                          context: context,
-                                          barrierDismissible: true,
-                                          builder: (BuildContext ctx) {
-                                            final input = Form(
-                                                child: TextFormField(
-                                              autofocus: true,
-                                              initialValue: user.name,
-                                              decoration: InputDecoration(
-                                                  hintText: 'Nome',
-                                                  contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          20, 10, 20, 10),
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5))),
-                                              validator: (value) {
-                                                if (value.isEmpty) {
-                                                  return 'Este campo não pode ficar vazio';
-                                                }
-                                                return null;
-                                              },
-                                            ));
-
-                                            return AlertDialog(
-                                              title: Text('Editar nome'),
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: <Widget>[input],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                RaisedButton(
-                                                  color: Colors.white,
-                                                  child: Text('Cancelar',
-                                                      style: TextStyle(
-                                                          color: Colors.red)),
-                                                  onPressed: () {
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                ),
-                                                RaisedButton(
-                                                  color: Colors.white,
-                                                  child: Text('Salvar',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .blue[700])),
-                                                  onPressed: () {
-                                                    //atualiza a informação no banco de dados
-                                                    //salva um dado na tabela LOG dizendo que atualizou um dado
-                                                    print('dados atualizados');
-                                                    print(
-                                                        'dados salvos na tabela LOG');
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                )
-                                              ],
-                                            );
-                                          });
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => SignUpUserPage(
+                                                    userViewModel: user,
+                                                    isUpdate: true,
+                                                  )));
                                     },
                                   ),
                                   IconSlideAction(
@@ -244,19 +189,18 @@ class _UsersPageState extends State<UsersPage> {
                                                   },
                                                 ),
                                                 RaisedButton(
-                                                    color: Colors.white,
-                                                    child: Text('Desativar',
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .purple[400])),
-                                                    onPressed: () {
-                                                      if (user.active) {
-                                                        //alguma ação para desativar o usuario
-                                                      } else {
-                                                        //alguma ação para ativar o usuario
-                                                      }
-                                                      Navigator.of(ctx).pop();
-                                                    })
+                                                  color: Colors.white,
+                                                  child: Text('Desativar',
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .purple[400])),
+                                                  onPressed: () {
+                                                    userStore.updateUser(
+                                                        user.userId(),
+                                                        {'Active': false});
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                )
                                               ],
                                             );
                                           });
@@ -288,20 +232,19 @@ class _UsersPageState extends State<UsersPage> {
                                                   },
                                                 ),
                                                 RaisedButton(
-                                                    color: Colors.white,
-                                                    child: Text('Ativar',
-                                                        style: TextStyle(
-                                                            color: Colors.red)),
-                                                    onPressed: () {
-                                                      if (user.active) {
-                                                        //alguma ação para desativar o usuario
-                                                      } else {
-                                                        //alguma ação para ativar o usuario
-                                                        userStore.activeUser(
-                                                            user.userId());
-                                                      }
-                                                      Navigator.of(ctx).pop();
-                                                    })
+                                                  color: Colors.white,
+                                                  child: Text('Ativar',
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .purple[400])),
+                                                  onPressed: () {
+                                                    //alguma ação para ativar o usuario
+                                                    userStore.updateUser(
+                                                        user.userId(),
+                                                        {'Active': true});
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                )
                                               ],
                                             );
                                           });

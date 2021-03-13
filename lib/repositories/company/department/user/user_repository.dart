@@ -77,7 +77,8 @@ class UserRepository {
     }
   }
 
-  Future<String> activeUser(String userId) async {
+  Future<String> updateUser(
+      {String userId, Map<String, dynamic> userData}) async {
     if (_auth.currentUser.email == 'empresa@empresa.com') {
       _collection = 'UsersDev';
     } else {
@@ -85,10 +86,7 @@ class UserRepository {
     }
     try {
       FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
-      await _instance
-          .collection(_collection)
-          .doc(userId)
-          .update({'Active': true});
+      await _instance.collection(_collection).doc(userId).update(userData);
 
       return 'Usuário criado com sucesso!';
     } catch (e) {

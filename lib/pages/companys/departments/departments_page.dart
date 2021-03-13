@@ -152,7 +152,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                                 child: Text('Ok',
                                                     style: TextStyle(
                                                         color: Colors
-                                                            .greenAccent)),
+                                                            .purple[400])),
                                                 onPressed: () {
                                                   Navigator.of(ctx).pop();
                                                 },
@@ -198,7 +198,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                           color: Colors.white,
                                           child: Text('Ok',
                                               style: TextStyle(
-                                                  color: Colors.greenAccent)),
+                                                  color: Colors.purple[700])),
                                           onPressed: () {
                                             Navigator.of(ctx).pop();
                                           },

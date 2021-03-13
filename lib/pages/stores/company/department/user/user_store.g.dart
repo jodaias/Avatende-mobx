@@ -99,11 +99,12 @@ mixin _$UserStore on _UserStoreBase, Store {
     });
   }
 
-  final _$activeUserAsyncAction = AsyncAction('_UserStoreBase.activeUser');
+  final _$updateUserAsyncAction = AsyncAction('_UserStoreBase.updateUser');
 
   @override
-  Future<String> activeUser(String userId) {
-    return _$activeUserAsyncAction.run(() => super.activeUser(userId));
+  Future<String> updateUser(String userId, Map<String, dynamic> userData) {
+    return _$updateUserAsyncAction
+        .run(() => super.updateUser(userId, userData));
   }
 
   final _$_UserStoreBaseActionController =
