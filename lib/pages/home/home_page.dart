@@ -3,6 +3,7 @@ import 'package:avatende/components/custom_drawer/custom_drawer.dart';
 import 'package:avatende/pages/perfil/perfil_page.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -79,8 +80,8 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           CustomCard(
                             onTap: () => pageStore.setPage(2),
-                            label: 'Avaliação',
-                            iconData: Icons.receipt_long_sharp,
+                            label: 'Relatórios',
+                            iconData: Icons.event_available_outlined,
                             edgeInsets: EdgeInsets.only(
                               left: 18.0,
                               right: 18.0,
@@ -91,8 +92,8 @@ class _HomePageState extends State<HomePage> {
                           ///Dividimento dos cards
                           CustomCard(
                             onTap: () => pageStore.setPage(3),
-                            label: 'Relatórios',
-                            iconData: Icons.event_available_outlined,
+                            label: 'Ajuda',
+                            iconData: Icons.help,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
                             ),
@@ -106,8 +107,8 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           CustomCard(
                             onTap: () => pageStore.setPage(4),
-                            label: 'Ajuda',
-                            iconData: Icons.help,
+                            label: 'Sobre',
+                            iconData: Icons.settings,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
                               left: 18.0,
@@ -118,29 +119,12 @@ class _HomePageState extends State<HomePage> {
                           ///Dividimento dos cards
                           CustomCard(
                             onTap: () => pageStore.setPage(5),
-                            label: 'Sobre',
-                            iconData: Icons.settings,
-                            edgeInsets: EdgeInsets.only(
-                              bottom: 20.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                      //Dividimento da Linha - 04
-                      Row(
-                        children: [
-                          CustomCard(
-                            onTap: () => pageStore.setPage(4),
                             label: 'Configurações',
                             iconData: Icons.info,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
-                              left: 18.0,
-                              right: 18.0,
                             ),
                           ),
-
-                          ///Dividimento dos cards
                         ],
                       ),
                     ]

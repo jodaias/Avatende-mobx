@@ -61,19 +61,19 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
       signupUserStore.setActive(widget.userViewModel.active);
       signupUserStore.setPhone(widget.userViewModel.phone);
 
-      if (widget.userViewModel.userType == 'Atendente-Dev' ||
-          widget.userViewModel.userType == 'Atendente') {
-        signupUserStore.setUserType("Atendente");
-        widget.userViewModel.userType = 'Atendente';
-        signupUserStore.setUserTypes(['Atendente']);
-      } else if (widget.userViewModel.userType == 'Admin-Dev' ||
-          widget.userViewModel.userType == 'Admin') {
-        signupUserStore.setUserType("Admin");
-        widget.userViewModel.userType = 'Admin';
-        signupUserStore.setUserTypes(['Admin', 'Atendente']);
-      } else {
-        signupUserStore.setUserType(widget.userViewModel.userType);
+      if (appStore.userViewModel.userType == 'Master') {
         signupUserStore.setUserTypes(['Admin']);
+        signupUserStore.setUserType(widget.userViewModel.userType);
+      } else {
+        if (widget.userViewModel.userType == 'Atendente-Dev' ||
+            widget.userViewModel.userType == 'Atendente') {
+          signupUserStore.setUserType("Atendente");
+          signupUserStore.setUserTypes(['Atendente']);
+        } else if (widget.userViewModel.userType == 'Admin-Dev' ||
+            widget.userViewModel.userType == 'Admin') {
+          signupUserStore.setUserType("Admin");
+          signupUserStore.setUserTypes(['Admin', 'Atendente']);
+        }
       }
 
       if (widget.isPerfil) {
@@ -82,6 +82,12 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
       }
 
       signupUserStore.setUserId(widget.userViewModel.userId());
+    } else {
+      if (appStore.userViewModel.userType == 'Master') {
+        signupUserStore.setUserTypes(['Admin']);
+      } else {
+        signupUserStore.setUserTypes(['Admin', 'Atendente']);
+      }
     }
   }
 
@@ -246,8 +252,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                       ),
                       Observer(builder: (_) {
                         return DropdownButton(
-                          hint: Text(
-                              'Selecione o nível'), // Not necessary for Option 1
+                          hint: Text('Selecione o nível'),
                           value: signupUserStore.userType,
                           onChanged: (newValue) {
                             signupUserStore.setUserType(newValue);

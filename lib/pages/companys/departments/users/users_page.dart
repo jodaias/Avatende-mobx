@@ -46,6 +46,7 @@ class _UsersPageState extends State<UsersPage> {
                           companyId: widget.companyId,
                           departmentId: widget.departmentId,
                           isUpdate: false,
+                          isPerfil: false,
                         )));
           },
         ),

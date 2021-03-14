@@ -57,7 +57,6 @@ class _BasePageState extends State<BasePage> {
               appStore.userViewModel.userType == "Master"
                   ? CompanysPage()
                   : DepartmentsPage(),
-              AvaliationPage(),
               RelatoryPage(),
               HelpPage(),
               AboutPage(),
