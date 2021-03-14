@@ -12,71 +12,76 @@ class AboutPage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-        child: ListView(
-          children: <Widget>[
-            Column(
+        padding: EdgeInsets.all(10),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ListView(
               children: <Widget>[
-                SizedBox(height: 10.0),
-                Text(
-                  'AvAtende',
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Column(
+                  children: <Widget>[
+                    SizedBox(height: 10.0),
+                    Text(
+                      'AvAtende',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 50.0),
+                    Text(
+                      "O designer e ilustrações deste App AvAtende foi criado por Alunos do 4º período do Curso de Gestão da Tecnologia da Informação (GTI) na Faculdade Adventista da Bahia (FADBA).",
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 50),
+                    Image.asset(
+                      "images/icon.png",
+                      filterQuality: FilterQuality.high,
+                      height: 140,
+                      width: 140,
+                    ),
+                    SizedBox(height: 100),
+                    Text(
+                      "Desenvolvido por:",
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      "\nJodaías Barreto, Marcos Feitosa.",
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 24),
+                    Text(
+                      "Contato:",
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      "\njodaias2013@gmail.com",
+                      style: TextStyle(
+                        /*marcosfeitosa819@gmail.com*/
+                        color: Colors.grey[800],
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(height: 50),
+                  ],
                 ),
-                SizedBox(height: 10.0),
-                Text(
-                  "O designer e ilustrações deste App AvAtende foi criado por Alunos do 4º período do Curso de Gestão da Tecnologia da Informação (GTI) na Faculdade Adventista da Bahia (FADBA).",
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 24,
-                  ),
-                ),
-                SizedBox(height: 100),
-                Image.asset(
-                  "images/icon.png",
-                  filterQuality: FilterQuality.high,
-                  height: 145,
-                  width: 145,
-                ),
-                SizedBox(height: 100),
-                Text(
-                  "Desenvolvido por:",
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 24,
-                  ),
-                ),
-                Text(
-                  "\nJodaías Barreto, Marcos Feitosa.",
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 24,
-                  ),
-                ),
-                SizedBox(height: 24),
-                Text(
-                  "Contato:",
-                  style: TextStyle(
-                    color: Colors.grey[800],
-                    fontSize: 24,
-                  ),
-                ),
-                Text(
-                  "\njodaias2013@gmail.com",
-                  style: TextStyle(
-                    /*marcosfeitosa819@gmail.com*/
-                    color: Colors.grey[800],
-                    fontSize: 24,
-                  ),
-                ),
-                SizedBox(height: 100),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

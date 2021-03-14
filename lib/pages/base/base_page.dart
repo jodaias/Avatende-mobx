@@ -37,24 +37,42 @@ class _BasePageState extends State<BasePage> {
     );
   }
 
+  bool isAtendente() {
+    if (appStore.userViewModel.userType == "Atendente" ||
+        appStore.userViewModel.userType == "Atendente-Dev") {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: PageView(
       controller: pageController,
       physics: NeverScrollableScrollPhysics(),
-      children: [
-        HomePage(),
-        appStore.userViewModel.userType == "1"
-            ? CompanysPage()
-            : DepartmentsPage(),
-        AvaliationPage(),
-        RelatoryPage(),
-        SettingsPage(),
-        HelpPage(),
-        AboutPage(),
-        RootPage(),
-      ],
+      children: !isAtendente()
+          ? [
+              HomePage(),
+              appStore.userViewModel.userType == "Master"
+                  ? CompanysPage()
+                  : DepartmentsPage(),
+              AvaliationPage(),
+              RelatoryPage(),
+              HelpPage(),
+              AboutPage(),
+              SettingsPage(),
+              RootPage(),
+            ]
+          : [
+              HomePage(),
+              AvaliationPage(),
+              RelatoryPage(),
+              HelpPage(),
+              AboutPage(),
+              SettingsPage(),
+              RootPage(),
+            ],
     ));
   }
 }

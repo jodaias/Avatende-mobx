@@ -313,6 +313,21 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
+  final _$userTypesAtom = Atom(name: '_SignUpUserStoreBase.userTypes');
+
+  @override
+  List<String> get userTypes {
+    _$userTypesAtom.reportRead();
+    return super.userTypes;
+  }
+
+  @override
+  set userTypes(List<String> value) {
+    _$userTypesAtom.reportWrite(value, super.userTypes, () {
+      super.userTypes = value;
+    });
+  }
+
   final _$signUpAsyncAction = AsyncAction('_SignUpUserStoreBase.signUp');
 
   @override
@@ -497,6 +512,17 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
+  void setUserTypes(List<String> value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setUserTypes');
+    try {
+      return super.setUserTypes(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 loading: ${loading},
@@ -515,6 +541,7 @@ signupSuccess: ${signupSuccess},
 isObscureText: ${isObscureText},
 orderByAz: ${orderByAz},
 listActive: ${listActive},
+userTypes: ${userTypes},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
 phoneValid: ${phoneValid},

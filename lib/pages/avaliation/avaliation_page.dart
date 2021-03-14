@@ -6,13 +6,18 @@ import 'package:get_it/get_it.dart';
 class AvaliationPage extends StatelessWidget {
   final appStore = GetIt.I<AppStore>();
 
+  CustomDrawer isAtendente() {
+    if (appStore.userViewModel.userType == "Atendente" ||
+        appStore.userViewModel.userType == "Atendente-Dev") {
+      return null;
+    }
+    return CustomDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: appStore.userViewModel.userType != "3" ||
-              appStore.userViewModel.userType != "3-Dev"
-          ? CustomDrawer()
-          : null,
+      drawer: CustomDrawer(),
       appBar: AppBar(
         title: Text('Avaliações'),
         centerTitle: true,

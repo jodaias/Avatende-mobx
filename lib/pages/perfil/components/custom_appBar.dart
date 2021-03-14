@@ -71,7 +71,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                       height: 16,
                     ),
                     Text(
-                      appStore.userViewModel.name,
+                      '${appStore.userViewModel.name}',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     )
                   ],
@@ -89,6 +89,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                           builder: (_) => SignUpUserPage(
                                 userViewModel: appStore.userViewModel,
                                 isUpdate: true,
+                                isPerfil: true,
                               )));
                 },
                 child: Padding(

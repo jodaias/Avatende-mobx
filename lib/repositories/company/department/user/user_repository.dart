@@ -17,7 +17,7 @@ class UserRepository {
       _collection = 'Users';
     }
 
-    if (usermodel.userType == '1') {
+    if (usermodel.userType == 'Master') {
       _collection = 'UsersMaster';
     }
 
@@ -28,7 +28,7 @@ class UserRepository {
           email: usermodel.email, password: password);
       var stringKey;
       var stringValue;
-      if (usermodel.userType == "2") {
+      if (usermodel.userType == "Admin") {
         stringKey = 'CompanyId';
         stringValue = usermodel.companyId;
       } else {

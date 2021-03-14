@@ -19,9 +19,16 @@ class _HomePageState extends State<HomePage> {
   final pageStore = GetIt.I<PageStore>();
   final appStore = GetIt.I<AppStore>();
 
+  bool isAtendente() {
+    if (appStore.userViewModel.userType == "Atendente" ||
+        appStore.userViewModel.userType == "Atendente-Dev") {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    pageStore.setPage(0);
     return Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
@@ -30,110 +37,198 @@ class _HomePageState extends State<HomePage> {
         ),
         body: SingleChildScrollView(
           child: Column(
-            children: [
-              //Inicio linha - 01
-              Row(
-                children: [
-                  CustomCard(
-                    onTap: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => PerfilPage())),
-                    label: 'Perfil',
-                    iconData: Icons.person,
-                    edgeInsets: EdgeInsets.only(
-                      top: 20.0,
-                      bottom: 20.0,
-                      left: 18.0,
-                      right: 18.0,
-                    ),
-                  ),
+              children: !isAtendente()
+                  ? [
+                      //Inicio linha - 01
+                      Row(
+                        children: [
+                          CustomCard(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => PerfilPage())),
+                            label: 'Perfil',
+                            iconData: Icons.person,
+                            edgeInsets: EdgeInsets.only(
+                              top: 20.0,
+                              bottom: 20.0,
+                              left: 18.0,
+                              right: 18.0,
+                            ),
+                          ),
 
-                  ///Dividimento dos cards
-                  CustomCard(
-                    onTap: () => pageStore.setPage(1),
-                    label: appStore.userViewModel.userType == "1"
-                        ? 'Empresas'
-                        : 'Departamentos',
-                    iconData: appStore.userViewModel.userType == "1"
-                        ? Icons.business
-                        : Icons.people_alt,
-                    edgeInsets: EdgeInsets.only(
-                      top: 20.0,
-                      bottom: 20.0,
-                    ),
-                  ),
-                ],
-              ),
-              //Dividimento da Linha - 02
-              Row(
-                children: [
-                  CustomCard(
-                    onTap: () => pageStore.setPage(2),
-                    label: 'Avaliação',
-                    iconData: Icons.receipt_long_sharp,
-                    edgeInsets: EdgeInsets.only(
-                      left: 18.0,
-                      right: 18.0,
-                      bottom: 20.0,
-                    ),
-                  ),
+                          ///Dividimento dos cards
+                          CustomCard(
+                            onTap: () => pageStore.setPage(1),
+                            label: appStore.userViewModel.userType == "Master"
+                                ? 'Empresas'
+                                : 'Departamentos',
+                            iconData:
+                                appStore.userViewModel.userType == "Master"
+                                    ? Icons.business
+                                    : Icons.people_alt,
+                            edgeInsets: EdgeInsets.only(
+                              top: 20.0,
+                              bottom: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      //Dividimento da Linha - 02
+                      Row(
+                        children: [
+                          CustomCard(
+                            onTap: () => pageStore.setPage(2),
+                            label: 'Avaliação',
+                            iconData: Icons.receipt_long_sharp,
+                            edgeInsets: EdgeInsets.only(
+                              left: 18.0,
+                              right: 18.0,
+                              bottom: 20.0,
+                            ),
+                          ),
 
-                  ///Dividimento dos cards
-                  CustomCard(
-                    onTap: () => pageStore.setPage(3),
-                    label: 'Relatórios',
-                    iconData: Icons.event_available_outlined,
-                    edgeInsets: EdgeInsets.only(
-                      bottom: 20.0,
-                    ),
-                  ),
-                ],
-              ),
+                          ///Dividimento dos cards
+                          CustomCard(
+                            onTap: () => pageStore.setPage(3),
+                            label: 'Relatórios',
+                            iconData: Icons.event_available_outlined,
+                            edgeInsets: EdgeInsets.only(
+                              bottom: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
 
-              //Dividimento da Linha - 03
+                      //Dividimento da Linha - 03
 
-              Row(
-                children: [
-                  CustomCard(
-                    onTap: () => pageStore.setPage(4),
-                    label: 'Configurações',
-                    iconData: Icons.info,
-                    edgeInsets: EdgeInsets.only(
-                      bottom: 20.0,
-                      left: 18.0,
-                      right: 18.0,
-                    ),
-                  ),
+                      Row(
+                        children: [
+                          CustomCard(
+                            onTap: () => pageStore.setPage(4),
+                            label: 'Ajuda',
+                            iconData: Icons.help,
+                            edgeInsets: EdgeInsets.only(
+                              bottom: 20.0,
+                              left: 18.0,
+                              right: 18.0,
+                            ),
+                          ),
 
-                  ///Dividimento dos cards
-                  CustomCard(
-                    onTap: () => pageStore.setPage(5),
-                    label: 'Ajuda',
-                    iconData: Icons.help,
-                    edgeInsets: EdgeInsets.only(
-                      bottom: 20.0,
-                    ),
-                  ),
-                ],
-              ),
-              //Dividimento da Linha - 04
-              Row(
-                children: [
-                  CustomCard(
-                    onTap: () => pageStore.setPage(6),
-                    label: 'Sobre',
-                    iconData: Icons.settings,
-                    edgeInsets: EdgeInsets.only(
-                      bottom: 20.0,
-                      left: 18.0,
-                      right: 18.0,
-                    ),
-                  ),
+                          ///Dividimento dos cards
+                          CustomCard(
+                            onTap: () => pageStore.setPage(5),
+                            label: 'Sobre',
+                            iconData: Icons.settings,
+                            edgeInsets: EdgeInsets.only(
+                              bottom: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      //Dividimento da Linha - 04
+                      Row(
+                        children: [
+                          CustomCard(
+                            onTap: () => pageStore.setPage(4),
+                            label: 'Configurações',
+                            iconData: Icons.info,
+                            edgeInsets: EdgeInsets.only(
+                              bottom: 20.0,
+                              left: 18.0,
+                              right: 18.0,
+                            ),
+                          ),
 
-                  ///Dividimento dos cards
-                ],
-              ),
-            ],
-          ),
+                          ///Dividimento dos cards
+                        ],
+                      ),
+                    ]
+                  :
+                  //Dividimento se é Atendente
+                  [
+                      //Inicio linha - 01
+                      Row(
+                        children: [
+                          CustomCard(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => PerfilPage())),
+                            label: 'Perfil',
+                            iconData: Icons.person,
+                            edgeInsets: EdgeInsets.only(
+                              top: 20.0,
+                              bottom: 20.0,
+                              left: 18.0,
+                              right: 18.0,
+                            ),
+                          ),
+
+                          ///Dividimento dos cards
+                          CustomCard(
+                            onTap: () => pageStore.setPage(1),
+                            label: 'Avaliação',
+                            iconData: Icons.receipt_long_sharp,
+                            edgeInsets: EdgeInsets.only(
+                              top: 20.0,
+                              bottom: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      //Dividimento da Linha - 02
+                      Row(
+                        children: [
+                          CustomCard(
+                            onTap: () => pageStore.setPage(2),
+                            label: 'Relatórios',
+                            iconData: Icons.event_available_outlined,
+                            edgeInsets: EdgeInsets.only(
+                              left: 18.0,
+                              right: 18.0,
+                              bottom: 20.0,
+                            ),
+                          ),
+                          //Dividimento dos cards
+
+                          CustomCard(
+                            onTap: () => pageStore.setPage(3),
+                            label: 'Ajuda',
+                            iconData: Icons.help,
+                            edgeInsets: EdgeInsets.only(
+                              bottom: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      //Dividimento da Linha - 03
+                      Row(
+                        children: [
+                          CustomCard(
+                            onTap: () => pageStore.setPage(4),
+                            label: 'Sobre',
+                            iconData: Icons.info,
+                            edgeInsets: EdgeInsets.only(
+                              bottom: 20.0,
+                              left: 18.0,
+                              right: 18.0,
+                            ),
+                          ),
+
+                          //Dividimento dos cards
+                          CustomCard(
+                            onTap: () => pageStore.setPage(5),
+                            label: 'Configurações',
+                            iconData: Icons.settings,
+                            edgeInsets: EdgeInsets.only(
+                              bottom: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]),
         ));
   }
 }

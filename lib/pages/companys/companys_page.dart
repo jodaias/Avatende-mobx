@@ -144,7 +144,7 @@ class _CompanysPageState extends State<CompanysPage> {
                               IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
                                 onPressed: () {
-                                  appStore.userViewModel.userType != "1"
+                                  appStore.userViewModel.userType != "Master"
                                       ? Navigator.push(
                                           context,
                                           MaterialPageRoute(

@@ -64,6 +64,10 @@ abstract class _SignUpUserStoreBase with Store {
 
   @observable
   bool listActive = true;
+
+  @observable
+  List<String> userTypes;
+
   //ACTIONS
   @action
   void setEmail(String value) => email = value;
@@ -109,6 +113,9 @@ abstract class _SignUpUserStoreBase with Store {
 
   @action
   void setUserId(String value) => userId = value;
+
+  @action
+  void setUserTypes(List<String> value) => userTypes = value;
   //COMPUTEDS
 
   //Validando variaveis
@@ -158,16 +165,16 @@ abstract class _SignUpUserStoreBase with Store {
 
   @computed
   bool get userTypeValid =>
-      userType != null && appStore.userViewModel.userType == "1"
-          ? (userType == "1" || userType == "2" || userType == "3")
-          : (userType == "2" || userType == "3");
+      userType != null && appStore.userViewModel.userType == "Master"
+          ? (userType == "Admin")
+          : (userType == "Admin" || userType == "Atendente");
   String get userTypeError {
     if (userType == null || userTypeValid)
       return null;
     else if (userType.isEmpty)
       return 'Campo obrigatório';
     else
-      return 'Tipo inválido';
+      return 'Escolha um nível para continuar';
   }
 
   @computed
@@ -204,9 +211,7 @@ abstract class _SignUpUserStoreBase with Store {
 
   @computed
   Function get updatePressed =>
-      (nameValid && phoneValid && addressValid && userTypeValid && !loading)
-          ? updateUser
-          : null;
+      (nameValid && phoneValid && addressValid && !loading) ? updateUser : null;
 
   @action
   Future<void> signUp() async {

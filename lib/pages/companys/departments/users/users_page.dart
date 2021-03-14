@@ -162,6 +162,7 @@ class _UsersPageState extends State<UsersPage> {
                                               builder: (_) => SignUpUserPage(
                                                     userViewModel: user,
                                                     isUpdate: true,
+                                                    isPerfil: false,
                                                   )));
                                     },
                                   ),

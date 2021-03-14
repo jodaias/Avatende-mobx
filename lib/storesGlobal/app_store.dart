@@ -1,6 +1,4 @@
 import 'package:avatende/models/views/company_view_model.dart';
-import 'package:avatende/models/views/department_view_model.dart';
-import 'package:avatende/models/views/relatory_view_model.dart';
 import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/repositories/company/department/user/user_repository.dart';
 import 'package:mobx/mobx.dart';

@@ -19,12 +19,14 @@ class SignUpUserPage extends StatefulWidget {
     this.departmentId,
     this.companyId,
     this.userViewModel,
+    this.isPerfil,
   }) : super(key: key);
 
   final String departmentId;
   final String companyId;
   final UserViewModel userViewModel;
   final bool isUpdate;
+  final bool isPerfil;
 
   @override
   _SignUpUserPageState createState() => _SignUpUserPageState();
@@ -49,8 +51,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void setAtributs() {
     signupUserStore.setCompanyId(widget.companyId);
     signupUserStore.setDepartmentId(widget.departmentId);
 
@@ -60,19 +61,33 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
       signupUserStore.setActive(widget.userViewModel.active);
       signupUserStore.setPhone(widget.userViewModel.phone);
 
-      if (widget.userViewModel.userType == '3-Dev') {
-        signupUserStore.setUserType("3");
-        widget.userViewModel.userType = '3';
-      } else if (widget.userViewModel.userType == '2-Dev') {
-        signupUserStore.setUserType("2");
-        widget.userViewModel.userType = '2';
+      if (widget.userViewModel.userType == 'Atendente-Dev' ||
+          widget.userViewModel.userType == 'Atendente') {
+        signupUserStore.setUserType("Atendente");
+        widget.userViewModel.userType = 'Atendente';
+        signupUserStore.setUserTypes(['Atendente']);
+      } else if (widget.userViewModel.userType == 'Admin-Dev' ||
+          widget.userViewModel.userType == 'Admin') {
+        signupUserStore.setUserType("Admin");
+        widget.userViewModel.userType = 'Admin';
+        signupUserStore.setUserTypes(['Admin', 'Atendente']);
       } else {
         signupUserStore.setUserType(widget.userViewModel.userType);
+        signupUserStore.setUserTypes(['Admin']);
+      }
+
+      if (widget.isPerfil) {
+        signupUserStore.setUserTypes([widget.userViewModel.userType]);
+        signupUserStore.setUserType(signupUserStore.userTypes[0]);
       }
 
       signupUserStore.setUserId(widget.userViewModel.userId());
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    setAtributs();
     return Scaffold(
         appBar: AppBar(
           title: Text('${widget.isUpdate ? "Atualização" : "Cadastro"}'),
@@ -225,23 +240,24 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                       ),
                       FieldTitle(
                         title: 'Nível',
-                        subtitle: 'Digite o nível do usuário',
+                        subtitle: widget.isPerfil
+                            ? 'Seu nível de Acesso'
+                            : 'Escolha o nível de acesso do usuário',
                       ),
                       Observer(builder: (_) {
-                        return TextFormField(
-                          initialValue: widget.isUpdate
-                              ? widget.userViewModel.userType
-                              : '',
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: appStore.userViewModel.userType == "1"
-                                ? 'Digite 2 para Admin'
-                                : '2 p/ Admin | 3 p/ Atendente',
-                            isDense: true,
-                            errorText: signupUserStore.userTypeError,
-                          ),
-                          keyboardType: TextInputType.number,
-                          onChanged: signupUserStore.setUserType,
+                        return DropdownButton(
+                          hint: Text(
+                              'Selecione o nível'), // Not necessary for Option 1
+                          value: signupUserStore.userType,
+                          onChanged: (newValue) {
+                            signupUserStore.setUserType(newValue);
+                          },
+                          items: signupUserStore.userTypes.map((type) {
+                            return DropdownMenuItem(
+                              child: new Text(type),
+                              value: type,
+                            );
+                          }).toList(),
                         );
                       }),
                       !widget.isUpdate

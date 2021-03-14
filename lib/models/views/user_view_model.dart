@@ -16,10 +16,10 @@ class UserViewModel {
   UserViewModel.fromMap(DocumentSnapshot document) {
     _userId = document.id;
     this.name = document.data()['Name'];
-    document.data()['UserType'].toString().contains('2')
+    document.data()['UserType'].toString().contains('Admin')
         ? this.companyId = document.data()['CompanyId']
         : this.companyId = null;
-    document.data()['UserType'].toString().contains('3')
+    document.data()['UserType'].toString().contains('Atendente')
         ? this.departmentId = document.data()['DepartmentId']
         : this.departmentId = null;
     this.active = document.data()['Active'] ?? false;

@@ -38,7 +38,7 @@ class _PerfilPageState extends State<PerfilPage> {
               height: 4,
             ),
             Text(
-              appStore.userViewModel.name,
+              '${appStore.userViewModel.name}',
             ),
             SizedBox(
               height: 16,
@@ -50,7 +50,7 @@ class _PerfilPageState extends State<PerfilPage> {
             SizedBox(
               height: 4,
             ),
-            Text(appStore.userViewModel.email),
+            Text('${appStore.userViewModel.email}'),
             SizedBox(
               height: 16,
             ),
@@ -61,7 +61,8 @@ class _PerfilPageState extends State<PerfilPage> {
             SizedBox(
               height: 4,
             ),
-            Text(appStore.userViewModel.address),
+            Text(
+                '${appStore.userViewModel.address == null ? "_" : appStore.userViewModel.address}'),
             SizedBox(
               height: 16,
             ),
@@ -72,7 +73,7 @@ class _PerfilPageState extends State<PerfilPage> {
             SizedBox(
               height: 4,
             ),
-            Text(appStore.userViewModel.phone),
+            Text('${appStore.userViewModel.phone}'),
             SizedBox(
               height: 16,
             ),
