@@ -90,8 +90,8 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
             })
           ],
         ),
-        drawer: appStore.userViewModel.userType == "Atendente" ||
-                appStore.userViewModel.userType == "Atendente-Dev"
+        drawer: appStore.userViewModel.userType == "Admin" ||
+                appStore.userViewModel.userType == "Admin-Dev"
             ? CustomDrawer()
             : null,
         body: Container(
