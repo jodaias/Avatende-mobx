@@ -11,9 +11,9 @@ class DepartmentViewModel {
 
   DepartmentViewModel.fromMap(DocumentSnapshot document) {
     _departmentId = document.id;
-    this.name = document.data()["Name"];
-    this.active = document.data()["Active"] ?? false;
-    this.phone = document.data()["Phone"];
+    this.name = document.data()['Name'];
+    this.active = document.data()['Active'] ?? false;
+    this.phone = document.data()['Phone'];
   }
 
   toMap() {

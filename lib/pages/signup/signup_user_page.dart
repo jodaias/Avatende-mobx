@@ -53,12 +53,23 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
   Widget build(BuildContext context) {
     signupUserStore.setCompanyId(widget.companyId);
     signupUserStore.setDepartmentId(widget.departmentId);
+
     if (widget.isUpdate) {
       signupUserStore.setName(widget.userViewModel.name);
       signupUserStore.setAddress(widget.userViewModel.address);
       signupUserStore.setActive(widget.userViewModel.active);
       signupUserStore.setPhone(widget.userViewModel.phone);
-      signupUserStore.setUserType(widget.userViewModel.userType);
+
+      if (widget.userViewModel.userType == '3-Dev') {
+        signupUserStore.setUserType("3");
+        widget.userViewModel.userType = '3';
+      } else if (widget.userViewModel.userType == '2-Dev') {
+        signupUserStore.setUserType("2");
+        widget.userViewModel.userType = '2';
+      } else {
+        signupUserStore.setUserType(widget.userViewModel.userType);
+      }
+
       signupUserStore.setUserId(widget.userViewModel.userId());
     }
 

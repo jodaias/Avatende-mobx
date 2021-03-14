@@ -1,6 +1,10 @@
 import 'package:avatende/pages/perfil/mycliper.dart';
+import 'package:avatende/pages/signup/signup_user_page.dart';
+import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:get_it/get_it.dart';
 
 final String url =
     'https://i.pinimg.com/236x/12/fa/d7/12fad712035c2df9aa0562d8a6c6afd9.jpg';
@@ -9,12 +13,14 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Size get preferredSize => Size(double.infinity, 290);
 
+  final appStore = GetIt.I<AppStore>();
+
   @override
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: MyClipper(),
       child: Container(
-        padding: EdgeInsets.only(top: 24),
+        padding: EdgeInsets.only(top: 37),
         decoration: BoxDecoration(
             color: Colors.purple[500],
             boxShadow: [BoxShadow(blurRadius: 20, offset: Offset(0, 0))]),
@@ -65,7 +71,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                       height: 16,
                     ),
                     Text(
-                      "Jodaías Barreto",
+                      appStore.userViewModel.name,
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     )
                   ],
@@ -77,6 +83,13 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
               child: GestureDetector(
                 onTap: () {
                   print("//TODO: button clicked");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => SignUpUserPage(
+                                userViewModel: appStore.userViewModel,
+                                isUpdate: true,
+                              )));
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 32, 16, 24),

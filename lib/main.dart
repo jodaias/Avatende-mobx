@@ -24,7 +24,6 @@ Future<void> getUser() async {
 
   final _instance = FirebaseFirestore.instance;
   var _collection;
-  await _auth.signOut();
 
   if (_auth.currentUser?.email == 'empresa@empresa.com' ||
       _auth.currentUser?.email == 'atendente@atendente.com') {
@@ -33,8 +32,7 @@ Future<void> getUser() async {
     _collection = 'Users';
   }
 
-  if (_auth.currentUser?.email == 'jodaias2013@gmail.com' ||
-      _auth.currentUser?.email == 'gestor@gestor.com') {
+  if (_auth.currentUser?.email == 'jodaias2013@gmail.com') {
     _collection = 'UsersMaster';
   }
   print('meu email: ${_auth.currentUser?.email}\nminha colecao: $_collection');

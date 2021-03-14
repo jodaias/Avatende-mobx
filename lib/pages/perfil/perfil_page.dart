@@ -38,7 +38,7 @@ class _PerfilPageState extends State<PerfilPage> {
               height: 4,
             ),
             Text(
-              "Jodaías Barreto",
+              appStore.userViewModel.name,
             ),
             SizedBox(
               height: 16,
@@ -50,7 +50,7 @@ class _PerfilPageState extends State<PerfilPage> {
             SizedBox(
               height: 4,
             ),
-            Text("jodaias@gmail.com"),
+            Text(appStore.userViewModel.email),
             SizedBox(
               height: 16,
             ),
@@ -61,12 +61,23 @@ class _PerfilPageState extends State<PerfilPage> {
             SizedBox(
               height: 4,
             ),
-            Text("Jacobina, Bahia - Brasil"),
+            Text(appStore.userViewModel.address),
             SizedBox(
               height: 16,
             ),
             Text(
-              "Idiomas",
+              "Contato:",
+              style: _style(),
+            ),
+            SizedBox(
+              height: 4,
+            ),
+            Text(appStore.userViewModel.phone),
+            SizedBox(
+              height: 16,
+            ),
+            Text(
+              "Idiomas:",
               style: _style(),
             ),
             SizedBox(

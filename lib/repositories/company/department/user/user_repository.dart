@@ -57,18 +57,22 @@ class UserRepository {
   }
 
   Future<UserViewModel> signIn({String email, String password}) async {
-    var listColections = ["Users", "UsersDev", "UsersMaster"];
+    if (email == 'empresa@empresa.com' || email == 'atendente@atendente.com') {
+      _collection = 'UsersDev';
+    } else {
+      _collection = 'Users';
+    }
+
+    if (email == 'jodaias2013@gmail.com') {
+      _collection = 'UsersMaster';
+    }
 
     try {
-      var user;
-
-      for (var collection in listColections) {
-        //Logica de enviar os dados no banco e retornar o usuario logado.
-        var result = await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
-        user =
-            await _instance.collection(collection).doc(result.user.uid).get();
-      }
+      //Logica de enviar os dados no banco e retornar o usuario logado.
+      var result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      var user =
+          await _instance.collection(_collection).doc(result.user.uid).get();
 
       return UserViewModel.fromMap(user);
     } catch (e) {
@@ -86,7 +90,16 @@ class UserRepository {
     }
     try {
       FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
-      await _instance.collection(_collection).doc(userId).update(userData);
+      await _instance.collection(_collection).doc(userId).update({
+        'Name': userData['Name'],
+        'Phone': userData['Phone'],
+        'Active': userData['Active'],
+        'UserType': _collection == 'UsersDev'
+            ? userData['UserType'] + '-Dev'
+            : userData['UserType'],
+        'Address': userData['Address'],
+        'UpdatedAt': DateTime.now()
+      });
 
       return 'Usuário criado com sucesso!';
     } catch (e) {
