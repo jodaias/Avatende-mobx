@@ -1,8 +1,11 @@
 import 'package:avatende/models/views/user_view_model.dart';
+import 'package:avatende/pages/root/root_page.dart';
 import 'package:avatende/pages/stores/signup/signup_user_store.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/pages/signup/components/field_title.dart';
 import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -64,21 +67,15 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
       if (appStore.userViewModel.userType == 'Master') {
         signupUserStore.setUserTypes(['Admin']);
         signupUserStore.setUserType(widget.userViewModel.userType);
-      } else {
-        if (widget.userViewModel.userType == 'Atendente-Dev' ||
-            widget.userViewModel.userType == 'Atendente') {
-          signupUserStore.setUserType("Atendente");
-          signupUserStore.setUserTypes(['Atendente']);
-        } else if (widget.userViewModel.userType == 'Admin-Dev' ||
-            widget.userViewModel.userType == 'Admin') {
-          signupUserStore.setUserType("Admin");
-          signupUserStore.setUserTypes(['Admin', 'Atendente']);
+      } else if (appStore.userViewModel.userType == 'Admin') {
+        signupUserStore.setUserType("Admin");
+        signupUserStore.setUserTypes(['Admin', 'Atendente']);
+        if (widget.isPerfil) {
+          signupUserStore.setUserTypes(['Admin']);
         }
-      }
-
-      if (widget.isPerfil) {
-        signupUserStore.setUserTypes([widget.userViewModel.userType]);
-        signupUserStore.setUserType(signupUserStore.userTypes[0]);
+      } else {
+        signupUserStore.setUserType("Atendente");
+        signupUserStore.setUserTypes(['Atendente']);
       }
 
       signupUserStore.setUserId(widget.userViewModel.userId());

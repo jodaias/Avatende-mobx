@@ -1,8 +1,6 @@
 import 'package:avatende/components/custom_drawer/custom_drawer.dart';
-import 'package:avatende/models/department_model.dart';
 import 'package:avatende/models/views/department_view_model.dart';
 import 'package:avatende/pages/companys/components/custom_floating_action_button/custom_floating_action_button.dart';
-import 'package:avatende/pages/companys/components/custom_scaffold/custom_scaffold.dart';
 import 'package:avatende/pages/companys/departments/users/users_page.dart';
 import 'package:avatende/pages/signup/signup_page_department.dart';
 import 'package:avatende/pages/stores/company/department/department_store.dart';

@@ -1,6 +1,9 @@
 import 'package:avatende/models/user_model.dart';
+import 'package:avatende/pages/root/root_page.dart';
 import 'package:avatende/repositories/company/department/user/user_repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:avatende/helpers/extensions.dart';
@@ -240,16 +243,6 @@ abstract class _SignUpUserStoreBase with Store {
   Future<void> updateUser() async {
     loading = true;
 
-    // var stringKey;
-    // var stringValue;
-    // if (userType == "2") {
-    //   stringKey = 'CompanyId';
-    //   stringValue = companyId;
-    // } else {
-    //   stringKey = 'DepartmentId';
-    //   stringValue = departmentId;
-    // }
-
     //Salvar a empresa no banco
     //e salvar no company model via appStore
     await repository.updateUser(userId: userId, userData: {
@@ -258,6 +251,8 @@ abstract class _SignUpUserStoreBase with Store {
       'Active': active,
       'UserType': userType,
       'Address': address,
+      'CompanyId': companyId,
+      'DepartmentId': departmentId,
       'UpdatedAt': DateTime.now()
     });
 

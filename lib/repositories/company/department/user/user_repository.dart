@@ -88,6 +88,17 @@ class UserRepository {
     } else {
       _collection = 'Users';
     }
+
+    var stringKey;
+    var stringValue;
+
+    if (userData['UserType'] == "Admin") {
+      stringKey = 'CompanyId';
+      stringValue = userData['CompanyId'];
+    } else {
+      stringKey = 'DepartmentId';
+      stringValue = userData['DepartmentId'];
+    }
     try {
       FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       await _instance.collection(_collection).doc(userId).update({
