@@ -138,20 +138,28 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 20, bottom: 12),
                         height: 40,
-                        child: RaisedButton(
-                          color: Colors.orange,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            elevation: MaterialStateProperty.all(0),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.orange),
+                            textStyle: MaterialStateProperty.all(
+                              TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                           child: signupDepartmentStore.loading
                               ? CircularProgressIndicator(
                                   valueColor:
                                       AlwaysStoppedAnimation(Colors.white),
                                 )
                               : Text('CADASTRAR'),
-                          textColor: Colors.white,
-                          elevation: 0,
-                          disabledColor: Colors.grey[500],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
                           onPressed: signupDepartmentStore.signUpPressed,
                         ),
                       );

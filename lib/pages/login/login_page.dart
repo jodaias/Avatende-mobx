@@ -157,19 +157,27 @@ class _LoginPageState extends State<LoginPage> {
                         margin: EdgeInsets.only(top: 20, bottom: 12),
                         height: 40,
                         child: Observer(builder: (_) {
-                          return RaisedButton(
-                            color: Colors.orange,
+                          return ElevatedButton(
                             child: loginStore.loading
                                 ? CircularProgressIndicator(
                                     valueColor:
                                         AlwaysStoppedAnimation(Colors.white),
                                   )
                                 : Text('ENTRAR'),
-                            textColor: Colors.white,
-                            disabledColor: Colors.grey[500],
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                            style: ButtonStyle(
+                              elevation: MaterialStateProperty.all(0),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.orange),
+                              textStyle: MaterialStateProperty.all(
+                                TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                             onPressed: loginStore.loginPressed,
                           );
@@ -233,8 +241,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             actions: <Widget>[
-              RaisedButton(
-                  color: Colors.white,
+              ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                    Colors.white,
+                  )),
                   child: Text(
                     'Ok',
                     style: TextStyle(

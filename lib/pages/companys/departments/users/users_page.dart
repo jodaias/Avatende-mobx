@@ -128,8 +128,12 @@ class _UsersPageState extends State<UsersPage> {
                                         ),
                                       ),
                                       actions: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.white,
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                            Colors.white,
+                                          )),
                                           child: Text('Ok',
                                               style: TextStyle(
                                                   color: Colors.purple[400])),
@@ -184,8 +188,13 @@ class _UsersPageState extends State<UsersPage> {
                                               content: Text(
                                                   'Esta ação irá desativar o usuário selecionado!'),
                                               actions: <Widget>[
-                                                RaisedButton(
-                                                  color: Colors.purple[400],
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.purple[400],
+                                                  )),
                                                   child: Text('Cancelar',
                                                       style: TextStyle(
                                                           color: Colors.white)),
@@ -193,8 +202,13 @@ class _UsersPageState extends State<UsersPage> {
                                                     Navigator.of(ctx).pop();
                                                   },
                                                 ),
-                                                RaisedButton(
-                                                  color: Colors.white,
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.white,
+                                                  )),
                                                   child: Text('Desativar',
                                                       style: TextStyle(
                                                           color: Colors
@@ -227,8 +241,13 @@ class _UsersPageState extends State<UsersPage> {
                                               content: Text(
                                                   'Esta ação irá ativar o usuário selecionado!'),
                                               actions: <Widget>[
-                                                RaisedButton(
-                                                  color: Colors.purple[400],
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.purple[400],
+                                                  )),
                                                   child: Text('Cancelar',
                                                       style: TextStyle(
                                                           color: Colors.white)),
@@ -236,8 +255,13 @@ class _UsersPageState extends State<UsersPage> {
                                                     Navigator.of(ctx).pop();
                                                   },
                                                 ),
-                                                RaisedButton(
-                                                  color: Colors.white,
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.white,
+                                                  )),
                                                   child: Text('Ativar',
                                                       style: TextStyle(
                                                           color: Colors

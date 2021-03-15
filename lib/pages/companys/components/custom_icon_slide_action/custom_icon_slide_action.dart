@@ -34,15 +34,22 @@ class CustomIconSlideAction extends StatelessWidget {
             title: Text('Tem certeza?'),
             content: Text(labelContent),
             actions: <Widget>[
-              RaisedButton(
-                color: Colors.greenAccent,
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                  Colors.greenAccent,
+                )),
                 child: Text('Cancelar', style: TextStyle(color: Colors.white)),
                 onPressed: () {
                   Navigator.of(ctx).pop();
                 },
               ),
-              RaisedButton(
-                color: Colors.white,
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                  Colors.white,
+                )),
+
                 child: Text(
                   labelAction,
                   style: TextStyle(color: Colors.red),

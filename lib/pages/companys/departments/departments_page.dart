@@ -145,8 +145,13 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                               ),
                                             ),
                                             actions: <Widget>[
-                                              RaisedButton(
-                                                color: Colors.white,
+                                              ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(
+                                                  Colors.white,
+                                                )),
                                                 child: Text('Ok',
                                                     style: TextStyle(
                                                         color: Colors
@@ -197,8 +202,12 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                         ),
                                       ),
                                       actions: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.white,
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                            Colors.white,
+                                          )),
                                           child: Text('Ok',
                                               style: TextStyle(
                                                   color: Colors.purple[700])),
@@ -260,8 +269,13 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                                 ),
                                               ),
                                               actions: <Widget>[
-                                                RaisedButton(
-                                                  color: Colors.white,
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.white,
+                                                  )),
                                                   child: Text('Cancelar',
                                                       style: TextStyle(
                                                           color: Colors.red)),
@@ -269,8 +283,13 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                                     Navigator.of(ctx).pop();
                                                   },
                                                 ),
-                                                RaisedButton(
-                                                  color: Colors.white,
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.white,
+                                                  )),
                                                   child: Text('Salvar',
                                                       style: TextStyle(
                                                           color: Colors
@@ -306,8 +325,12 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                             ? 'Esta ação irá desativar o departamento selecionado!'
                                             : 'Esta ação irá ativar o departamento selecionado!'),
                                         actions: <Widget>[
-                                          RaisedButton(
-                                            color: Colors.greenAccent,
+                                          ElevatedButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                              Colors.greenAccent,
+                                            )),
                                             child: Text('Cancelar',
                                                 style: TextStyle(
                                                     color: Colors.white)),
@@ -315,8 +338,12 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                               Navigator.of(ctx).pop();
                                             },
                                           ),
-                                          RaisedButton(
-                                              color: Colors.white,
+                                          ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                Colors.white,
+                                              )),
                                               child: Text(
                                                   department.active
                                                       ? 'Desativar'

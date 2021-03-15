@@ -126,8 +126,12 @@ class _CompanysPageState extends State<CompanysPage> {
                                             ),
                                           ),
                                           actions: <Widget>[
-                                            RaisedButton(
-                                              color: Colors.white,
+                                            ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                Colors.white,
+                                              )),
                                               child: Text('Ok',
                                                   style: TextStyle(
                                                       color:
@@ -182,8 +186,12 @@ class _CompanysPageState extends State<CompanysPage> {
                                       ),
                                     ),
                                     actions: <Widget>[
-                                      RaisedButton(
-                                        color: Colors.white,
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                          Colors.white,
+                                        )),
                                         child: Text('Ok',
                                             style: TextStyle(
                                                 color: Colors.purple[400])),
@@ -241,8 +249,12 @@ class _CompanysPageState extends State<CompanysPage> {
                                         ),
                                       ),
                                       actions: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.white,
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                            Colors.white,
+                                          )),
                                           child: Text('Cancelar',
                                               style:
                                                   TextStyle(color: Colors.red)),
@@ -250,8 +262,12 @@ class _CompanysPageState extends State<CompanysPage> {
                                             Navigator.of(ctx).pop();
                                           },
                                         ),
-                                        RaisedButton(
-                                          color: Colors.white,
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                            Colors.white,
+                                          )),
                                           child: Text('Salvar',
                                               style: TextStyle(
                                                   color: Colors.purple[400])),
@@ -282,8 +298,12 @@ class _CompanysPageState extends State<CompanysPage> {
                                       content: Text(
                                           'Esta ação irá desativar a empresa selecionada!'),
                                       actions: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.purple[400],
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                            Colors.purple[400],
+                                          )),
                                           child: Text('Cancelar',
                                               style: TextStyle(
                                                   color: Colors.white)),
@@ -291,17 +311,20 @@ class _CompanysPageState extends State<CompanysPage> {
                                             Navigator.of(ctx).pop();
                                           },
                                         ),
-                                        RaisedButton(
-                                            color: Colors.white,
-                                            child: Text('Desativar',
-                                                style: TextStyle(
-                                                    color: Colors.purple[400])),
-                                            onPressed: () {
-                                              setState(() {
-                                                //alguma ação para desativar o usuario
-                                              });
-                                              Navigator.of(ctx).pop();
-                                            })
+                                        ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                            Colors.purple[400],
+                                          )),
+                                          onPressed: () {
+                                            setState(() {
+                                              //alguma ação para desativar o usuario
+                                            });
+                                            Navigator.of(ctx).pop();
+                                          },
+                                          child: null,
+                                        )
                                       ],
                                     );
                                   });
