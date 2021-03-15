@@ -161,6 +161,9 @@ class _UsersPageState extends State<UsersPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (_) => SignUpUserPage(
+                                                    companyId: widget.companyId,
+                                                    departmentId:
+                                                        widget.departmentId,
                                                     userViewModel: user,
                                                     isUpdate: true,
                                                     isPerfil: false,

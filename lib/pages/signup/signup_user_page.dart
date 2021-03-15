@@ -66,16 +66,14 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
 
       if (appStore.userViewModel.userType == 'Master') {
         signupUserStore.setUserTypes(['Admin']);
-        signupUserStore.setUserType(widget.userViewModel.userType);
-      } else if (appStore.userViewModel.userType == 'Admin') {
-        signupUserStore.setUserType("Admin");
+      } else if (appStore.userViewModel.userType == 'Admin' ||
+          appStore.userViewModel.userType == 'Admin-Dev') {
         signupUserStore.setUserTypes(['Admin', 'Atendente']);
         if (widget.isPerfil) {
           signupUserStore.setUserTypes(['Admin']);
         }
       } else {
-        signupUserStore.setUserType("Atendente");
-        signupUserStore.setUserTypes(['Atendente']);
+        signupUserStore.setUserTypes(["Atendente"]);
       }
 
       signupUserStore.setUserId(widget.userViewModel.userId());

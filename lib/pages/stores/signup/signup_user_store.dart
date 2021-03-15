@@ -174,7 +174,9 @@ abstract class _SignUpUserStoreBase with Store {
   String get userTypeError {
     if (userType == null || userTypeValid)
       return null;
-    else if (userType.isEmpty)
+    else if (userType != 'Admin' ||
+        userType != 'Atendente' ||
+        userType != 'Master')
       return 'Campo obrigatório';
     else
       return 'Escolha um nível para continuar';
@@ -214,7 +216,9 @@ abstract class _SignUpUserStoreBase with Store {
 
   @computed
   Function get updatePressed =>
-      (nameValid && phoneValid && addressValid && !loading) ? updateUser : null;
+      (nameValid && phoneValid && addressValid && userTypeValid && !loading)
+          ? updateUser
+          : null;
 
   @action
   Future<void> signUp() async {
@@ -243,6 +247,21 @@ abstract class _SignUpUserStoreBase with Store {
   Future<void> updateUser() async {
     loading = true;
 
+    var stringKey;
+    var stringValue;
+
+    if (userType == "Admin") {
+      stringKey = 'CompanyId';
+      stringValue = companyId;
+    } else {
+      stringKey = 'DepartmentId';
+      stringValue = departmentId;
+    }
+
+    if (companyId == 'sYUwD44edugpkRL10Q56') {
+      userType += '-Dev';
+    }
+
     //Salvar a empresa no banco
     //e salvar no company model via appStore
     await repository.updateUser(userId: userId, userData: {
@@ -251,8 +270,7 @@ abstract class _SignUpUserStoreBase with Store {
       'Active': active,
       'UserType': userType,
       'Address': address,
-      'CompanyId': companyId,
-      'DepartmentId': departmentId,
+      stringKey: stringValue,
       'UpdatedAt': DateTime.now()
     });
 

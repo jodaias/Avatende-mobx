@@ -163,12 +163,17 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                 IconButton(
                                   icon: Icon(Icons.arrow_forward_ios),
                                   onPressed: () {
+                                    print(
+                                        'departPage depId: ${department.companyId}');
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (_) => UsersPage(
-                                                departmentId: department
-                                                    .departmentId())));
+                                                  departmentId:
+                                                      department.departmentId(),
+                                                  companyId:
+                                                      department.companyId,
+                                                )));
                                   },
                                 ),
                               ],

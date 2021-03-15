@@ -28,7 +28,7 @@ class UserRepository {
           email: usermodel.email, password: password);
       var stringKey;
       var stringValue;
-      if (usermodel.userType == "Admin") {
+      if (usermodel.userType == "Admin" || usermodel.userType == "Admin-Dev") {
         stringKey = 'CompanyId';
         stringValue = usermodel.companyId;
       } else {
@@ -89,28 +89,8 @@ class UserRepository {
       _collection = 'Users';
     }
 
-    var stringKey;
-    var stringValue;
-
-    if (userData['UserType'] == "Admin") {
-      stringKey = 'CompanyId';
-      stringValue = userData['CompanyId'];
-    } else {
-      stringKey = 'DepartmentId';
-      stringValue = userData['DepartmentId'];
-    }
     try {
-      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
-      await _instance.collection(_collection).doc(userId).update({
-        'Name': userData['Name'],
-        'Phone': userData['Phone'],
-        'Active': userData['Active'],
-        'UserType': _collection == 'UsersDev'
-            ? userData['UserType'] + '-Dev'
-            : userData['UserType'],
-        'Address': userData['Address'],
-        'UpdatedAt': DateTime.now()
-      });
+      await _instance.collection(_collection).doc(userId).update(userData);
 
       return 'Usuário criado com sucesso!';
     } catch (e) {
