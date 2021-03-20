@@ -84,13 +84,15 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                 onTap: () {
                   print("//TODO: button clicked");
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => SignUpUserPage(
-                                userViewModel: appStore.userViewModel,
-                                isUpdate: true,
-                                isPerfil: true,
-                              )));
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SignUpUserPage(
+                        userViewModel: appStore.userViewModel,
+                        isUpdate: true,
+                        isPerfil: true,
+                      ),
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 32, 16, 24),

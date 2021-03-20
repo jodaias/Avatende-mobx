@@ -4,8 +4,6 @@ import 'package:avatende/pages/stores/signup/signup_user_store.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/pages/signup/components/field_title.dart';
 import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -47,6 +45,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
 
     disposer = reaction((_) => signupUserStore.signupSuccess, (signupSuccess) {
       if (signupSuccess) {
+        appStore.getUser();
         Navigator.of(context).pop();
       } else {
         print('não foi possivel cadastrar');
@@ -63,20 +62,27 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
       signupUserStore.setAddress(widget.userViewModel.address);
       signupUserStore.setActive(widget.userViewModel.active);
       signupUserStore.setPhone(widget.userViewModel.phone);
+      signupUserStore.setUserId(widget.userViewModel.userId());
 
       if (appStore.userViewModel.userType == 'Master') {
         signupUserStore.setUserTypes(['Admin']);
+        signupUserStore.setUserType("Admin");
+
+        if (widget.isPerfil) {
+          signupUserStore.setUserType("Master");
+          signupUserStore.setUserTypes(['Master']);
+        }
       } else if (appStore.userViewModel.userType == 'Admin' ||
           appStore.userViewModel.userType == 'Admin-Dev') {
+        signupUserStore.setUserType("Admin");
         signupUserStore.setUserTypes(['Admin', 'Atendente']);
         if (widget.isPerfil) {
           signupUserStore.setUserTypes(['Admin']);
         }
       } else {
-        signupUserStore.setUserTypes(["Atendente"]);
+        signupUserStore.setUserType("Atendente");
+        signupUserStore.setUserTypes(['Atendente']);
       }
-
-      signupUserStore.setUserId(widget.userViewModel.userId());
     } else {
       if (appStore.userViewModel.userType == 'Master') {
         signupUserStore.setUserTypes(['Admin']);
@@ -88,7 +94,6 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    setAtributs();
     return Scaffold(
         appBar: AppBar(
           title: Text('${widget.isUpdate ? "Atualização" : "Cadastro"}'),
@@ -246,6 +251,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                             : 'Escolha o nível de acesso do usuário',
                       ),
                       Observer(builder: (_) {
+                        setAtributs();
                         return DropdownButton(
                           hint: Text('Selecione o nível'),
                           value: signupUserStore.userType,

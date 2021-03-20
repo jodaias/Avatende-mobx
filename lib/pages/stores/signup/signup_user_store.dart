@@ -169,7 +169,7 @@ abstract class _SignUpUserStoreBase with Store {
   @computed
   bool get userTypeValid =>
       userType != null && appStore.userViewModel.userType == "Master"
-          ? (userType == "Admin")
+          ? (userType == "Admin" || userType == "Master")
           : (userType == "Admin" || userType == "Atendente");
   String get userTypeError {
     if (userType == null || userTypeValid)
@@ -264,15 +264,26 @@ abstract class _SignUpUserStoreBase with Store {
 
     //Salvar a empresa no banco
     //e salvar no company model via appStore
-    await repository.updateUser(userId: userId, userData: {
-      'Name': name,
-      'Phone': phone,
-      'Active': active,
-      'UserType': userType,
-      'Address': address,
-      stringKey: stringValue,
-      'UpdatedAt': DateTime.now()
-    });
+    await repository.updateUser(
+        userId: userId,
+        userData: userType != "Master"
+            ? {
+                'Name': name,
+                'Phone': phone,
+                'Active': active,
+                'UserType': userType,
+                'Address': address,
+                stringKey: stringValue,
+                'UpdatedAt': DateTime.now()
+              }
+            : {
+                'Name': name,
+                'Phone': phone,
+                'Active': active,
+                'UserType': userType,
+                'Address': address,
+                'UpdatedAt': DateTime.now()
+              });
 
     loading = false;
     signupSuccess = true;

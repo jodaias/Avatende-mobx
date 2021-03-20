@@ -54,6 +54,13 @@ mixin _$AppStore on _AppStoreBase, Store {
     });
   }
 
+  final _$getUserAsyncAction = AsyncAction('_AppStoreBase.getUser');
+
+  @override
+  Future<void> getUser() {
+    return _$getUserAsyncAction.run(() => super.getUser());
+  }
+
   final _$_AppStoreBaseActionController =
       ActionController(name: '_AppStoreBase');
 
@@ -74,17 +81,6 @@ mixin _$AppStore on _AppStoreBase, Store {
         name: '_AppStoreBase.setUser');
     try {
       return super.setUser(value);
-    } finally {
-      _$_AppStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setCompany(CompanyViewModel value) {
-    final _$actionInfo = _$_AppStoreBaseActionController.startAction(
-        name: '_AppStoreBase.setCompany');
-    try {
-      return super.setCompany(value);
     } finally {
       _$_AppStoreBaseActionController.endAction(_$actionInfo);
     }

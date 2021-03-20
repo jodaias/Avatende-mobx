@@ -85,6 +85,8 @@ class UserRepository {
       {String userId, Map<String, dynamic> userData}) async {
     if (_auth.currentUser.email == 'empresa@empresa.com') {
       _collection = 'UsersDev';
+    } else if (userData['UserType'] == "Master") {
+      _collection = 'UsersMaster';
     } else {
       _collection = 'Users';
     }
@@ -92,14 +94,33 @@ class UserRepository {
     try {
       await _instance.collection(_collection).doc(userId).update(userData);
 
-      return 'Usuário criado com sucesso!';
+      return 'Usuário atualizado com sucesso!';
     } catch (e) {
       print('Error: $e');
-      return 'Erro: Falha ao criar usuário!';
+      return 'Erro: Falha ao atualizar usuário!';
     }
   }
 
-  //lista de Departamentos Ativas
+  Future<UserViewModel> getUser({String userId, String userType}) async {
+    if (_auth.currentUser.email == 'empresa@empresa.com') {
+      _collection = 'UsersDev';
+    } else if (userType == "Master") {
+      _collection = 'UsersMaster';
+    } else {
+      _collection = 'Users';
+    }
+
+    try {
+      var user = await _instance.collection(_collection).doc(userId).get();
+
+      return UserViewModel.fromMap(user);
+    } catch (e) {
+      print('Error: $e');
+      return UserViewModel();
+    }
+  }
+
+  //lista de Users Ativas
   Observable<Stream<List<UserViewModel>>> usersActives(String deptOrCompId) {
     var stringWhere = '';
     if (_auth.currentUser.email == 'empresa@empresa.com') {
@@ -124,7 +145,7 @@ class UserRepository {
             .toList()));
   }
 
-  //lista de Departamentos Inativas
+  //lista de Users Inativas
   Observable<Stream<List<UserViewModel>>> usersInactives(String deptOrCompId) {
     var stringWhere = '';
     if (_auth.currentUser.email == 'empresa@empresa.com') {
