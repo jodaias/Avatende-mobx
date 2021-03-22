@@ -1,5 +1,7 @@
 import 'package:avatende/models/company_model.dart';
 import 'package:avatende/models/views/company_view_model.dart';
+import 'package:avatende/models/views/department_view_model.dart';
+import 'package:avatende/models/views/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
@@ -55,23 +57,49 @@ class CompanyRepository {
             .toList()));
   }
 
-  Future<String> getCompanyId({String userType, String departmentId}) async {
-    if (userType == 'Atendente-Dev') {
+  Future<Map<String, dynamic>> getCompanyAndDeparment(
+      {UserViewModel userViewModel}) async {
+    var department;
+
+    if (userViewModel.userType == 'Atendente-Dev') {
       _collection = 'DepartmentsDev';
-    } else {
+    } else if (userViewModel.userType == 'Atendente') {
       _collection = 'Departments';
+    } else if (userViewModel.userType == 'Admin-Dev') {
+      _collection = 'CompanysDev';
+    } else {
+      _collection = 'Companys';
     }
 
     try {
-      var department =
-          await _instance.collection(_collection).doc(departmentId).get();
+      if (userViewModel.userType == 'Atendente-Dev' ||
+          userViewModel.userType == 'Atendente') {
+        department = await _instance
+            .collection(_collection)
+            .doc(userViewModel.departmentId)
+            .get();
+      }
 
-      print(
-          'depc $departmentId colect $_collection ${department.data()['CompanyId']}');
+      if (userViewModel.userType == 'Atendente-Dev' ||
+          userViewModel.userType == 'Admin-Dev') {
+        _collection = 'CompanysDev';
+      } else {
+        _collection = 'Companys';
+      }
+      var company = await _instance
+          .collection(_collection)
+          .doc(userViewModel.userType == 'Atendente-Dev' ||
+                  userViewModel.userType == 'Atendente'
+              ? department.data()['CompanyId']
+              : userViewModel.companyId)
+          .get();
 
-      return department.data()['CompanyId'];
+      return {
+        'Company': CompanyViewModel.fromMap(company),
+        'Department': DepartmentViewModel.fromMap(department)
+      };
     } catch (e) {
-      return 'Error: $e';
+      return {};
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:avatende/models/views/company_view_model.dart';
+import 'package:avatende/models/views/department_view_model.dart';
 import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/repositories/company/company_repository.dart';
 import 'package:avatende/repositories/company/department/user/user_repository.dart';
@@ -19,7 +20,10 @@ abstract class _AppStoreBase with Store {
   UserViewModel userViewModel;
 
   @observable
-  String companyId;
+  CompanyViewModel companyViewModel;
+
+  @observable
+  DepartmentViewModel departmentViewModel;
 
   @action
   void setProducao(bool value) => producao = value;
@@ -28,7 +32,10 @@ abstract class _AppStoreBase with Store {
   void setUser(UserViewModel value) => userViewModel = value;
 
   @action
-  void setCompanyId(String value) => companyId = value;
+  void setCompany(CompanyViewModel value) => companyViewModel = value;
+
+  @action
+  void setDepartment(DepartmentViewModel value) => departmentViewModel = value;
 
   @action
   Future<void> getUser() async {
@@ -39,11 +46,11 @@ abstract class _AppStoreBase with Store {
   }
 
   @action
-  Future<void> getCompanyId() async {
-    var id = await companyRepository.getCompanyId(
-        userType: userViewModel.userType,
-        departmentId: userViewModel.departmentId);
+  Future<void> getCompanyAndDepartment() async {
+    var map = await companyRepository.getCompanyAndDeparment(
+        userViewModel: userViewModel);
 
-    setCompanyId(id);
+    setCompany(map['Company']);
+    setDepartment(map['Department']);
   }
 }

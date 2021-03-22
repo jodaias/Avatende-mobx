@@ -39,18 +39,34 @@ mixin _$AppStore on _AppStoreBase, Store {
     });
   }
 
-  final _$companyIdAtom = Atom(name: '_AppStoreBase.companyId');
+  final _$companyViewModelAtom = Atom(name: '_AppStoreBase.companyViewModel');
 
   @override
-  String get companyId {
-    _$companyIdAtom.reportRead();
-    return super.companyId;
+  CompanyViewModel get companyViewModel {
+    _$companyViewModelAtom.reportRead();
+    return super.companyViewModel;
   }
 
   @override
-  set companyId(String value) {
-    _$companyIdAtom.reportWrite(value, super.companyId, () {
-      super.companyId = value;
+  set companyViewModel(CompanyViewModel value) {
+    _$companyViewModelAtom.reportWrite(value, super.companyViewModel, () {
+      super.companyViewModel = value;
+    });
+  }
+
+  final _$departmentViewModelAtom =
+      Atom(name: '_AppStoreBase.departmentViewModel');
+
+  @override
+  DepartmentViewModel get departmentViewModel {
+    _$departmentViewModelAtom.reportRead();
+    return super.departmentViewModel;
+  }
+
+  @override
+  set departmentViewModel(DepartmentViewModel value) {
+    _$departmentViewModelAtom.reportWrite(value, super.departmentViewModel, () {
+      super.departmentViewModel = value;
     });
   }
 
@@ -61,11 +77,13 @@ mixin _$AppStore on _AppStoreBase, Store {
     return _$getUserAsyncAction.run(() => super.getUser());
   }
 
-  final _$getCompanyIdAsyncAction = AsyncAction('_AppStoreBase.getCompanyId');
+  final _$getCompanyAndDepartmentAsyncAction =
+      AsyncAction('_AppStoreBase.getCompanyAndDepartment');
 
   @override
-  Future<void> getCompanyId() {
-    return _$getCompanyIdAsyncAction.run(() => super.getCompanyId());
+  Future<void> getCompanyAndDepartment() {
+    return _$getCompanyAndDepartmentAsyncAction
+        .run(() => super.getCompanyAndDepartment());
   }
 
   final _$_AppStoreBaseActionController =
@@ -94,11 +112,22 @@ mixin _$AppStore on _AppStoreBase, Store {
   }
 
   @override
-  void setCompanyId(String value) {
+  void setCompany(CompanyViewModel value) {
     final _$actionInfo = _$_AppStoreBaseActionController.startAction(
-        name: '_AppStoreBase.setCompanyId');
+        name: '_AppStoreBase.setCompany');
     try {
-      return super.setCompanyId(value);
+      return super.setCompany(value);
+    } finally {
+      _$_AppStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDepartment(DepartmentViewModel value) {
+    final _$actionInfo = _$_AppStoreBaseActionController.startAction(
+        name: '_AppStoreBase.setDepartment');
+    try {
+      return super.setDepartment(value);
     } finally {
       _$_AppStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -109,7 +138,8 @@ mixin _$AppStore on _AppStoreBase, Store {
     return '''
 producao: ${producao},
 userViewModel: ${userViewModel},
-companyId: ${companyId}
+companyViewModel: ${companyViewModel},
+departmentViewModel: ${departmentViewModel}
     ''';
   }
 }

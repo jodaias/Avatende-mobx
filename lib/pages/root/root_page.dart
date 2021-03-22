@@ -24,11 +24,13 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     print('usertype root: ${appStore.userViewModel?.userType}');
     if (_auth.currentUser != null) {
-      // if (appStore.userViewModel?.userType == "Atendente" ||
-      //     appStore.userViewModel?.userType == "Atendente-Dev") {
-      //   return AvaliationPage();
-      // }
-      return BasePage();
+      if (appStore.companyViewModel.active &&
+          appStore.departmentViewModel.active &&
+          appStore.userViewModel.active) {
+        return BasePage();
+      } else {
+        return LoginPage();
+      }
     } else {
       return LoginPage();
     }

@@ -42,9 +42,8 @@ Future<void> getUser() async {
 
   if (user.data() != null) {
     appStore.setUser(new UserViewModel.fromMap(user));
+    await appStore.getCompanyAndDepartment();
   }
-  await appStore.getCompanyId();
-  print('company ${appStore.companyId}');
 }
 
 void setupLocators() {
