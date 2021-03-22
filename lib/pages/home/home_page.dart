@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                           CustomCard(
                             onTap: () => pageStore.setPage(4),
                             label: 'Sobre',
-                            iconData: Icons.settings,
+                            iconData: Icons.info,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
                               left: 18.0,
@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                           CustomCard(
                             onTap: () => pageStore.setPage(5),
                             label: 'Configurações',
-                            iconData: Icons.info,
+                            iconData: Icons.settings,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
                             ),

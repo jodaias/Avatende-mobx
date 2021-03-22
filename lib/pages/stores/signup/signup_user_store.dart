@@ -1,9 +1,6 @@
 import 'package:avatende/models/user_model.dart';
-import 'package:avatende/pages/root/root_page.dart';
 import 'package:avatende/repositories/company/department/user/user_repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:avatende/helpers/extensions.dart';

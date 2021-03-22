@@ -1,4 +1,5 @@
 import 'package:avatende/pages/about/about_page.dart';
+import 'package:avatende/pages/avaliation/ads_page.dart';
 import 'package:avatende/pages/avaliation/avaliation_page.dart';
 import 'package:avatende/pages/companys/companys_page.dart';
 import 'package:avatende/pages/companys/departments/departments_page.dart';
@@ -67,7 +68,7 @@ class _BasePageState extends State<BasePage> {
             ]
           : [
               HomePage(),
-              AvaliationPage(),
+              AdsPage(),
               RelatoryPage(),
               HelpPage(),
               AboutPage(),

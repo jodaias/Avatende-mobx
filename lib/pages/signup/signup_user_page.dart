@@ -440,4 +440,10 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
           ),
         ));
   }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
+  }
 }

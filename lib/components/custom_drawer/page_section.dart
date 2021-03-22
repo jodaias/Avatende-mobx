@@ -68,10 +68,10 @@ class PageSection extends StatelessWidget {
               PageTile(
                 label: 'Sair',
                 iconData: Icons.logout,
-                onTap: () {
+                onTap: () async {
                   UserViewModel userViewModel;
                   appStore.setUser(userViewModel);
-                  _auth.signOut();
+                  await _auth.signOut();
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (_) => RootPage()),

@@ -54,4 +54,24 @@ class CompanyRepository {
                 (document) => CompanyViewModel.fromMap(document))
             .toList()));
   }
+
+  Future<String> getCompanyId({String userType, String departmentId}) async {
+    if (userType == 'Atendente-Dev') {
+      _collection = 'DepartmentsDev';
+    } else {
+      _collection = 'Departments';
+    }
+
+    try {
+      var department =
+          await _instance.collection(_collection).doc(departmentId).get();
+
+      print(
+          'depc $departmentId colect $_collection ${department.data()['CompanyId']}');
+
+      return department.data()['CompanyId'];
+    } catch (e) {
+      return 'Error: $e';
+    }
+  }
 }

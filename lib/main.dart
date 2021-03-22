@@ -1,5 +1,6 @@
 import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/pages/root/root_page.dart';
+import 'package:avatende/pages/stores/avaliation/avaliation_store.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,11 +43,14 @@ Future<void> getUser() async {
   if (user.data() != null) {
     appStore.setUser(new UserViewModel.fromMap(user));
   }
+  await appStore.getCompanyId();
+  print('company ${appStore.companyId}');
 }
 
 void setupLocators() {
   GetIt.I.registerSingleton(AppStore());
   GetIt.I.registerSingleton(PageStore());
+  GetIt.I.registerSingleton(AvaliationStore());
 }
 
 class MyApp extends StatelessWidget {
