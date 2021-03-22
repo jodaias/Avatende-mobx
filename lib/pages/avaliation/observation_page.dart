@@ -25,6 +25,10 @@ class _ObservationPageState extends State<ObservationPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    //Zerando variaveis
+    avaliationStore.setAnonymous(true);
+    avaliationStore.avaliationSuccess = false;
+
     disposer =
         reaction((_) => avaliationStore.avaliationSuccess, (createdAvaliation) {
       if (createdAvaliation) {
@@ -100,7 +104,7 @@ class _ObservationPageState extends State<ObservationPage> {
                                   return TextFormField(
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(),
-                                      // errorText: signupUserStore.emailError,
+                                      errorText: avaliationStore.emailError,
                                       hintText: 'Exemplo: joão@gmail.com',
                                       isDense: true,
                                     ),
@@ -122,7 +126,7 @@ class _ObservationPageState extends State<ObservationPage> {
                                       border: OutlineInputBorder(),
                                       hintText: '(99) 99999-9999',
                                       isDense: true,
-                                      // errorText: avaliationStore.phoneError,
+                                      errorText: avaliationStore.phoneError,
                                     ),
                                     keyboardType: TextInputType.phone,
                                     inputFormatters: [

@@ -1,9 +1,8 @@
-import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/repositories/avaliation/avaliation_repository.dart';
 import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-// import 'package:avatende/helpers/extensions.dart';
+import 'package:avatende/helpers/extensions.dart';
 
 part 'avaliation_store.g.dart';
 
@@ -40,7 +39,7 @@ abstract class _AvaliationStoreBase with Store {
   void setObservation(String value) => observation = value;
 
   @action
-  void setEmail(String value) => observation = value;
+  void setEmail(String value) => email = value;
 
   @action
   void setPhone(String value) => phone = value;
@@ -55,32 +54,32 @@ abstract class _AvaliationStoreBase with Store {
   //   if (observation == null || observationValid)
   //     return null;
   //   else if (observation.isEmpty)
-  //     return 'Campo obrigatório';
+  //     return 'Digite uma observação';
   //   else
   //     return 'Observação muito curta';
   // }
 
-  // @computed
-  // bool get emailValid => email != null && email.isEmailValid();
-  // String get emailError {
-  //   if (email == null || emailValid)
-  //     return null;
-  //   else if (email.isEmpty)
-  //     return 'Campo obrigatório';
-  //   else
-  //     return 'Email inválido';
-  // }
+  @computed
+  bool get emailValid => email != null && email.isEmailValid();
+  String get emailError {
+    if (email == null || emailValid)
+      return null;
+    else if (email.isEmpty)
+      return 'Digite um email';
+    else
+      return 'Email inválido';
+  }
 
-  // @computed
-  // bool get phoneValid => phone != null && phone.length >= 14;
-  // String get phoneError {
-  //   if (phone == null || phoneValid)
-  //     return null;
-  //   else if (phone.isEmpty)
-  //     return 'Campo obrigatório';
-  //   else
-  //     return 'Número inválido';
-  // }
+  @computed
+  bool get phoneValid => phone != null && phone.length >= 14;
+  String get phoneError {
+    if (phone == null || phoneValid)
+      return null;
+    else if (phone.isEmpty)
+      return 'Digite um número';
+    else
+      return 'Número inválido';
+  }
 
   @computed
   Function get sendPressed =>

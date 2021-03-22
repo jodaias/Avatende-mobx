@@ -48,7 +48,8 @@ class _AcknowledgmentPageState extends State<AcknowledgmentPage> {
                     size: 100.0, color: Colors.purple[400]),
                 Text(
                   "Volte Sempre!",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50.0),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
                 ),
               ],
             )),
