@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
               content: Text(
                   'Infelizmente seu usuário está inativo :(. Favor entrar em contato com administrador'),
               actions: [
-                FlatButton(
+                TextButton(
                   onPressed: Navigator.of(context).pop,
                   child: Text('Ok'),
                 )

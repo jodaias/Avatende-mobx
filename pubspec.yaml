@@ -25,8 +25,6 @@ dependencies:
   toast: ^0.1.5
   flutter_slidable: ^0.5.7
   brasil_fields: ^0.4.0
-  parse_server_sdk: ^1.0.27
-  graphql_flutter: ^4.0.1
   firebase_core: ^0.5.3
   firebase_auth: ^0.18.0
   cloud_firestore: ^0.14.0

@@ -1,3 +1,4 @@
+import 'package:avatende/pages/root/root_page.dart';
 import 'package:avatende/pages/stores/login/login_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,29 +14,57 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   ReactionDisposer disposer;
 
-  void _showDialogLinkNotSend() {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: Text('Link não enviado'),
-              content: Text(
-                  'Infelizmente o email informado não existe em nossa base de dados!'),
-              actions: [
-                FlatButton(
-                  onPressed: Navigator.of(context).pop,
-                  child: Text('Ok'),
-                )
-              ],
-            ));
+  _showDialogLinkSend() {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Link enviado'),
+        content: Text(
+            'Foi enviado um link para o email informado para redefinição de senha!'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => RootPage()),
+                  (route) => false);
+            },
+            child: Text('Ok'),
+          )
+        ],
+      ),
+    );
+  }
+
+  _showDialogLinkNotSend() {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Link não enviado'),
+        content:
+            Text('Ocorreu um erro. Link não enviado para o email informado!'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => RootPage()),
+                  (route) => false);
+            },
+            child: Text('Ok'),
+          )
+        ],
+      ),
+    );
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    disposer = reaction((_) => loginStore.loggedIn, (loggedIn) {
-      if (loggedIn) {
-        Navigator.of(context).pop();
+    disposer = reaction((_) => loginStore.resetPass, (resetPass) {
+      if (resetPass) {
+        _showDialogLinkSend();
       } else {
         _showDialogLinkNotSend();
       }

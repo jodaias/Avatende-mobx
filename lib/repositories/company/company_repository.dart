@@ -7,8 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 
 class CompanyRepository {
-  var _auth = FirebaseAuth.instance;
-  var _instance = FirebaseFirestore.instance;
+  final _instance = FirebaseFirestore.instance;
   var _collection = 'Companys';
 
   //add uma empresa
@@ -33,8 +32,6 @@ class CompanyRepository {
 
   //lista de empresas Ativas
   Observable<Stream<List<CompanyViewModel>>> get companiesActives {
-    print('$_collection');
-
     return Observable(_instance
         .collection(_collection)
         .where("Active", isEqualTo: true)
@@ -57,7 +54,7 @@ class CompanyRepository {
             .toList()));
   }
 
-  Future<Map<String, dynamic>> getCompanyAndDeparment(
+  Future<Map<String, dynamic>> getCompanyAndDepartment(
       {UserViewModel userViewModel}) async {
     var department;
 
@@ -86,6 +83,7 @@ class CompanyRepository {
       } else {
         _collection = 'Companys';
       }
+
       var company = await _instance
           .collection(_collection)
           .doc(userViewModel.userType == 'Atendente-Dev' ||
@@ -94,10 +92,18 @@ class CompanyRepository {
               : userViewModel.companyId)
           .get();
 
-      return {
-        'Company': CompanyViewModel.fromMap(company),
-        'Department': DepartmentViewModel.fromMap(department)
-      };
+      print('colllll $_collection ${company.data()['Active']}');
+      if (userViewModel.userType == 'Atendente-Dev' ||
+          userViewModel.userType == 'Atendente') {
+        return {
+          'Company': CompanyViewModel.fromMap(company),
+          'Department': DepartmentViewModel.fromMap(department)
+        };
+      } else {
+        return {
+          'Company': CompanyViewModel.fromMap(company),
+        };
+      }
     } catch (e) {
       return {};
     }

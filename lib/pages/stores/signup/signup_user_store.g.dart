@@ -193,6 +193,21 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
+  final _$nivelAtom = Atom(name: '_SignUpUserStoreBase.nivel');
+
+  @override
+  bool get nivel {
+    _$nivelAtom.reportRead();
+    return super.nivel;
+  }
+
+  @override
+  set nivel(bool value) {
+    _$nivelAtom.reportWrite(value, super.nivel, () {
+      super.nivel = value;
+    });
+  }
+
   final _$addressAtom = Atom(name: '_SignUpUserStoreBase.address');
 
   @override
@@ -435,6 +450,17 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
+  void setNivel(bool value) {
+    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
+        name: '_SignUpUserStoreBase.setNivel');
+    try {
+      return super.setNivel(value);
+    } finally {
+      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setObscureText() {
     final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
         name: '_SignUpUserStoreBase.setObscureText');
@@ -533,6 +559,7 @@ password2: ${password2},
 name: ${name},
 email: ${email},
 active: ${active},
+nivel: ${nivel},
 address: ${address},
 departmentId: ${departmentId},
 companyId: ${companyId},

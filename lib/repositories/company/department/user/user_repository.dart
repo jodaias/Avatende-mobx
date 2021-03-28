@@ -57,22 +57,22 @@ class UserRepository {
   }
 
   Future<UserViewModel> signIn({String email, String password}) async {
-    if (email == 'empresa@empresa.com' || email == 'atendente@atendente.com') {
-      _collection = 'UsersDev';
-    } else {
-      _collection = 'Users';
-    }
-
-    if (email == 'jodaias2013@gmail.com') {
-      _collection = 'UsersMaster';
-    }
+    var items = ["UsersDev", "Users", "UsersMaster"];
+    var user;
 
     try {
       //Logica de enviar os dados no banco e retornar o usuario logado.
-      var result = await _auth.signInWithEmailAndPassword(
+      var credentialUser = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      var user =
-          await _instance.collection(_collection).doc(result.user.uid).get();
+
+      for (var item in items) {
+        var result =
+            await _instance.collection(item).doc(credentialUser.user.uid).get();
+        print('userFor ${result.data()}');
+        if (result.data() != null) {
+          user = result;
+        }
+      }
 
       return UserViewModel.fromMap(user);
     } catch (e) {
@@ -83,16 +83,12 @@ class UserRepository {
 
   Future<String> updateUser(
       {String userId, Map<String, dynamic> userData}) async {
-    if (_auth.currentUser.email == 'empresa@empresa.com') {
-      _collection = 'UsersDev';
-    } else if (userData['UserType'] == "Master") {
-      _collection = 'UsersMaster';
-    } else {
-      _collection = 'Users';
-    }
+    var items = ["UsersDev", "Users", "UsersMaster"];
 
     try {
-      await _instance.collection(_collection).doc(userId).update(userData);
+      for (var item in items) {
+        await _instance.collection(item).doc(userId).update(userData);
+      }
 
       return 'Usuário atualizado com sucesso!';
     } catch (e) {
@@ -101,8 +97,12 @@ class UserRepository {
     }
   }
 
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
   Future<UserViewModel> getUser({String userId, String userType}) async {
-    if (_auth.currentUser.email == 'empresa@empresa.com') {
+    if (userType == 'Admin-Dev' || userType == 'Atendente-Dev') {
       _collection = 'UsersDev';
     } else if (userType == "Master") {
       _collection = 'UsersMaster';
@@ -120,17 +120,17 @@ class UserRepository {
     }
   }
 
-  //lista de Users Ativas
-  Observable<Stream<List<UserViewModel>>> usersActives(String deptOrCompId) {
-    var stringWhere = '';
-    if (_auth.currentUser.email == 'empresa@empresa.com') {
+  //lista de Users Ativos
+  Observable<Stream<List<UserViewModel>>> usersActives(
+      String deptOrCompId, String userType) {
+    var stringWhere = 'DepartmentId';
+    if (userType == 'Admin-Dev' || userType == 'Atendente-Dev') {
       _collection = 'UsersDev';
+    } else if (userType == "Master") {
+      _collection = 'Users';
+      stringWhere = "CompanyId";
     } else {
       _collection = 'Users';
-    }
-    stringWhere = "DepartmentId";
-    if (_auth.currentUser.email == "jodaias2013@gmail.com") {
-      stringWhere = "CompanyId";
     }
 
     print('meu $stringWhere repo: $deptOrCompId');
@@ -146,16 +146,16 @@ class UserRepository {
   }
 
   //lista de Users Inativas
-  Observable<Stream<List<UserViewModel>>> usersInactives(String deptOrCompId) {
-    var stringWhere = '';
-    if (_auth.currentUser.email == 'empresa@empresa.com') {
+  Observable<Stream<List<UserViewModel>>> usersInactives(
+      String deptOrCompId, String userType) {
+    var stringWhere = 'DepartmentId';
+    if (userType == 'Admin-Dev' || userType == 'Atendente-Dev') {
       _collection = 'UsersDev';
+    } else if (userType == "Master") {
+      _collection = 'Users';
+      stringWhere = "CompanyId";
     } else {
       _collection = 'Users';
-    }
-    stringWhere = "DepartmentId";
-    if (_auth.currentUser.email == "jodaias2013@gmail.com") {
-      stringWhere = "CompanyId";
     }
 
     print('meu $stringWhere repo: $deptOrCompId');

@@ -99,6 +99,21 @@ mixin _$UserStore on _UserStoreBase, Store {
     });
   }
 
+  final _$userTypeAtom = Atom(name: '_UserStoreBase.userType');
+
+  @override
+  String get userType {
+    _$userTypeAtom.reportRead();
+    return super.userType;
+  }
+
+  @override
+  set userType(String value) {
+    _$userTypeAtom.reportWrite(value, super.userType, () {
+      super.userType = value;
+    });
+  }
+
   final _$updateUserAsyncAction = AsyncAction('_UserStoreBase.updateUser');
 
   @override
@@ -127,6 +142,17 @@ mixin _$UserStore on _UserStoreBase, Store {
         name: '_UserStoreBase.setCompanyId');
     try {
       return super.setCompanyId(value);
+    } finally {
+      _$_UserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setUserType(String value) {
+    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
+        name: '_UserStoreBase.setUserType');
+    try {
+      return super.setUserType(value);
     } finally {
       _$_UserStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -173,6 +199,7 @@ orderByAz: ${orderByAz},
 listActive: ${listActive},
 departmentId: ${departmentId},
 companyId: ${companyId},
+userType: ${userType},
 userList: ${userList},
 userListInactive: ${userListInactive}
     ''';

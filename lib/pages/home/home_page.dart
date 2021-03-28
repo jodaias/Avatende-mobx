@@ -5,6 +5,7 @@ import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:avatende/storesGlobal/page_store.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,15 +32,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: CustomDrawer(),
-        appBar: AppBar(
-          title: Text(widget.title),
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(
-          child: Column(
+      drawer: CustomDrawer(),
+      appBar: AppBar(
+        title: Text(widget.title),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Observer(
+          builder: (_) {
+            return Column(
               children: !isAtendente()
-                  ? [
+                  ? <Widget>[
                       //Inicio linha - 01
                       Row(
                         children: [
@@ -130,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                     ]
                   :
                   //Dividimento se é Atendente
-                  [
+                  <Widget>[
                       //Inicio linha - 01
                       Row(
                         children: [
@@ -166,8 +169,8 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           CustomCard(
                             onTap: () => pageStore.setPage(2),
-                            label: 'Relatórios',
-                            iconData: Icons.event_available_outlined,
+                            label: 'Ajuda',
+                            iconData: Icons.help,
                             edgeInsets: EdgeInsets.only(
                               left: 18.0,
                               right: 18.0,
@@ -175,11 +178,10 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           //Dividimento dos cards
-
                           CustomCard(
                             onTap: () => pageStore.setPage(3),
-                            label: 'Ajuda',
-                            iconData: Icons.help,
+                            label: 'Sobre',
+                            iconData: Icons.info,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
                             ),
@@ -192,27 +194,21 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           CustomCard(
                             onTap: () => pageStore.setPage(4),
-                            label: 'Sobre',
-                            iconData: Icons.info,
+                            label: 'Configurações',
+                            iconData: Icons.settings,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
                               left: 18.0,
                               right: 18.0,
                             ),
                           ),
-
-                          //Dividimento dos cards
-                          CustomCard(
-                            onTap: () => pageStore.setPage(5),
-                            label: 'Configurações',
-                            iconData: Icons.settings,
-                            edgeInsets: EdgeInsets.only(
-                              bottom: 20.0,
-                            ),
-                          ),
                         ],
                       ),
-                    ]),
-        ));
+                    ],
+            );
+          },
+        ),
+      ),
+    );
   }
 }

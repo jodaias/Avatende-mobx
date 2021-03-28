@@ -29,12 +29,18 @@ abstract class _UserStoreBase with Store {
   @observable
   String companyId;
 
+  @observable
+  String userType;
+
   //ACTIONS
   @action
   void setDepartmentId(String value) => departmentId = value;
 
   @action
   void setCompanyId(String value) => companyId = value;
+
+  @action
+  void setUserType(String value) => userType = value;
 
   @action
   void setOrderByAz(bool value) => orderByAz = value;
@@ -63,11 +69,11 @@ abstract class _UserStoreBase with Store {
   //COMPUTEDS
   @computed
   get userList => repository
-      .usersActives(departmentId != null ? departmentId : companyId)
+      .usersActives(departmentId != null ? departmentId : companyId, userType)
       .value;
 
   @computed
   get userListInactive => repository
-      .usersInactives(departmentId != null ? departmentId : companyId)
+      .usersInactives(departmentId != null ? departmentId : companyId, userType)
       .value;
 }

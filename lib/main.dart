@@ -21,28 +21,21 @@ void main() async {
 Future<void> getUser() async {
   //use 'controller' variable to access controller
   final appStore = GetIt.I<AppStore>();
+
   final _auth = FirebaseAuth.instance;
 
   final _instance = FirebaseFirestore.instance;
-  var _collection;
 
-  if (_auth.currentUser?.email == 'empresa@empresa.com' ||
-      _auth.currentUser?.email == 'atendente@atendente.com') {
-    _collection = 'UsersDev';
-  } else {
-    _collection = 'Users';
-  }
+  var items = ["UsersDev", "Users", "UsersMaster"];
+  var user;
 
-  if (_auth.currentUser?.email == 'jodaias2013@gmail.com') {
-    _collection = 'UsersMaster';
-  }
-  print('meu email: ${_auth.currentUser?.email}\nminha colecao: $_collection');
-  var user =
-      await _instance.collection(_collection).doc(_auth.currentUser?.uid).get();
-
-  if (user.data() != null) {
-    appStore.setUser(new UserViewModel.fromMap(user));
-    await appStore.getCompanyAndDepartment();
+  for (var item in items) {
+    user = await _instance.collection(item).doc(_auth.currentUser?.uid).get();
+    print('userFor ${user.data()}');
+    if (user.data() != null) {
+      appStore.setUser(new UserViewModel.fromMap(user));
+      await appStore.getCompanyAndDepartment();
+    }
   }
 }
 

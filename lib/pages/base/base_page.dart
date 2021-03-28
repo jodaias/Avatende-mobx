@@ -69,7 +69,6 @@ class _BasePageState extends State<BasePage> {
           : [
               HomePage(),
               AdsPage(),
-              RelatoryPage(),
               HelpPage(),
               AboutPage(),
               SettingsPage(),

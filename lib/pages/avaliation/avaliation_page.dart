@@ -34,7 +34,6 @@ class _AvaliationPageState extends State<AvaliationPage> {
       children: [
         Scaffold(
           backgroundColor: Colors.white,
-          drawer: CustomDrawer(),
           body: ListView(
             children: <Widget>[
               Padding(

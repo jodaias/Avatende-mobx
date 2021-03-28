@@ -2,9 +2,11 @@ import 'package:avatende/models/views/user_view_model.dart';
 import 'package:avatende/pages/companys/components/custom_floating_action_button/custom_floating_action_button.dart';
 import 'package:avatende/pages/signup/signup_user_page.dart';
 import 'package:avatende/pages/stores/company/department/user/user_store.dart';
+import 'package:avatende/storesGlobal/app_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:get_it/get_it.dart';
 
 class UsersPage extends StatefulWidget {
   UsersPage(
@@ -21,6 +23,7 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends State<UsersPage> {
   final userStore = UserStore();
+  final appStore = GetIt.I<AppStore>();
 
   @override
   void initState() {
@@ -29,6 +32,7 @@ class _UsersPageState extends State<UsersPage> {
     setState(() {
       userStore.setDepartmentId(widget.departmentId);
       userStore.setCompanyId(widget.companyId);
+      userStore.setUserType(appStore.userViewModel.userType);
     });
   }
 

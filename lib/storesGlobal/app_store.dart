@@ -47,10 +47,15 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> getCompanyAndDepartment() async {
-    var map = await companyRepository.getCompanyAndDeparment(
+    var map = await companyRepository.getCompanyAndDepartment(
         userViewModel: userViewModel);
 
-    setCompany(map['Company']);
-    setDepartment(map['Department']);
+    if (userViewModel.userType == 'Atendente-Dev' ||
+        userViewModel.userType == 'Atendente') {
+      setCompany(map['Company']);
+      setDepartment(map['Department']);
+    } else {
+      setCompany(map['Company']);
+    }
   }
 }

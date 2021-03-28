@@ -98,6 +98,21 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
+  final _$resetPassAtom = Atom(name: '_LoginStoreBase.resetPass');
+
+  @override
+  bool get resetPass {
+    _$resetPassAtom.reportRead();
+    return super.resetPass;
+  }
+
+  @override
+  set resetPass(bool value) {
+    _$resetPassAtom.reportWrite(value, super.resetPass, () {
+      super.resetPass = value;
+    });
+  }
+
   final _$isObscureTextAtom = Atom(name: '_LoginStoreBase.isObscureText');
 
   @override
@@ -171,6 +186,7 @@ email: ${email},
 password: ${password},
 loading: ${loading},
 loggedIn: ${loggedIn},
+resetPass: ${resetPass},
 isObscureText: ${isObscureText},
 emailValid: ${emailValid},
 passwordValid: ${passwordValid},

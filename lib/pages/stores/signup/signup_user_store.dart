@@ -43,6 +43,9 @@ abstract class _SignUpUserStoreBase with Store {
   bool active = true;
 
   @observable
+  bool nivel = true;
+
+  @observable
   String address;
 
   @observable
@@ -92,6 +95,9 @@ abstract class _SignUpUserStoreBase with Store {
 
   @action
   void setActive(bool value) => active = value;
+
+  @action
+  void setNivel(bool value) => nivel = value;
 
   @action
   void setObscureText() => isObscureText = !isObscureText;

@@ -30,6 +30,9 @@ abstract class _LoginStoreBase with Store {
   bool loggedIn = false;
 
   @observable
+  bool resetPass = false;
+
+  @observable
   bool isObscureText = true;
 
   //ACTIONS
@@ -97,10 +100,9 @@ abstract class _LoginStoreBase with Store {
     loading = true;
 
     //verificar se usuario existe no banco e enviar link de redefinição de senha
-    print('Foi enviado um link para o email informado!');
-    await Future.delayed(Duration(seconds: 2));
+    await repository.resetPassword(email);
 
     loading = false;
-    loggedIn = true;
+    resetPass = true;
   }
 }
