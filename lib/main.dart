@@ -1,8 +1,8 @@
-import 'package:avatende/models/views/user_view_model.dart';
-import 'package:avatende/pages/root/root_page.dart';
-import 'package:avatende/pages/stores/avaliation/avaliation_store.dart';
-import 'package:avatende/storesGlobal/app_store.dart';
-import 'package:avatende/storesGlobal/page_store.dart';
+import 'package:avatende/app/models/views/user_view_model.dart';
+import 'package:avatende/app/pages/root/root_page.dart';
+import 'package:avatende/app/pages/stores/avaliation/avaliation_store.dart';
+import 'package:avatende/app/storesGlobal/app_store.dart';
+import 'package:avatende/app/storesGlobal/page_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,7 +12,9 @@ import 'package:get_it/get_it.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
+
   setupLocators();
   await getUser();
   runApp(MyApp());
@@ -26,7 +28,7 @@ Future<void> getUser() async {
 
   final _instance = FirebaseFirestore.instance;
 
-  var items = ["UsersDev", "Users", "UsersMaster"];
+  var items = ["Users", "UsersMaster"];
   var user;
 
   for (var item in items) {
