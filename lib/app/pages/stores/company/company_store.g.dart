@@ -77,21 +77,6 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
     });
   }
 
-  final _$imageFilesAtom = Atom(name: '_CompanyStoreBase.imageFiles');
-
-  @override
-  List<File> get imageFiles {
-    _$imageFilesAtom.reportRead();
-    return super.imageFiles;
-  }
-
-  @override
-  set imageFiles(List<File> value) {
-    _$imageFilesAtom.reportWrite(value, super.imageFiles, () {
-      super.imageFiles = value;
-    });
-  }
-
   final _$companyIdAtom = Atom(name: '_CompanyStoreBase.companyId');
 
   @override
@@ -122,20 +107,27 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
     });
   }
 
-  final _$addAdsImagesAsyncAction =
-      AsyncAction('_CompanyStoreBase.addAdsImages');
+  final _$saveImagesSuccessAtom =
+      Atom(name: '_CompanyStoreBase.saveImagesSuccess');
 
   @override
-  Future<void> addAdsImages() {
-    return _$addAdsImagesAsyncAction.run(() => super.addAdsImages());
+  bool get saveImagesSuccess {
+    _$saveImagesSuccessAtom.reportRead();
+    return super.saveImagesSuccess;
   }
 
-  final _$updateAdsImagesAsyncAction =
-      AsyncAction('_CompanyStoreBase.updateAdsImages');
+  @override
+  set saveImagesSuccess(bool value) {
+    _$saveImagesSuccessAtom.reportWrite(value, super.saveImagesSuccess, () {
+      super.saveImagesSuccess = value;
+    });
+  }
+
+  final _$saveImagesAsyncAction = AsyncAction('_CompanyStoreBase.saveImages');
 
   @override
-  Future<void> updateAdsImages() {
-    return _$updateAdsImagesAsyncAction.run(() => super.updateAdsImages());
+  Future<void> saveImages() {
+    return _$saveImagesAsyncAction.run(() => super.saveImages());
   }
 
   final _$_CompanyStoreBaseActionController =
@@ -175,22 +167,22 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
   }
 
   @override
-  void setImageFiles(List<File> value) {
+  void setOrderByAz(bool value) {
     final _$actionInfo = _$_CompanyStoreBaseActionController.startAction(
-        name: '_CompanyStoreBase.setImageFiles');
+        name: '_CompanyStoreBase.setOrderByAz');
     try {
-      return super.setImageFiles(value);
+      return super.setOrderByAz(value);
     } finally {
       _$_CompanyStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void setOrderByAz(bool value) {
+  void setSaveImagesSuccess(bool value) {
     final _$actionInfo = _$_CompanyStoreBaseActionController.startAction(
-        name: '_CompanyStoreBase.setOrderByAz');
+        name: '_CompanyStoreBase.setSaveImagesSuccess');
     try {
-      return super.setOrderByAz(value);
+      return super.setSaveImagesSuccess(value);
     } finally {
       _$_CompanyStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -214,9 +206,9 @@ loading: ${loading},
 orderByAz: ${orderByAz},
 listActive: ${listActive},
 images: ${images},
-imageFiles: ${imageFiles},
 companyId: ${companyId},
 imageFile: ${imageFile},
+saveImagesSuccess: ${saveImagesSuccess},
 companyList: ${companyList}
     ''';
   }

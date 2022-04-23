@@ -50,22 +50,28 @@ class PageSection extends StatelessWidget {
                   highlighted: pageStore.page == 2,
                 ),
                 PageTile(
-                  label: 'Ajuda',
-                  iconData: Icons.help,
+                  label: 'Add Imagens',
+                  iconData: Icons.add_a_photo_rounded,
                   onTap: () => pageStore.setPage(3),
                   highlighted: pageStore.page == 3,
                 ),
                 PageTile(
-                  label: 'Sobre',
-                  iconData: Icons.info,
+                  label: 'Ajuda',
+                  iconData: Icons.help,
                   onTap: () => pageStore.setPage(4),
                   highlighted: pageStore.page == 4,
                 ),
                 PageTile(
-                  label: 'Configurações',
-                  iconData: Icons.settings,
+                  label: 'Sobre',
+                  iconData: Icons.info,
                   onTap: () => pageStore.setPage(5),
                   highlighted: pageStore.page == 5,
+                ),
+                PageTile(
+                  label: 'Configurações',
+                  iconData: Icons.settings,
+                  onTap: () => pageStore.setPage(6),
+                  highlighted: pageStore.page == 6,
                 ),
                 PageTile(
                   label: 'Sair',
@@ -78,7 +84,7 @@ class PageSection extends StatelessWidget {
                         MaterialPageRoute(builder: (_) => RootPage()),
                         (route) => false);
                   },
-                  highlighted: pageStore.page == 6,
+                  highlighted: pageStore.page == 7,
                 ),
               ]
             : [

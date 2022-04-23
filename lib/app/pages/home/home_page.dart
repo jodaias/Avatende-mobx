@@ -95,8 +95,8 @@ class _HomePageState extends State<HomePage> {
                           ///Dividimento dos cards
                           CustomCard(
                             onTap: () => pageStore.setPage(3),
-                            label: 'Ajuda',
-                            iconData: Icons.help,
+                            label: 'Adicionar \nImagens',
+                            iconData: Icons.add_a_photo_outlined,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
                             ),
@@ -122,10 +122,27 @@ class _HomePageState extends State<HomePage> {
                           ///Dividimento dos cards
                           CustomCard(
                             onTap: () => pageStore.setPage(5),
+                            label: 'Ajuda',
+                            iconData: Icons.help,
+                            edgeInsets: EdgeInsets.only(
+                              bottom: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      //Dividimento da Linha - 04
+
+                      Row(
+                        children: [
+                          CustomCard(
+                            onTap: () => pageStore.setPage(6),
                             label: 'Configurações',
                             iconData: Icons.settings,
                             edgeInsets: EdgeInsets.only(
                               bottom: 20.0,
+                              left: 18.0,
+                              right: 18.0,
                             ),
                           ),
                         ],

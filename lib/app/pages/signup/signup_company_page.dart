@@ -1,4 +1,3 @@
-import 'package:avatende/app/pages/companys/addImages/add_images_page.dart';
 import 'package:avatende/app/pages/stores/signup/signup_company_store.dart';
 import 'package:avatende/app/pages/signup/components/field_title.dart';
 import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
@@ -55,7 +54,6 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      AddImagesPage(),
                       SizedBox(
                         height: 16,
                       ),

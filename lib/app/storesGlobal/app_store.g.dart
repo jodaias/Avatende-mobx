@@ -70,20 +70,26 @@ mixin _$AppStore on _AppStoreBase, Store {
     });
   }
 
+  final _$imageFilesAtom = Atom(name: '_AppStoreBase.imageFiles');
+
+  @override
+  List<File> get imageFiles {
+    _$imageFilesAtom.reportRead();
+    return super.imageFiles;
+  }
+
+  @override
+  set imageFiles(List<File> value) {
+    _$imageFilesAtom.reportWrite(value, super.imageFiles, () {
+      super.imageFiles = value;
+    });
+  }
+
   final _$getUserAsyncAction = AsyncAction('_AppStoreBase.getUser');
 
   @override
   Future<void> getUser() {
     return _$getUserAsyncAction.run(() => super.getUser());
-  }
-
-  final _$updateImageProfileAsyncAction =
-      AsyncAction('_AppStoreBase.updateImageProfile');
-
-  @override
-  Future<void> updateImageProfile() {
-    return _$updateImageProfileAsyncAction
-        .run(() => super.updateImageProfile());
   }
 
   final _$getCompanyAndDepartmentAsyncAction =
@@ -93,6 +99,40 @@ mixin _$AppStore on _AppStoreBase, Store {
   Future<void> getCompanyAndDepartment() {
     return _$getCompanyAndDepartmentAsyncAction
         .run(() => super.getCompanyAndDepartment());
+  }
+
+  final _$showDialogGetImageAsyncAction =
+      AsyncAction('_AppStoreBase.showDialogGetImage');
+
+  @override
+  Future<void> showDialogGetImage(BuildContext ctx) {
+    return _$showDialogGetImageAsyncAction
+        .run(() => super.showDialogGetImage(ctx));
+  }
+
+  final _$uploadImageFileInStorageAsyncAction =
+      AsyncAction('_AppStoreBase.uploadImageFileInStorage');
+
+  @override
+  Future<String> uploadImageFileInStorage(
+      BuildContext ctx, ImageUploadModel imageUploadModel) {
+    return _$uploadImageFileInStorageAsyncAction
+        .run(() => super.uploadImageFileInStorage(ctx, imageUploadModel));
+  }
+
+  final _$_pickImageAsyncAction = AsyncAction('_AppStoreBase._pickImage');
+
+  @override
+  Future<void> _pickImage(ImageSource source) {
+    return _$_pickImageAsyncAction.run(() => super._pickImage(source));
+  }
+
+  final _$_updateImageAsyncAction = AsyncAction('_AppStoreBase._updateImage');
+
+  @override
+  Future<String> _updateImage(ImageUploadModel imageUploadModel) {
+    return _$_updateImageAsyncAction
+        .run(() => super._updateImage(imageUploadModel));
   }
 
   final _$_AppStoreBaseActionController =
@@ -143,12 +183,24 @@ mixin _$AppStore on _AppStoreBase, Store {
   }
 
   @override
+  void setImageFiles(List<File> value) {
+    final _$actionInfo = _$_AppStoreBaseActionController.startAction(
+        name: '_AppStoreBase.setImageFiles');
+    try {
+      return super.setImageFiles(value);
+    } finally {
+      _$_AppStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 producao: ${producao},
 userViewModel: ${userViewModel},
 companyViewModel: ${companyViewModel},
-departmentViewModel: ${departmentViewModel}
+departmentViewModel: ${departmentViewModel},
+imageFiles: ${imageFiles}
     ''';
   }
 }

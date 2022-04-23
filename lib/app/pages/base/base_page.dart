@@ -1,5 +1,6 @@
 import 'package:avatende/app/enums/user-type.dart';
 import 'package:avatende/app/pages/about/about_page.dart';
+import 'package:avatende/app/pages/addImages/add_images_page.dart';
 import 'package:avatende/app/pages/avaliation/ads_page.dart';
 import 'package:avatende/app/pages/companys/companys_page.dart';
 import 'package:avatende/app/pages/departments/departments_page.dart';
@@ -61,6 +62,7 @@ class _BasePageState extends State<BasePage> {
                         companyId: appStore.userViewModel.companyId,
                       ),
                 RelatoryPage(),
+                AddImagesPage(),
                 HelpPage(),
                 AboutPage(),
                 SettingsPage(),

@@ -1,9 +1,11 @@
 import 'package:avatende/app/enums/user-type.dart';
 import 'package:avatende/app/models/company_model.dart';
+import 'package:avatende/app/models/views/ads_images_view_model.dart';
 import 'package:avatende/app/models/views/company_view_model.dart';
 import 'package:avatende/app/models/views/department_view_model.dart';
 import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 
 class CompanyRepository {
@@ -13,7 +15,7 @@ class CompanyRepository {
   //add uma empresa
   Future<String> createCompany(CompanyModel companymodel) async {
     try {
-      // FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       //logica para salvar no banco
       await _instance.collection(_collection).add({
         'Name': companymodel.name,
@@ -45,6 +47,23 @@ class CompanyRepository {
     }
   }
 
+  Future<bool> addImagesCompany(
+      {String companyId, Map<String, dynamic> companyData}) async {
+    try {
+      await _instance
+          .collection(_collection)
+          .doc(companyId)
+          .collection("AdsImages")
+          .doc(companyId)
+          .set(companyData);
+
+      return true;
+    } catch (e) {
+      print('Error: $e');
+      return false;
+    }
+  }
+
   //lista de empresas Ativas
   Observable<Stream<List<CompanyViewModel>>> companies(
       bool listActive, bool orderByAz) {
@@ -57,6 +76,21 @@ class CompanyRepository {
             .map<CompanyViewModel>(
                 (document) => CompanyViewModel.fromMap(document))
             .toList()));
+  }
+
+  //lista de images
+  Observable<Stream<AdsImagesViewModel>> images(String companyId) {
+    _collection = "Companys";
+
+    return Observable(_instance
+        .collection(_collection)
+        .doc(companyId)
+        .collection("AdsImages")
+        .snapshots()
+        .map((query) => query.docs
+            .map<AdsImagesViewModel>(
+                (document) => AdsImagesViewModel.fromMap(document))
+            .first));
   }
 
   Future<Map<String, dynamic>> getCompanyAndDepartment(

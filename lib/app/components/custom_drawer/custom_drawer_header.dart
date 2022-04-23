@@ -29,7 +29,7 @@ class CustomDrawerHeader extends StatelessWidget {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: appStore.userViewModel.image == ""
-                          ? NetworkImage(fileUrlDefault)
+                          ? NetworkImage(profileUrlDefault)
                           : NetworkImage(appStore.userViewModel.image),
                     )),
               ),

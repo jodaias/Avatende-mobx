@@ -14,7 +14,7 @@ class UserStore = _UserStoreBase with _$UserStore;
 
 abstract class _UserStoreBase with Store {
   //REPOSITÓRIO
-  final repository = UserRepository();
+  final _repository = UserRepository();
 
   //OBSERVABLES
   @observable
@@ -71,12 +71,12 @@ abstract class _UserStoreBase with Store {
 
   @action
   Future<bool> updateUser(String userId, Map<String, dynamic> userData) async {
-    return await repository.updateUser(userId: userId, userData: userData);
+    return await _repository.updateUser(userId: userId, userData: userData);
   }
 
   //COMPUTEDS
   @computed
-  get userList => repository
+  get userList => _repository
       .users(departmentId != null ? departmentId : companyId, userType,
           listActive, orderByAz)
       .value;

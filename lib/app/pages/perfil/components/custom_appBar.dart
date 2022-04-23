@@ -1,15 +1,13 @@
-import 'dart:io';
-
+import 'package:avatende/app/models/views/upload_image.dart';
 import 'package:avatende/app/pages/perfil/mycliper.dart';
 import 'package:avatende/app/pages/signup/signup_user_page.dart';
+import 'package:avatende/app/pages/stores/user/user_store.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'dart:math' as math;
 
 import 'package:get_it/get_it.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:ndialog/ndialog.dart';
 
 class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
   @override
@@ -21,6 +19,7 @@ class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   final appStore = GetIt.I<AppStore>();
+  final userStore = new UserStore();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +70,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       children: <Widget>[
                         GestureDetector(
                           onTap: () {
-                            _showDialogGetImage(context);
+                            appStore.showDialogGetImage(context);
+                            _saveImageProfile(context);
                           },
                           child: Container(
                             width: mediaSize.height * 0.15,
@@ -85,7 +85,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                         ? FileImage(appStore.userViewModel
                                             .imageFile) as ImageProvider
                                         : appStore.userViewModel.image == ""
-                                            ? NetworkImage(fileUrlDefault)
+                                            ? NetworkImage(profileUrlDefault)
                                             : NetworkImage(
                                                 appStore.userViewModel.image))),
                           ),
@@ -149,69 +149,24 @@ class _CustomAppBarState extends State<CustomAppBar> {
     });
   }
 
-  _showDialogGetImage(BuildContext ctx) {
-    showModalBottomSheet(
-        context: ctx,
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.image),
-                  title: const Text('From Gallery'),
-                  onTap: () async {
-                    await _pickImageFromGallery(ctx);
-                    Navigator.of(context).pop();
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.camera_alt),
-                  title: const Text('From Camera'),
-                  onTap: () async {
-                    await _pickImageFromCamera(ctx);
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          );
-        });
-  }
+  Future<void> _saveImageProfile(BuildContext ctx) async {
+    var user = appStore.userViewModel;
+    user.imageFile = appStore.imageFiles[0];
 
-  _pickImageFromCamera(BuildContext ctx) async {
-    var xFile = await ImagePicker().getImage(source: ImageSource.camera);
-    if (xFile == null) return;
-    appStore.userViewModel.imageFile = File(xFile.path);
-    _uploadImageFileInStorage(ctx);
-    appStore.setUser(appStore.userViewModel);
-  }
+    //Formando Object to send
+    if (user.imageFile != null) {
+      var fileName = "${user.email}-${DateTime.now()}";
+      var uploadImage = new ImageUploadModel(
+          fileName: fileName,
+          folder: "profile_images",
+          subFolder: user.userId(),
+          fileToUpload: user.imageFile);
 
-  _pickImageFromGallery(BuildContext ctx) async {
-    var xFile = await ImagePicker().getImage(source: ImageSource.gallery);
-    if (xFile == null) return;
-    appStore.userViewModel.imageFile = File(xFile.path);
-    _uploadImageFileInStorage(ctx);
-    appStore.setUser(appStore.userViewModel);
-  }
+      var urlResul = await appStore.uploadImageFileInStorage(ctx, uploadImage);
+      user.setImage(urlResul);
+      appStore.setUser(user);
 
-  _uploadImageFileInStorage(BuildContext ctx) {
-    // upload to firebase storage
-    var progressDialog = ProgressDialog(
-      ctx,
-      title: const Text('Uploading !!!'),
-      message: const Text('Please wait'),
-    );
-
-    progressDialog.show();
-    try {
-      appStore.updateImageProfile();
-
-      progressDialog.dismiss();
-    } catch (e) {
-      progressDialog.dismiss();
-      print(e.toString());
+      await userStore.updateUser(user.userId(), user.toMap());
     }
   }
 }

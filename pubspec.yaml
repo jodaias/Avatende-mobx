@@ -47,8 +47,6 @@ dependencies:
   image_picker: ^0.6.7+22
   firebase_storage: ^4.0.1
   firebase_analytics: ^5.0.6
-  multiple_image_picker: ^0.4.8
-  wechat_assets_picker: ^5.0.0-nullsafety.5
 
 dev_dependencies:
   flutter_test:

@@ -16,7 +16,7 @@ class CompanyStore = _CompanyStoreBase with _$CompanyStore;
 
 abstract class _CompanyStoreBase with Store {
   //REPOSITÓRIO
-  var repository = new CompanyRepository();
+  final _repository = new CompanyRepository();
 
   //OBSERVABLES
   @observable
@@ -32,13 +32,13 @@ abstract class _CompanyStoreBase with Store {
   List<String> images = <String>[];
 
   @observable
-  List<File> imageFiles = <File>[];
-
-  @observable
   String companyId;
 
   @observable
   File imageFile;
+
+  @observable
+  bool saveImagesSuccess = false;
 
   //ACTIONS
   @action
@@ -51,43 +51,26 @@ abstract class _CompanyStoreBase with Store {
   void setImages(List<String> value) => images = value;
 
   @action
-  void setImageFiles(List<File> value) => imageFiles = value;
+  void setOrderByAz(bool value) => orderByAz = value;
 
   @action
-  void setOrderByAz(bool value) => orderByAz = value;
+  void setSaveImagesSuccess(bool value) => saveImagesSuccess = value;
+
   @action
   void setListActive(bool value) => listActive = value;
 
   @action
-  Future<void> addAdsImages() async {
-    if (imageFile != null) {
-      var fileName = "$companyId-${DateTime.now()}";
+  Future<void> saveImages() async {
+    var companyData = {"Images": images};
 
-      var uploadTask = FirebaseStorage.instance
-          .ref()
-          .child('profile_images')
-          .child(companyId)
-          .child(fileName)
-          .putFile(imageFile);
+    var result = await _repository.addImagesCompany(
+        companyId: companyId, companyData: companyData);
 
-      var snapshot = await uploadTask.onComplete;
-      var profileImageUrl = await snapshot.ref.getDownloadURL();
+    setSaveImagesSuccess(false);
 
-      var image = profileImageUrl.toString();
-      images.add(image);
-    }
-  }
+    if (result) setSaveImagesSuccess(true);
 
-  @action
-  Future<void> updateAdsImages() async {
-    if (images.isNotEmpty) {
-      var companyData = {"Images": images};
-
-      var result = await repository.updateCompany(
-          companyId: companyId, companyData: companyData);
-
-      if (!result) images = <String>[];
-    }
+    loading = false;
   }
 
   void activeOrOrderList(ActivesOrOrderByCompany result) {
@@ -109,5 +92,5 @@ abstract class _CompanyStoreBase with Store {
 
   //COMPUTEDS
   @computed
-  get companyList => repository.companies(listActive, orderByAz).value;
+  get companyList => _repository.companies(listActive, orderByAz).value;
 }

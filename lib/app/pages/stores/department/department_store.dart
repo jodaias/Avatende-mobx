@@ -13,7 +13,7 @@ class DepartmentStore = _DepartmentStoreBase with _$DepartmentStore;
 
 abstract class _DepartmentStoreBase with Store {
   //REPOSITÓRIO
-  final repository = DepartmentRepository();
+  final _repository = DepartmentRepository();
 
   //OBSERVABLES
   @observable
@@ -64,12 +64,12 @@ abstract class _DepartmentStoreBase with Store {
   //COMPUTEDS
   @computed
   get departmentList =>
-      repository.departments(companyId, listActive, orderByAz).value;
+      _repository.departments(companyId, listActive, orderByAz).value;
 
   @action
   Future<bool> updateDepartments(
       String departmentId, Map<String, dynamic> departmentData) async {
-    return await repository.updateDepartments(
+    return await _repository.updateDepartments(
         departmentId: departmentId, departmentData: departmentData);
   }
 }
