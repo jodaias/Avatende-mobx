@@ -72,9 +72,12 @@ class UserRepository {
   }
 
   Future<FirebaseAuth> _getSecondInstanceAuth() async {
-    var app =
-        Firebase.apps.where((element) => element.name == "Secondary").first;
-    if (app == null) {
+    FirebaseApp app;
+    var appExist = Firebase.apps.length > 1;
+
+    if (appExist) {
+      app = Firebase.apps.where((element) => element.name == "Secondary").first;
+    } else {
       app = await Firebase.initializeApp(
           name: 'Secondary', options: Firebase.app().options);
     }

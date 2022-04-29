@@ -41,7 +41,7 @@ abstract class _SignUpUserStoreBase with Store {
   String email;
 
   @observable
-  bool active = true;
+  bool active = false;
 
   @observable
   bool nivel = true;
@@ -230,6 +230,8 @@ abstract class _SignUpUserStoreBase with Store {
 
     //Salvar a empresa no banco
     //e salvar no company model via appStore
+    _setUserType();
+
     repository
         .signUpUser(
             usermodel: UserModel(
@@ -247,6 +249,17 @@ abstract class _SignUpUserStoreBase with Store {
       loading = false;
       signupSuccess = true;
     });
+  }
+
+  _setUserType() {
+    switch (appStore.userViewModel.userType) {
+      case UserType.Master:
+        userType = UserType.Admin;
+        break;
+      default:
+        userType = UserType.User;
+        break;
+    }
   }
 
   @action
@@ -274,7 +287,6 @@ abstract class _SignUpUserStoreBase with Store {
                 'Phone': phone,
                 'Active': active,
                 'Address': address,
-                'UserType': userType.index,
                 stringKey: stringValue,
                 'UpdatedAt': DateTime.now()
               }

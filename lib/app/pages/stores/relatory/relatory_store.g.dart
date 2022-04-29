@@ -30,6 +30,13 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
       (_$showDepartmentsComputed ??= Computed<bool>(() => super.showDepartments,
               name: '_RelatoryStoreBase.showDepartments'))
           .value;
+  Computed<bool> _$showTypeReportSelectComputed;
+
+  @override
+  bool get showTypeReportSelect => (_$showTypeReportSelectComputed ??=
+          Computed<bool>(() => super.showTypeReportSelect,
+              name: '_RelatoryStoreBase.showTypeReportSelect'))
+      .value;
 
   final _$loadingAtom = Atom(name: '_RelatoryStoreBase.loading');
 
@@ -419,7 +426,8 @@ sortAscending: ${sortAscending},
 generatedReport: ${generatedReport},
 generatePressed: ${generatePressed},
 showAttendants: ${showAttendants},
-showDepartments: ${showDepartments}
+showDepartments: ${showDepartments},
+showTypeReportSelect: ${showTypeReportSelect}
     ''';
   }
 }

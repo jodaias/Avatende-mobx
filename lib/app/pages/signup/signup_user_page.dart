@@ -299,58 +299,58 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                         SizedBox(
                           height: widget.isUpdate ? 0 : 16,
                         ),
-                        FieldTitle(
-                          title: 'Nível ',
-                          subtitle: widget.isPerfil
-                              ? 'Seu nível de Acesso'
-                              : 'Escolha o nível de acesso',
-                        ),
-                        Observer(
-                          builder: (_) {
-                            return Row(
-                              children: signupUserStore.userTypes.length > 1
-                                  ? <Widget>[
-                                      Radio(
-                                        groupValue: signupUserStore.nivel,
-                                        value: true,
-                                        onChanged: (val) {
-                                          signupUserStore.setNivel(val);
-                                          signupUserStore.setUserType(
-                                              signupUserStore.userTypes[0]);
-                                        },
-                                      ),
-                                      Text(
-                                          "${describeEnum(signupUserStore.userTypes[0])}"),
-                                      Radio(
-                                        groupValue: signupUserStore.nivel,
-                                        value: false,
-                                        onChanged: (val) {
-                                          signupUserStore.setNivel(val);
-                                          signupUserStore.setUserType(
-                                              signupUserStore.userTypes[1]);
-                                        },
-                                      ),
-                                      Text(
-                                          "${describeEnum(signupUserStore.userTypes[1])}"),
-                                    ]
-                                  : <Widget>[
-                                      Radio(
-                                        groupValue: signupUserStore.nivel,
-                                        value: true,
-                                        onChanged: (val) {
-                                          signupUserStore.setNivel(val);
-                                          signupUserStore.setUserType(
-                                              signupUserStore.userTypes[0]);
-                                        },
-                                      ),
-                                      Text(
-                                          "${describeEnum(signupUserStore.userTypes[0])}"),
-                                    ],
-                            );
-                          },
-                        ),
-                        appStore.userViewModel.userType != UserType.User &&
-                                !widget.isPerfil
+                        // FieldTitle(
+                        //   title: 'Nível ',
+                        //   subtitle: widget.isPerfil
+                        //       ? 'Seu nível de Acesso'
+                        //       : 'Escolha o nível de acesso',
+                        // ),
+                        // Observer(
+                        //   builder: (_) {
+                        //     return Row(
+                        //       children: signupUserStore.userTypes.length > 1
+                        //           ? <Widget>[
+                        //               Radio(
+                        //                 groupValue: signupUserStore.nivel,
+                        //                 value: true,
+                        //                 onChanged: (val) {
+                        //                   signupUserStore.setNivel(val);
+                        //                   signupUserStore.setUserType(
+                        //                       signupUserStore.userTypes[0]);
+                        //                 },
+                        //               ),
+                        //               Text(
+                        //                   "${describeEnum(signupUserStore.userTypes[0])}"),
+                        //               Radio(
+                        //                 groupValue: signupUserStore.nivel,
+                        //                 value: false,
+                        //                 onChanged: (val) {
+                        //                   signupUserStore.setNivel(val);
+                        //                   signupUserStore.setUserType(
+                        //                       signupUserStore.userTypes[1]);
+                        //                 },
+                        //               ),
+                        //               Text(
+                        //                   "${describeEnum(signupUserStore.userTypes[1])}"),
+                        //             ]
+                        //           : <Widget>[
+                        //               Radio(
+                        //                 groupValue: signupUserStore.nivel,
+                        //                 value: true,
+                        //                 onChanged: (val) {
+                        //                   signupUserStore.setNivel(val);
+                        //                   signupUserStore.setUserType(
+                        //                       signupUserStore.userTypes[0]);
+                        //                 },
+                        //               ),
+                        //               Text(
+                        //                   "${describeEnum(signupUserStore.userTypes[0])}"),
+                        //             ],
+                        //     );
+                        //   },
+                        // ),
+                        // appStore.userViewModel.userType != UserType.User &&
+                        !widget.isPerfil
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
