@@ -97,67 +97,6 @@ abstract class _RelatoryStoreBase with Store {
     if (relatory != null) {
       relatory.departmentName = departName;
       relatory.userName = userName;
-
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
-      setRelatory(relatory);
       setRelatory(relatory);
     }
   }
@@ -174,6 +113,8 @@ abstract class _RelatoryStoreBase with Store {
 
   @action
   Future<void> getRelatoryByDepartments() async {
+    await getDepartments();
+
     for (var department in departments) {
       if (department.users.isNotEmpty) {
         for (var user in department.users) {
@@ -203,6 +144,7 @@ abstract class _RelatoryStoreBase with Store {
     if (departments.isEmpty)
       departments = await _departmentRepository
           .getDepartments(_appStore.companyViewModel.companyId());
+
     departmentSelected = departments.first;
 
     var hasUser = departments
@@ -247,21 +189,31 @@ abstract class _RelatoryStoreBase with Store {
         await getRelatoryByAttendant(userSelected.userId(), selectedStartDate,
             selectedEndDate, departmentSelected.name, userSelected.name);
 
-        if (relatories.isNotEmpty) generatedReport = true;
+        if (relatories.isNotEmpty) {
+          generatedReport = true;
+        } else {
+          loading = false;
+        }
         break;
       case TypeRelatory.department:
         relatories.clear();
         await getRelatoryByDepartment();
-        if (relatories.isNotEmpty) generatedReport = true;
+        if (relatories.isNotEmpty) {
+          generatedReport = true;
+        } else {
+          loading = false;
+        }
         break;
       default:
         relatories.clear();
         await getRelatoryByDepartments();
-        if (relatories.isNotEmpty) generatedReport = true;
+        if (relatories.isNotEmpty) {
+          generatedReport = true;
+        } else {
+          loading = false;
+        }
         break;
     }
-
-    loading = false;
   }
 
   void cleanFieldsSelecteds() {

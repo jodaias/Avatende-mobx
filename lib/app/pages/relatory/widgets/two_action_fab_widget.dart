@@ -4,9 +4,10 @@ import 'package:avatende/app/pages/relatory/excel_viewer_page.dart';
 import 'package:avatende/app/pages/relatory/pdf_viewer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:pdf/pdf.dart';
+import 'package:intl/intl.dart';
 
 //para o pdf
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 
@@ -44,7 +45,6 @@ class TwoActionFABWidget extends StatelessWidget {
           backgroundColor: Colors.red,
           onTap: () {
             var listToConverter = _setListToTable(relatories);
-            listToConverter += _setListToTable(relatories);
 
             _createPdf(context: context, listToConverter: listToConverter);
           },
@@ -72,6 +72,9 @@ class TwoActionFABWidget extends StatelessWidget {
   }
 
   _createPdf({BuildContext context, List<List<String>> listToConverter}) async {
+    final dateGenerate =
+        DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now());
+
     final pw.Document pdf = pw.Document(deflate: zlib.encode);
 
     pdf.addPage(pw.MultiPage(build: (context) {
@@ -79,16 +82,25 @@ class TwoActionFABWidget extends StatelessWidget {
         pw.Row(children: [
           pw.PdfLogo(),
           pw.Header(
-              title: "RELATÓRIO DE AVALIAÇÕES DOS ATENDENTES",
-              level: 2,
-              text: "RELATÓRIO DE AVALIAÇÕES DOS ATENDENTES",
               margin: pw.EdgeInsets.all(5.0),
               outlineColor: PdfColor(0.4, 0.7, 0.8),
               outlineStyle: PdfOutlineStyle.bold,
               padding: pw.EdgeInsets.all(8.0),
-              child: pw.Text("Gerado em: ${DateTime.now()}"),
+              child: pw.Text("RELATÓRIO DE AVALIAÇÕES DOS ATENDENTES",
+                  style: pw.TextStyle(
+                      fontSize: 18,
+                      color: PdfColor(0, 0, 0, 0.5),
+                      fontWeight: pw.FontWeight.bold)),
               textStyle: pw.TextStyle(color: PdfColor(0, 0, 0, 0.5))),
         ]),
+        pw.Header(
+            level: 2,
+            margin: pw.EdgeInsets.all(5.0),
+            outlineColor: PdfColor(0.4, 0.7, 0.8),
+            outlineStyle: PdfOutlineStyle.bold,
+            padding: pw.EdgeInsets.all(8.0),
+            child: pw.Text("Gerado em: $dateGenerate"),
+            textStyle: pw.TextStyle(color: PdfColor(0, 0, 0, 0.5))),
         pw.Table.fromTextArray(
             data: <List<String>>[
                   <String>[
