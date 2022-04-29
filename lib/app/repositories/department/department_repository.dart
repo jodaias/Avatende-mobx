@@ -1,16 +1,17 @@
 import 'package:avatende/app/models/department_model.dart';
 import 'package:avatende/app/models/views/department_view_model.dart';
+import 'package:avatende/app/models/views/user_view_model.dart';
+import 'package:avatende/app/repositories/user/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 
 class DepartmentRepository {
   var _instance = FirebaseFirestore.instance;
+  var _userRepository = new UserRepository();
   var _collection = 'Departments';
 
   Future<String> createDepartment(DepartmentModel departmodel) async {
     try {
-      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       //logica para salvar no banco
       await _instance.collection(_collection).add({
         'Name': departmodel.name,
@@ -27,10 +28,30 @@ class DepartmentRepository {
   }
 
   //lista de Departamentos Ativas
+  Future<List<DepartmentViewModel>> getDepartments(String companyId,
+      {bool listActive = true, bool orderByAz = true}) async {
+    var snapshots = await _instance
+        .collection(_collection)
+        .where("CompanyId", isEqualTo: companyId)
+        .where("Active", isEqualTo: listActive)
+        .orderBy('Name', descending: !orderByAz)
+        .get();
+
+    var departments =
+        snapshots.docs.map((e) => DepartmentViewModel.fromMap(e)).toList();
+
+    //Atribui a lista de users para cada departamento
+    for (var department in departments) {
+      department.users = await _userRepository.filterUsersByDepartment(
+          department.departmentId(), true);
+    }
+
+    return departments;
+  }
+
+  //lista de Departamentos Ativas
   Observable<Stream<List<DepartmentViewModel>>> departments(
       String companyId, bool listActive, bool orderByAz) {
-    print('meu companyId repo: $companyId');
-
     return Observable(_instance
         .collection(_collection)
         .where("CompanyId", isEqualTo: companyId)
@@ -46,8 +67,6 @@ class DepartmentRepository {
   Future<bool> updateDepartments(
       {String departmentId, Map<String, dynamic> departmentData}) async {
     try {
-      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
-
       await _instance
           .collection(_collection)
           .doc(departmentId)

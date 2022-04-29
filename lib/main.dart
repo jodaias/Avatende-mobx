@@ -1,6 +1,7 @@
 import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:avatende/app/pages/root/root_page.dart';
 import 'package:avatende/app/pages/stores/avaliation/avaliation_store.dart';
+import 'package:avatende/app/pages/stores/relatory/relatory_store.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
 import 'package:avatende/app/storesGlobal/page_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -45,6 +46,7 @@ void setupLocators() {
   GetIt.I.registerSingleton(AppStore());
   GetIt.I.registerSingleton(PageStore());
   GetIt.I.registerSingleton(AvaliationStore());
+  GetIt.I.registerSingleton(RelatoryStore());
 }
 
 class MyApp extends StatelessWidget {

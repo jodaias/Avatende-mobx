@@ -1,3 +1,4 @@
+import 'package:avatende/app/models/views/department_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CompanyViewModel {
@@ -6,6 +7,7 @@ class CompanyViewModel {
   String address;
   bool active;
   String phone;
+  List<DepartmentViewModel> departments;
 
   CompanyViewModel();
 
@@ -13,8 +15,9 @@ class CompanyViewModel {
     _companyId = document.id;
     this.name = document.data()["Name"];
     this.active = document.data()["Active"] ?? false;
-    this.address = document.data()["Address"];
     this.phone = document.data()["Phone"];
+    this.address = document.data()["Address"];
+    this.departments = document.data()["Departments"];
   }
 
   toMap() {

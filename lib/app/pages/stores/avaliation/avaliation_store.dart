@@ -96,10 +96,6 @@ abstract class _AvaliationStoreBase with Store {
     final appStore = GetIt.I<AppStore>();
     loading = true;
 
-    //Salvar a avaliação no banco
-    Future.delayed(Duration(seconds: 2));
-
-    print('scores: $scores');
     var result = await avaliationRepository.saveAvaliation(avaliationData: {
       'CreatedAt': DateTime.now(),
       'Scores': scores,

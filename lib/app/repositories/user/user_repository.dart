@@ -20,7 +20,6 @@ class UserRepository {
     }
 
     try {
-      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       //Criando user no authentication
       var user =
           await _createNewAccount(email: usermodel.email, password: password);
@@ -116,7 +115,6 @@ class UserRepository {
       if (userType == UserType.Master) {
         _collection = 'UsersMaster';
       }
-      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
 
       await _instance.collection(_collection).doc(userId).update(userData);
 
@@ -146,6 +144,21 @@ class UserRepository {
       print('Error: $e');
       return UserViewModel();
     }
+  }
+
+  Future<List<UserViewModel>> filterUsersByDepartment(
+      String departmentId, bool userActive) async {
+    //filtra todos os usuarios ativos ou inativos pelo departamento escolhido;
+    _collection = "Users";
+
+    var snapshot = await _instance
+        .collection(_collection)
+        .where("DepartmentId", isEqualTo: departmentId)
+        .where("Active", isEqualTo: userActive)
+        .get();
+
+    var users = snapshot.docs.map((doc) => UserViewModel.fromMap(doc)).toList();
+    return users;
   }
 
   //lista de Users

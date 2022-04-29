@@ -78,7 +78,7 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> showDialogGetImage(BuildContext ctx) async {
-    showModalBottomSheet(
+    await showModalBottomSheet(
       context: ctx,
       builder: (context) {
         return Padding(

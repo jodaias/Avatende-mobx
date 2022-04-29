@@ -127,7 +127,7 @@ abstract class _SignUpUserStoreBase with Store {
 
   //Validando variaveis
   @computed
-  bool get nameValid => name != null && name.length > 6;
+  bool get nameValid => name != null && name.length > 2;
   String get nameError {
     if (name == null || nameValid)
       return null;
@@ -230,21 +230,23 @@ abstract class _SignUpUserStoreBase with Store {
 
     //Salvar a empresa no banco
     //e salvar no company model via appStore
-    await repository.signUpUser(
-        usermodel: UserModel(
-          name: name,
-          phone: phone,
-          active: active,
-          departmentId: departmentId,
-          companyId: companyId,
-          email: email,
-          address: address,
-          userType: userType,
-        ),
-        password: password1);
-
-    loading = false;
-    signupSuccess = true;
+    repository
+        .signUpUser(
+            usermodel: UserModel(
+              name: name,
+              phone: phone,
+              active: active,
+              departmentId: departmentId,
+              companyId: companyId,
+              email: email,
+              address: address,
+              userType: userType,
+            ),
+            password: password1)
+        .then((value) {
+      loading = false;
+      signupSuccess = true;
+    });
   }
 
   @action

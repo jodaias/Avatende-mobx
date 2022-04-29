@@ -174,6 +174,17 @@ mixin _$UserStore on _UserStoreBase, Store {
   }
 
   @override
+  void setLoading(bool value) {
+    final _$actionInfo = _$_UserStoreBaseActionController.startAction(
+        name: '_UserStoreBase.setLoading');
+    try {
+      return super.setLoading(value);
+    } finally {
+      _$_UserStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void activeOrOrderList(ActivesOrOrderByUser result) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.activeOrOrderList');

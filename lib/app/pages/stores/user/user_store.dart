@@ -52,6 +52,9 @@ abstract class _UserStoreBase with Store {
   void setListActive(bool value) => listActive = value;
 
   @action
+  void setLoading(bool value) => loading = value;
+
+  @action
   void activeOrOrderList(ActivesOrOrderByUser result) {
     switch (result) {
       case ActivesOrOrderByUser.actives:

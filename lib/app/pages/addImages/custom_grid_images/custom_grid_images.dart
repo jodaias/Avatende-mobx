@@ -24,17 +24,23 @@ class _CustomGridImagesState extends State<CustomGridImages> {
           children: List.generate(appStore.imageFiles.length, (index) {
                 return Stack(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: FileImage(appStore.imageFiles[index]),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: FileImage(appStore.imageFiles[index]),
+                          ),
                         ),
                       ),
                     ),
                     new IconButton(
-                      icon: Icon(Icons.remove_circle),
+                      icon: Icon(
+                        Icons.remove_circle,
+                        color: Colors.purple[400],
+                      ),
                       onPressed: () {
                         _removeItemFromImageFiles(index);
                       },

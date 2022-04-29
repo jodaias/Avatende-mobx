@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:avatende/app/components/custom_drawer/custom_drawer.dart';
 import 'package:avatende/app/models/views/upload_image.dart';
 import 'package:avatende/app/pages/addImages/custom_grid_images/custom_grid_images.dart';
-import 'package:avatende/app/pages/perfil/components/custom_appBar.dart';
 import 'package:avatende/app/pages/signup/components/field_title.dart';
 import 'package:avatende/app/pages/stores/company/company_store.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
+import 'package:avatende/app/storesGlobal/page_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -17,11 +17,13 @@ class AddImagesPage extends StatefulWidget {
 
 class _AddImagesPageState extends State<AddImagesPage> {
   final appStore = GetIt.I<AppStore>();
+  final pageStore = GetIt.I<PageStore>();
 
   final companyStore = new CompanyStore();
 
   @override
   Widget build(BuildContext context) {
+    var mediaSize = MediaQuery.of(context).size;
     return Scaffold(
       drawer: CustomDrawer(),
       appBar: AppBar(
@@ -63,10 +65,13 @@ class _AddImagesPageState extends State<AddImagesPage> {
                       return Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 20, bottom: 12),
-                        height: 40,
+                        height: mediaSize.height * 0.05,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            elevation: MaterialStateProperty.all(0),
+                            fixedSize: MaterialStateProperty.all(Size(
+                                mediaSize.width * 0.50,
+                                mediaSize.height * 0.50)),
+                            elevation: MaterialStateProperty.all(2),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
@@ -95,7 +100,7 @@ class _AddImagesPageState extends State<AddImagesPage> {
                                       .forEach((index, element) async {
                                     //setObject upload
                                     var imageUploadModel =
-                                        _setImageUpload(index, element);
+                                        _setImageUpload(element);
 
                                     var resulUrlImage =
                                         await appStore.uploadImageFileInStorage(
@@ -107,10 +112,12 @@ class _AddImagesPageState extends State<AddImagesPage> {
                                       companyStore.setCompanyId(appStore
                                           .companyViewModel
                                           .companyId());
-                                      companyStore.saveImages();
+                                      await companyStore.saveImages();
+
+                                      pageStore.setPage(0);
+                                      appStore.setImageFiles([]);
                                     }
                                   });
-                                  Navigator.of(context).pop(true);
                                 }
                               : null,
                         ),
@@ -126,10 +133,10 @@ class _AddImagesPageState extends State<AddImagesPage> {
     );
   }
 
-  _setImageUpload(int index, File file) {
+  _setImageUpload(File file) {
     var company = appStore.companyViewModel;
 
-    var fileName = "${index + 1}-${company.companyId()}-${DateTime.now()}";
+    var fileName = "${company.companyId()}-${DateTime.now()}";
     var folder = "ads_images";
 
     var imageUpload = new ImageUploadModel(

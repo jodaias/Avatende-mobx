@@ -21,7 +21,7 @@ class UserViewModel {
   UserViewModel.fromMap(DocumentSnapshot document) {
     _userId = document.id;
     this.name = document.data()['Name'];
-    this.userType = UserType?.values[document.data()['UserType']];
+    this.userType = UserType.values[document.data()['UserType']];
     this.userType.index >= UserType.Admin.index
         ? this.companyId = document.data()['CompanyId']
         : this.companyId = null;

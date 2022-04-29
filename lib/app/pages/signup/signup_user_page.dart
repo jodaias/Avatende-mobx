@@ -358,7 +358,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                     height: 16,
                                   ),
                                   FieldTitle(
-                                    title: 'Ativa? ',
+                                    title: 'Ativo? ',
                                     subtitle:
                                         'Escolha "sim" para ativo ou "não" para inativo!',
                                   ),

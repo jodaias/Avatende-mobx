@@ -18,9 +18,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     return showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text('Link enviado'),
+        title: Text('Recuperar senha'),
         content: Text(
-            'Foi enviado um link para o email informado para redefinição de senha!'),
+            'Se houver uma conta Avatende associada a esse endereço de e-mail, você receberá um e-mail com instruções para redefinir sua senha em breve.'),
         actions: [
           TextButton(
             onPressed: () {
@@ -29,7 +29,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   MaterialPageRoute(builder: (_) => RootPage()),
                   (route) => false);
             },
-            child: Text('Ok'),
+            child: Text('Voltar para o login!'),
           )
         ],
       ),

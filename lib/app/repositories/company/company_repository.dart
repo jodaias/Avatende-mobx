@@ -5,7 +5,6 @@ import 'package:avatende/app/models/views/company_view_model.dart';
 import 'package:avatende/app/models/views/department_view_model.dart';
 import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobx/mobx.dart';
 
 class CompanyRepository {
@@ -15,7 +14,6 @@ class CompanyRepository {
   //add uma empresa
   Future<String> createCompany(CompanyModel companymodel) async {
     try {
-      FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
       //logica para salvar no banco
       await _instance.collection(_collection).add({
         'Name': companymodel.name,

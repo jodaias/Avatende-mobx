@@ -106,8 +106,9 @@ class _UsersPageState extends State<UsersPage> {
                   if (snapshot.data.isEmpty) {
                     return Container(
                       padding: EdgeInsets.all(30),
-                      child: Text(
-                          'Desculpe, nenhum usuário cadastrado para este departamento.'),
+                      child: Text(userStore.listActive
+                          ? 'Desculpe, nenhum usuário cadastrado para este departamento.'
+                          : 'Desculpe, nenhum usuário inativo.'),
                     );
                   }
 
