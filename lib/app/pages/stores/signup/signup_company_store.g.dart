@@ -44,6 +44,28 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
       (_$signUpPressedComputed ??= Computed<Function>(() => super.signUpPressed,
               name: '_SignupCompanyStoreBase.signUpPressed'))
           .value;
+  Computed<Function> _$updatePressedComputed;
+
+  @override
+  Function get updatePressed =>
+      (_$updatePressedComputed ??= Computed<Function>(() => super.updatePressed,
+              name: '_SignupCompanyStoreBase.updatePressed'))
+          .value;
+
+  final _$companyIdAtom = Atom(name: '_SignupCompanyStoreBase.companyId');
+
+  @override
+  String get companyId {
+    _$companyIdAtom.reportRead();
+    return super.companyId;
+  }
+
+  @override
+  set companyId(String value) {
+    _$companyIdAtom.reportWrite(value, super.companyId, () {
+      super.companyId = value;
+    });
+  }
 
   final _$nameAtom = Atom(name: '_SignupCompanyStoreBase.name');
 
@@ -143,8 +165,27 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
     return _$signUpAsyncAction.run(() => super.signUp());
   }
 
+  final _$updateCompanyAsyncAction =
+      AsyncAction('_SignupCompanyStoreBase.updateCompany');
+
+  @override
+  Future<void> updateCompany() {
+    return _$updateCompanyAsyncAction.run(() => super.updateCompany());
+  }
+
   final _$_SignupCompanyStoreBaseActionController =
       ActionController(name: '_SignupCompanyStoreBase');
+
+  @override
+  void setCompanyId(String value) {
+    final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
+        name: '_SignupCompanyStoreBase.setCompanyId');
+    try {
+      return super.setCompanyId(value);
+    } finally {
+      _$_SignupCompanyStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setName(String value) {
@@ -204,6 +245,7 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   @override
   String toString() {
     return '''
+companyId: ${companyId},
 name: ${name},
 address: ${address},
 phone: ${phone},
@@ -214,7 +256,8 @@ nameValid: ${nameValid},
 phoneValid: ${phoneValid},
 addressValid: ${addressValid},
 activeValid: ${activeValid},
-signUpPressed: ${signUpPressed}
+signUpPressed: ${signUpPressed},
+updatePressed: ${updatePressed}
     ''';
   }
 }

@@ -23,6 +23,13 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
       (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
               name: '_SignUpUserStoreBase.emailValid'))
           .value;
+  Computed<bool> _$activeValidComputed;
+
+  @override
+  bool get activeValid =>
+      (_$activeValidComputed ??= Computed<bool>(() => super.activeValid,
+              name: '_SignUpUserStoreBase.activeValid'))
+          .value;
   Computed<bool> _$phoneValidComputed;
 
   @override
@@ -571,6 +578,7 @@ listActive: ${listActive},
 userTypes: ${userTypes},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
+activeValid: ${activeValid},
 phoneValid: ${phoneValid},
 addressValid: ${addressValid},
 userTypeValid: ${userTypeValid},

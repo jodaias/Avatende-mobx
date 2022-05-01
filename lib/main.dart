@@ -29,16 +29,12 @@ Future<void> getUser() async {
 
   final _instance = FirebaseFirestore.instance;
 
-  var items = ["Users", "UsersMaster"];
-  var user;
+  var user =
+      await _instance.collection("Users").doc(_auth.currentUser?.uid).get();
 
-  for (var item in items) {
-    user = await _instance.collection(item).doc(_auth.currentUser?.uid).get();
-    print('userFor ${user.data()}');
-    if (user.data() != null) {
-      appStore.setUser(new UserViewModel.fromMap(user));
-      await appStore.getCompanyAndDepartment();
-    }
+  if (user.data() != null) {
+    appStore.setUser(new UserViewModel.fromMap(user));
+    await appStore.getCompanyAndDepartment();
   }
 }
 

@@ -149,6 +149,9 @@ abstract class _SignUpUserStoreBase with Store {
   }
 
   @computed
+  bool get activeValid => active != null;
+
+  @computed
   bool get phoneValid => phone != null && phone.length >= 14;
   String get phoneError {
     if (phone == null || phoneValid)
@@ -214,13 +217,14 @@ abstract class _SignUpUserStoreBase with Store {
           phoneValid &&
           addressValid &&
           userTypeValid &&
+          activeValid &&
           !loading)
       ? signUp
       : null;
 
   @computed
   Function get updatePressed =>
-      (nameValid && phoneValid && addressValid && userTypeValid && !loading)
+      (nameValid && phoneValid && addressValid && activeValid && !loading)
           ? updateUser
           : null;
 
@@ -266,38 +270,15 @@ abstract class _SignUpUserStoreBase with Store {
   Future<void> updateUser() async {
     loading = true;
 
-    var stringKey;
-    var stringValue;
-
-    if (userType == UserType.Admin) {
-      stringKey = 'CompanyId';
-      stringValue = companyId;
-    } else {
-      stringKey = 'DepartmentId';
-      stringValue = departmentId;
-    }
-
     //Salvar a empresa no banco
     //e salvar no company model via appStore
-    await repository.updateUser(
-        userId: userId,
-        userData: userType != UserType.Master
-            ? {
-                'Name': name,
-                'Phone': phone,
-                'Active': active,
-                'Address': address,
-                stringKey: stringValue,
-                'UpdatedAt': DateTime.now()
-              }
-            : {
-                'Name': name,
-                'Phone': phone,
-                'Active': active,
-                'Address': address,
-                'UpdatedAt': DateTime.now()
-              },
-        userType: userType);
+    await repository.updateUser(userId: userId, userData: {
+      'Name': name,
+      'Phone': phone,
+      'Active': active,
+      'Address': address,
+      'UpdatedAt': DateTime.now()
+    });
 
     loading = false;
     signupSuccess = true;

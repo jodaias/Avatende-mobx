@@ -173,14 +173,6 @@ class _UsersPageState extends State<UsersPage> {
                                     icon: Icons.edit,
                                     color: Colors.black,
                                     onTap: () {
-                                      //=> pegar o usuario
-                                      print('Usuário: ${user.name}');
-
-                                      String nomeAnterior = user.name;
-                                      print('Nome anterior: $nomeAnterior');
-                                      //joga no campo de texto o nomeAnterior
-                                      print(
-                                          'Nome anterior jogado no campo de text');
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(

@@ -77,14 +77,12 @@ class PageSection extends StatelessWidget {
                   label: 'Sair',
                   iconData: Icons.logout,
                   onTap: () async {
-                    appStore.setUser(new UserViewModel());
                     await _auth.signOut();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (_) => RootPage()),
-                        (route) => false);
+                    appStore.setUser(new UserViewModel());
+                    Navigator.pushReplacement(
+                        context, MaterialPageRoute(builder: (_) => RootPage()));
                   },
-                  highlighted: pageStore.page == 7,
+                  highlighted: false,
                 ),
               ]
             : [
@@ -124,12 +122,12 @@ class PageSection extends StatelessWidget {
                   onTap: () async {
                     await _auth.signOut();
                     appStore.setUser(new UserViewModel());
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (_) => RootPage()),
-                        (route) => false);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => RootPage()),
+                    );
                   },
-                  highlighted: pageStore.page == 5,
+                  highlighted: false,
                 ),
               ],
       );

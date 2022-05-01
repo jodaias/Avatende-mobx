@@ -130,6 +130,16 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
     return _$saveImagesAsyncAction.run(() => super.saveImages());
   }
 
+  final _$updateCompanyAsyncAction =
+      AsyncAction('_CompanyStoreBase.updateCompany');
+
+  @override
+  Future<void> updateCompany(
+      String companyId, Map<String, dynamic> companyData) {
+    return _$updateCompanyAsyncAction
+        .run(() => super.updateCompany(companyId, companyData));
+  }
+
   final _$_CompanyStoreBaseActionController =
       ActionController(name: '_CompanyStoreBase');
 

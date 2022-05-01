@@ -5,6 +5,7 @@ import 'package:avatende/app/models/views/company_view_model.dart';
 import 'package:avatende/app/models/views/department_view_model.dart';
 import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
 class CompanyRepository {
@@ -31,7 +32,8 @@ class CompanyRepository {
   }
 
   Future<bool> updateCompany(
-      {String companyId, Map<String, dynamic> companyData}) async {
+      {@required String companyId,
+      @required Map<String, dynamic> companyData}) async {
     try {
       await _instance
           .collection(_collection)
@@ -40,7 +42,7 @@ class CompanyRepository {
 
       return true;
     } catch (e) {
-      print('Error: $e');
+      print('Error to update company: $e');
       return false;
     }
   }
@@ -93,6 +95,7 @@ class CompanyRepository {
 
   Future<Map<String, dynamic>> getCompanyAndDepartment(
       {UserViewModel userViewModel}) async {
+    if (userViewModel.userType == UserType.Master) return null;
     var department;
 
     try {

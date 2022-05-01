@@ -110,7 +110,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   final _$updateUserAsyncAction = AsyncAction('_UserStoreBase.updateUser');
 
   @override
-  Future<bool> updateUser(String userId, Map<String, dynamic> userData) {
+  Future<void> updateUser(String userId, Map<String, dynamic> userData) {
     return _$updateUserAsyncAction
         .run(() => super.updateUser(userId, userData));
   }

@@ -73,8 +73,8 @@ abstract class _UserStoreBase with Store {
   }
 
   @action
-  Future<bool> updateUser(String userId, Map<String, dynamic> userData) async {
-    return await _repository.updateUser(userId: userId, userData: userData);
+  Future<void> updateUser(String userId, Map<String, dynamic> userData) async {
+    await _repository.updateUser(userId: userId, userData: userData);
   }
 
   //COMPUTEDS

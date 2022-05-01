@@ -20,26 +20,19 @@ class UserViewModel {
 
   UserViewModel.fromMap(DocumentSnapshot document) {
     _userId = document.id;
-    this.name = document.data()['Name'];
+    this.name = document.data()['Name'] ?? "";
     this.userType = UserType.values[document.data()['UserType']];
-    this.userType.index >= UserType.Admin.index
+    this.userType == UserType.Admin
         ? this.companyId = document.data()['CompanyId']
         : this.companyId = null;
     this.userType == UserType.User
         ? this.departmentId = document.data()['DepartmentId']
         : this.departmentId = null;
     this.active = document.data()['Active'] ?? false;
-    this.email = document.data()['Email'];
-    this.phone = document.data()['Phone'];
-    this.address = document.data()['Address'];
-    setImage(document.data()['Image']);
-  }
-
-  setImage(String img) {
-    this.image = "";
-    if (img != null && img != "") {
-      this.image = img;
-    }
+    this.email = document.data()['Email'] ?? "";
+    this.phone = document.data()['Phone'] ?? "";
+    this.address = document.data()['Address'] ?? "";
+    this.image = document.data()['Image'] ?? "";
   }
 
   toMap() {

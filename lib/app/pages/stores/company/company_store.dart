@@ -90,6 +90,13 @@ abstract class _CompanyStoreBase with Store {
     }
   }
 
+  @action
+  Future<void> updateCompany(
+      String companyId, Map<String, dynamic> companyData) async {
+    await _repository.updateCompany(
+        companyData: companyData, companyId: companyId);
+  }
+
   //COMPUTEDS
   @computed
   get companyList => _repository.companies(listActive, orderByAz).value;

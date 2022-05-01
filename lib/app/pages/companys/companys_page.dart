@@ -211,133 +211,193 @@ class _CompanysPageState extends State<CompanysPage> {
                                 });
                           },
                         ),
-                        secondaryActions: <Widget>[
-                          IconSlideAction(
-                            caption: 'Editar',
-                            icon: Icons.edit,
-                            color: Colors.black,
-                            onTap: () {
-                              //=> pegar a empresa
-                              print('Empresa: ${company.name}');
+                        secondaryActions: company.active
+                            ? <Widget>[
+                                IconSlideAction(
+                                  caption: 'Editar',
+                                  icon: Icons.edit,
+                                  color: Colors.black,
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => SignUpCompanyPage(
+                                                  companyViewModel: company,
+                                                  isUpdate: true,
+                                                )));
+                                    //   showDialog(
+                                    //       context: context,
+                                    //       barrierDismissible: true,
+                                    //       builder: (BuildContext ctx) {
+                                    //         final input = Form(
+                                    //             child: TextFormField(
+                                    //           autofocus: true,
+                                    //           initialValue: company.name,
+                                    //           decoration: InputDecoration(
+                                    //               hintText: 'Nome',
+                                    //               contentPadding: EdgeInsets.fromLTRB(
+                                    //                   20, 10, 20, 10),
+                                    //               border: OutlineInputBorder(
+                                    //                   borderRadius:
+                                    //                       BorderRadius.circular(5))),
+                                    //           validator: (value) {
+                                    //             if (value.isEmpty) {
+                                    //               return 'Este campo não pode ficar vazio';
+                                    //             }
+                                    //             return null;
+                                    //           },
+                                    //         ));
 
-                              String nomeAnterior = company.name;
-                              print('Nome anterior: $nomeAnterior');
-                              //joga no campo de texto o nomeAnterior
-                              print('Nome anterior jogado no campo de text');
-
-                              showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  builder: (BuildContext ctx) {
-                                    final input = Form(
-                                        child: TextFormField(
-                                      autofocus: true,
-                                      initialValue: company.name,
-                                      decoration: InputDecoration(
-                                          hintText: 'Nome',
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              20, 10, 20, 10),
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5))),
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return 'Este campo não pode ficar vazio';
-                                        }
-                                        return null;
-                                      },
-                                    ));
-
-                                    return AlertDialog(
-                                      title: Text('Editar nome'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[input],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                            Colors.white,
-                                          )),
-                                          child: Text('Cancelar',
-                                              style:
-                                                  TextStyle(color: Colors.red)),
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                        ),
-                                        ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                            Colors.white,
-                                          )),
-                                          child: Text('Salvar',
-                                              style: TextStyle(
-                                                  color: Colors.purple[400])),
-                                          onPressed: () {
-                                            //atualiza a informação no banco de dados
-                                            //salva um dado na tabela LOG dizendo que atualizou um dado
-                                            print('dados atualizados');
-                                            print('dados salvos na tabela LOG');
-                                            Navigator.of(ctx).pop();
-                                          },
-                                        )
-                                      ],
-                                    );
-                                  });
-                            },
-                          ),
-                          IconSlideAction(
-                            caption: 'Desativar',
-                            icon: Icons.block,
-                            color: Colors.red[400],
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  builder: (BuildContext ctx) {
-                                    return AlertDialog(
-                                      title: Text('Tem certeza?'),
-                                      content: Text(
-                                          'Esta ação irá desativar a empresa selecionada!'),
-                                      actions: <Widget>[
-                                        ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                            Colors.purple[400],
-                                          )),
-                                          child: Text('Cancelar',
-                                              style: TextStyle(
-                                                  color: Colors.white)),
-                                          onPressed: () {
-                                            Navigator.of(ctx).pop();
-                                          },
-                                        ),
-                                        ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                            Colors.purple[400],
-                                          )),
-                                          onPressed: () {
-                                            setState(() {
-                                              //alguma ação para desativar o usuario
-                                            });
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: null,
-                                        )
-                                      ],
-                                    );
-                                  });
-                            },
-                          ),
-                        ],
+                                    //         return AlertDialog(
+                                    //           title: Text('Editar nome'),
+                                    //           content: SingleChildScrollView(
+                                    //             child: ListBody(
+                                    //               children: <Widget>[input],
+                                    //             ),
+                                    //           ),
+                                    //           actions: <Widget>[
+                                    //             ElevatedButton(
+                                    //               style: ButtonStyle(
+                                    //                   backgroundColor:
+                                    //                       MaterialStateProperty.all(
+                                    //                 Colors.white,
+                                    //               )),
+                                    //               child: Text('Cancelar',
+                                    //                   style:
+                                    //                       TextStyle(color: Colors.red)),
+                                    //               onPressed: () {
+                                    //                 Navigator.of(ctx).pop();
+                                    //               },
+                                    //             ),
+                                    //             ElevatedButton(
+                                    //               style: ButtonStyle(
+                                    //                   backgroundColor:
+                                    //                       MaterialStateProperty.all(
+                                    //                 Colors.white,
+                                    //               )),
+                                    //               child: Text('Salvar',
+                                    //                   style: TextStyle(
+                                    //                       color: Colors.purple[400])),
+                                    //               onPressed: () {
+                                    //                 //atualiza a informação no banco de dados
+                                    //                 //salva um dado na tabela LOG dizendo que atualizou um dado
+                                    //                 print('dados atualizados');
+                                    //                 print('dados salvos na tabela LOG');
+                                    //                 Navigator.of(ctx).pop();
+                                    //               },
+                                    //             )
+                                    //           ],
+                                    //         );
+                                    //       });
+                                  },
+                                ),
+                                IconSlideAction(
+                                  caption: 'Desativar',
+                                  icon: Icons.block,
+                                  color: Colors.red[400],
+                                  onTap: () {
+                                    print("passou aqui");
+                                    showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (BuildContext ctx) {
+                                          return AlertDialog(
+                                            title: Text('Tem certeza?'),
+                                            content: Text(
+                                                'Esta ação irá desativar a empresa selecionada!'),
+                                            actions: <Widget>[
+                                              ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(
+                                                  Colors.purple[400],
+                                                )),
+                                                child: Text('Cancelar',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                              ),
+                                              ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(
+                                                  Colors.white,
+                                                )),
+                                                onPressed: () {
+                                                  companyStore.updateCompany(
+                                                      company.companyId(),
+                                                      {'Active': false});
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                                child: Text('Desativar',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .purple[400])),
+                                              )
+                                            ],
+                                          );
+                                        });
+                                  },
+                                ),
+                              ]
+                            : <Widget>[
+                                IconSlideAction(
+                                  caption: 'Ativar',
+                                  icon: Icons.block,
+                                  color: Colors.red[400],
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (BuildContext ctx) {
+                                          return AlertDialog(
+                                            title: Text('Tem certeza?'),
+                                            content: Text(
+                                                'Esta ação irá ativar a compania selecionada!'),
+                                            actions: <Widget>[
+                                              ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(
+                                                  Colors.purple[400],
+                                                )),
+                                                child: Text('Cancelar',
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                                onPressed: () {
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                              ),
+                                              ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(
+                                                  Colors.white,
+                                                )),
+                                                child: Text('Ativar',
+                                                    style: TextStyle(
+                                                        color: Colors
+                                                            .purple[400])),
+                                                onPressed: () {
+                                                  //alguma ação para ativar o usuario
+                                                  companyStore.updateCompany(
+                                                      company.companyId(),
+                                                      {'Active': true});
+                                                  Navigator.of(ctx).pop();
+                                                },
+                                              )
+                                            ],
+                                          );
+                                        });
+                                  },
+                                ),
+                              ],
                         actionPane: SlidableBehindActionPane(),
                       );
                     }).toList(),

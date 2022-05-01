@@ -4,21 +4,16 @@ import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
 class UserRepository {
   var _auth = FirebaseAuth.instance;
 
   var _instance = FirebaseFirestore.instance;
-  var _collection;
+  var _collection = "Users";
 
   Future<String> signUpUser({UserModel usermodel, String password}) async {
-    _collection = 'Users';
-
-    if (usermodel.userType == UserType.Master) {
-      _collection = 'UsersMaster';
-    }
-
     try {
       //Criando user no authentication
       var user =
@@ -86,22 +81,15 @@ class UserRepository {
   }
 
   Future<UserViewModel> signIn({String email, String password}) async {
-    var items = ["Users", "UsersMaster"];
-    var user;
-
     try {
       //Logica de enviar os dados no banco e retornar o usuario logado.
       var credentialUser = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      for (var item in items) {
-        var result =
-            await _instance.collection(item).doc(credentialUser.user.uid).get();
-        print('userFor ${result.data()}');
-        if (result.data() != null) {
-          user = result;
-        }
-      }
+      var user = await _instance
+          .collection("Users")
+          .doc(credentialUser.user?.uid)
+          .get();
 
       return UserViewModel.fromMap(user);
     } catch (e) {
@@ -111,13 +99,10 @@ class UserRepository {
   }
 
   Future<bool> updateUser(
-      {String userId, Map<String, dynamic> userData, UserType userType}) async {
+      {@required String userId,
+      @required Map<String, dynamic> userData}) async {
     try {
       _collection = 'Users';
-
-      if (userType == UserType.Master) {
-        _collection = 'UsersMaster';
-      }
 
       await _instance.collection(_collection).doc(userId).update(userData);
 
@@ -133,12 +118,6 @@ class UserRepository {
   }
 
   Future<UserViewModel> getUser({String userId, UserType userType}) async {
-    if (userType == UserType.Master) {
-      _collection = 'UsersMaster';
-    } else {
-      _collection = 'Users';
-    }
-
     try {
       var user = await _instance.collection(_collection).doc(userId).get();
 

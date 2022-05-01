@@ -61,39 +61,6 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
       signupUserStore.setActive(widget.userViewModel.active);
       signupUserStore.setPhone(widget.userViewModel.phone);
       signupUserStore.setUserId(widget.userViewModel.userId());
-
-      if (appStore.userViewModel.userType == UserType.Master) {
-        signupUserStore.setUserTypes([UserType.Admin]);
-        signupUserStore.setUserType(UserType.Admin);
-
-        if (widget.isPerfil) {
-          signupUserStore.setUserType(UserType.Master);
-          signupUserStore.setUserTypes([UserType.Master]);
-        }
-      } else if (appStore.userViewModel.userType == UserType.Admin) {
-        if (widget.userViewModel.userType == UserType.User) {
-          signupUserStore.setUserType(UserType.User);
-          signupUserStore.setNivel(false);
-        } else {
-          signupUserStore.setUserType(UserType.Admin);
-          signupUserStore.setNivel(true);
-        }
-        signupUserStore.setUserTypes([UserType.Admin, UserType.User]);
-        if (widget.isPerfil) {
-          signupUserStore.setUserTypes([UserType.Admin]);
-        }
-      } else {
-        signupUserStore.setUserType(UserType.User);
-        signupUserStore.setUserTypes([UserType.User]);
-      }
-    } else {
-      if (appStore.userViewModel.userType == UserType.Master) {
-        signupUserStore.setUserType(UserType.Admin);
-        signupUserStore.setUserTypes([UserType.Admin]);
-      } else {
-        signupUserStore.setUserType(UserType.Admin);
-        signupUserStore.setUserTypes([UserType.Admin, UserType.User]);
-      }
     }
   }
 

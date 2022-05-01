@@ -11,6 +11,9 @@ abstract class _SignupCompanyStoreBase with Store {
 
   //OBSERVABLES
   @observable
+  String companyId;
+
+  @observable
   String name;
 
   @observable
@@ -29,6 +32,9 @@ abstract class _SignupCompanyStoreBase with Store {
   bool signupSuccess = false;
 
   //ACTIONS
+  @action
+  void setCompanyId(String value) => companyId = value;
+
   @action
   void setName(String value) => name = value;
 
@@ -89,6 +95,12 @@ abstract class _SignupCompanyStoreBase with Store {
           ? signUp
           : null;
 
+  @computed
+  Function get updatePressed =>
+      (nameValid && phoneValid && addressValid && activeValid && !loading)
+          ? updateCompany
+          : null;
+
   @action
   Future<void> signUp() async {
     loading = true;
@@ -103,6 +115,29 @@ abstract class _SignupCompanyStoreBase with Store {
     ));
     print(result);
     if (result.contains('sucesso')) {
+      setSignupSuccess(true);
+      loading = false;
+    } else {
+      loading = false;
+      setSignupSuccess(false);
+    }
+  }
+
+  @action
+  Future<void> updateCompany() async {
+    loading = true;
+    var companyData = {
+      "Name": name,
+      "Address": address,
+      "Phone": phone,
+      "Active": active,
+      "UpdatedAt": DateTime.now()
+    };
+
+    var result = await repository.updateCompany(
+        companyData: companyData, companyId: companyId);
+
+    if (result) {
       setSignupSuccess(true);
       loading = false;
     } else {

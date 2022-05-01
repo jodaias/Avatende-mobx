@@ -99,7 +99,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                       appStore.imageFiles[0])
                                                   as ImageProvider
                                               : appStore.userViewModel.image ==
-                                                      ""
+                                                          "" ||
+                                                      appStore.userViewModel
+                                                              .image ==
+                                                          null
                                                   ? NetworkImage(
                                                       profileUrlDefault)
                                                   : NetworkImage(appStore
@@ -184,7 +187,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           fileToUpload: user.imageFile);
 
       var urlResul = await appStore.uploadImageFileInStorage(ctx, uploadImage);
-      user.setImage(urlResul);
+      user.image = urlResul;
       appStore.setUser(user);
 
       await userStore.updateUser(user.userId(), user.toMap());

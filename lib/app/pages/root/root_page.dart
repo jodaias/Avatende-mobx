@@ -35,14 +35,18 @@ class _RootPageState extends State<RootPage> {
   }
 
   bool userMasterHasAccessGranted() =>
-      appStore.userViewModel.userType == UserType.Master;
+      appStore.userViewModel != null &&
+      appStore.userViewModel.userType == UserType.Master &&
+      appStore.userViewModel.active;
 
   bool userAdminAccessGranted() =>
+      appStore.userViewModel != null &&
       appStore.userViewModel.userType == UserType.Admin &&
       appStore.companyViewModel.active &&
       appStore.userViewModel.active;
 
   bool userHasAccessGranted() =>
+      appStore.userViewModel != null &&
       appStore.userViewModel.userType == UserType.User &&
       appStore.companyViewModel.active &&
       appStore.departmentViewModel.active &&
