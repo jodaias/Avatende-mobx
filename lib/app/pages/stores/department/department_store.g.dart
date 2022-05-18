@@ -6,10 +6,10 @@ part of 'department_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$DepartmentStore on _DepartmentStoreBase, Store {
-  Computed<dynamic> _$departmentListComputed;
+  Computed<dynamic>? _$departmentListComputed;
 
   @override
   dynamic get departmentList => (_$departmentListComputed ??= Computed<dynamic>(
@@ -17,7 +17,8 @@ mixin _$DepartmentStore on _DepartmentStoreBase, Store {
           name: '_DepartmentStoreBase.departmentList'))
       .value;
 
-  final _$loadingAtom = Atom(name: '_DepartmentStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_DepartmentStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -32,7 +33,8 @@ mixin _$DepartmentStore on _DepartmentStoreBase, Store {
     });
   }
 
-  final _$orderByAzAtom = Atom(name: '_DepartmentStoreBase.orderByAz');
+  late final _$orderByAzAtom =
+      Atom(name: '_DepartmentStoreBase.orderByAz', context: context);
 
   @override
   bool get orderByAz {
@@ -47,7 +49,8 @@ mixin _$DepartmentStore on _DepartmentStoreBase, Store {
     });
   }
 
-  final _$listActiveAtom = Atom(name: '_DepartmentStoreBase.listActive');
+  late final _$listActiveAtom =
+      Atom(name: '_DepartmentStoreBase.listActive', context: context);
 
   @override
   bool get listActive {
@@ -62,38 +65,40 @@ mixin _$DepartmentStore on _DepartmentStoreBase, Store {
     });
   }
 
-  final _$companyIdAtom = Atom(name: '_DepartmentStoreBase.companyId');
+  late final _$companyIdAtom =
+      Atom(name: '_DepartmentStoreBase.companyId', context: context);
 
   @override
-  String get companyId {
+  String? get companyId {
     _$companyIdAtom.reportRead();
     return super.companyId;
   }
 
   @override
-  set companyId(String value) {
+  set companyId(String? value) {
     _$companyIdAtom.reportWrite(value, super.companyId, () {
       super.companyId = value;
     });
   }
 
-  final _$nameAtom = Atom(name: '_DepartmentStoreBase.name');
+  late final _$nameAtom =
+      Atom(name: '_DepartmentStoreBase.name', context: context);
 
   @override
-  String get name {
+  String? get name {
     _$nameAtom.reportRead();
     return super.name;
   }
 
   @override
-  set name(String value) {
+  set name(String? value) {
     _$nameAtom.reportWrite(value, super.name, () {
       super.name = value;
     });
   }
 
-  final _$updateDepartmentsAsyncAction =
-      AsyncAction('_DepartmentStoreBase.updateDepartments');
+  late final _$updateDepartmentsAsyncAction =
+      AsyncAction('_DepartmentStoreBase.updateDepartments', context: context);
 
   @override
   Future<bool> updateDepartments(
@@ -102,8 +107,8 @@ mixin _$DepartmentStore on _DepartmentStoreBase, Store {
         .run(() => super.updateDepartments(departmentId, departmentData));
   }
 
-  final _$_DepartmentStoreBaseActionController =
-      ActionController(name: '_DepartmentStoreBase');
+  late final _$_DepartmentStoreBaseActionController =
+      ActionController(name: '_DepartmentStoreBase', context: context);
 
   @override
   void setName(String value) {

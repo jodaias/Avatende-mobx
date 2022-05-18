@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
-  CustomCard({Key key, this.label, this.iconData, this.edgeInsets, this.onTap})
-      : super(key: key);
+  CustomCard({
+    Key? key,
+    required this.label,
+    required this.iconData,
+    required this.edgeInsets,
+    required this.onTap,
+  }) : super(key: key);
 
   final String label;
   final IconData iconData;

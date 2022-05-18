@@ -5,9 +5,9 @@ class DepartmentModel {
   bool active;
 
   DepartmentModel({
-    this.name,
-    this.companyId,
-    this.phone,
-    this.active,
+    required this.name,
+    required this.companyId,
+    required this.phone,
+    this.active = false,
   });
 }

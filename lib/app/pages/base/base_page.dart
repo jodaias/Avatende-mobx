@@ -17,7 +17,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 class BasePage extends StatefulWidget {
-  BasePage({Key key, this.title = "Base"}) : super(key: key);
+  BasePage({Key? key, this.title = "Base"}) : super(key: key);
 
   final String title;
 
@@ -36,15 +36,8 @@ class _BasePageState extends State<BasePage> {
     super.initState();
     reaction(
       (_) => pageStore.page,
-      (page) => pageController.jumpToPage(page),
+      (int? page) => pageController.jumpToPage(page!),
     );
-  }
-
-  bool isAtendente() {
-    if (appStore.userViewModel.userType == UserType.User) {
-      return true;
-    }
-    return false;
   }
 
   @override
@@ -53,29 +46,36 @@ class _BasePageState extends State<BasePage> {
       return PageView(
         controller: pageController,
         physics: NeverScrollableScrollPhysics(),
-        children: !isAtendente()
-            ? [
+        children: appStore.userMasterHasAccessGranted()
+            ? <Widget>[
                 HomePage(),
-                appStore.userViewModel.userType == UserType.Master
-                    ? CompanysPage()
-                    : DepartmentsPage(
-                        companyId: appStore.userViewModel.companyId,
-                      ),
-                RelatoryPage(),
-                AddImagesPage(),
+                CompanysPage(),
                 HelpPage(),
                 AboutPage(),
                 SettingsPage(),
                 RootPage(),
               ]
-            : [
-                HomePage(),
-                AdsPage(),
-                HelpPage(),
-                AboutPage(),
-                SettingsPage(),
-                RootPage(),
-              ],
+            : appStore.userAdminHasAccessGranted()
+                ? <Widget>[
+                    HomePage(),
+                    DepartmentsPage(
+                      companyId: appStore.userViewModel!.companyId,
+                    ),
+                    RelatoryPage(),
+                    AddImagesPage(),
+                    HelpPage(),
+                    AboutPage(),
+                    SettingsPage(),
+                    RootPage(),
+                  ]
+                : [
+                    HomePage(),
+                    AdsPage(),
+                    HelpPage(),
+                    AboutPage(),
+                    SettingsPage(),
+                    RootPage(),
+                  ],
       );
     }));
   }

@@ -13,7 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   LoginStore loginStore = LoginStore();
 
-  ReactionDisposer disposer;
+  late ReactionDisposer disposer;
 
   void _showDialogUserInactive() {
     showDialog(
@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     super.didChangeDependencies();
 
     disposer = reaction((_) => loginStore.loggedIn, (loggedIn) {
-      if (loggedIn) {
+      if (loggedIn == true) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => RootPage()));
       } else {

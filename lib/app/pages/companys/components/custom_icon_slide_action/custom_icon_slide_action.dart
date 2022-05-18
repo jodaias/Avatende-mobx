@@ -3,11 +3,11 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class CustomIconSlideAction extends StatelessWidget {
   CustomIconSlideAction({
-    Key key,
-    this.labelContent,
-    this.labelAction,
-    this.labelCaption,
-    this.onPressed,
+    Key? key,
+    required this.labelContent,
+    required this.labelAction,
+    required this.labelCaption,
+    required this.onPressed,
   }) : super(key: key);
 
   final String labelContent;
@@ -17,11 +17,11 @@ class CustomIconSlideAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconSlideAction(
-      caption: labelCaption,
+    return SlidableAction(
+      onPressed: _showdialog,
+      foregroundColor: Colors.red,
       icon: Icons.block,
-      color: Colors.red,
-      onTap: () => _showdialog(context),
+      label: labelCaption,
     );
   }
 

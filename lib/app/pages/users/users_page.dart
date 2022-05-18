@@ -3,7 +3,6 @@ import 'package:avatende/app/pages/companys/components/custom_floating_action_bu
 import 'package:avatende/app/pages/signup/signup_user_page.dart';
 import 'package:avatende/app/pages/stores/user/user_store.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -11,12 +10,12 @@ import 'package:get_it/get_it.dart';
 
 class UsersPage extends StatefulWidget {
   UsersPage(
-      {Key key, this.title = "Usuários", this.departmentId, this.companyId})
+      {Key? key, this.title = "Usuários", this.departmentId, this.companyId})
       : super(key: key);
 
   final String title;
-  final String departmentId;
-  final String companyId;
+  final String? departmentId;
+  final String? companyId;
 
   @override
   _UsersPageState createState() => _UsersPageState();
@@ -28,12 +27,11 @@ class _UsersPageState extends State<UsersPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
-      userStore.setDepartmentId(widget.departmentId);
-      userStore.setCompanyId(widget.companyId);
-      userStore.setUserType(appStore.userViewModel.userType);
+      userStore.setDepartmentId(widget.departmentId!);
+      userStore.setCompanyId(widget.companyId!);
+      userStore.setUserType(appStore.userViewModel!.userType);
     });
   }
 
@@ -48,8 +46,8 @@ class _UsersPageState extends State<UsersPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => SignUpUserPage(
-                          companyId: widget.companyId,
-                          departmentId: widget.departmentId,
+                          companyId: widget.companyId!,
+                          departmentId: widget.departmentId!,
                           isUpdate: false,
                           isPerfil: false,
                         )));
@@ -103,7 +101,7 @@ class _UsersPageState extends State<UsersPage> {
                     return Center(child: CircularProgressIndicator());
                   }
 
-                  if (snapshot.data.isEmpty) {
+                  if (snapshot.data!.isEmpty) {
                     return Container(
                       padding: EdgeInsets.all(30),
                       child: Text(userStore.listActive
@@ -123,11 +121,142 @@ class _UsersPageState extends State<UsersPage> {
 
                   return Container(
                     child: ListView(
-                      children: snapshot.data.map((user) {
+                      children: snapshot.data!.map((user) {
                         return Slidable(
                           closeOnScroll: true,
-                          actionExtentRatio: 0.2,
                           direction: Axis.horizontal,
+                          startActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: user.active
+                                ? <Widget>[
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (_) => SignUpUserPage(
+                                                      companyId:
+                                                          widget.companyId,
+                                                      departmentId:
+                                                          widget.departmentId,
+                                                      userViewModel: user,
+                                                      isUpdate: true,
+                                                      isPerfil: false,
+                                                    )));
+                                      },
+                                      foregroundColor: Colors.black,
+                                      icon: Icons.edit,
+                                      label: 'Editar',
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext ctx) {
+                                              return AlertDialog(
+                                                title: Text('Tem certeza?'),
+                                                content: Text(
+                                                    'Esta ação irá desativar o usuário selecionado!'),
+                                                actions: <Widget>[
+                                                  ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                      Colors.purple[400],
+                                                    )),
+                                                    child: Text('Cancelar',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white)),
+                                                    onPressed: () {
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                  ),
+                                                  ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                      Colors.white,
+                                                    )),
+                                                    child: Text('Desativar',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .purple[400])),
+                                                    onPressed: () {
+                                                      userStore.updateUser(
+                                                          user.userId()!,
+                                                          {'Active': false});
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                      },
+                                      foregroundColor: Colors.red[400],
+                                      icon: Icons.block,
+                                      label: 'Desativar',
+                                    ),
+                                  ]
+                                : <Widget>[
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext ctx) {
+                                              return AlertDialog(
+                                                title: Text('Tem certeza?'),
+                                                content: Text(
+                                                    'Esta ação irá ativar o usuário selecionado!'),
+                                                actions: <Widget>[
+                                                  ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                      Colors.purple[400],
+                                                    )),
+                                                    child: Text('Cancelar',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white)),
+                                                    onPressed: () {
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                  ),
+                                                  ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                      Colors.white,
+                                                    )),
+                                                    child: Text('Ativar',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .purple[400])),
+                                                    onPressed: () {
+                                                      //alguma ação para ativar o usuario
+                                                      userStore.updateUser(
+                                                          user.userId()!,
+                                                          {'Active': true});
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                      },
+                                      foregroundColor: Colors.red,
+                                      icon: Icons.block,
+                                      label: 'Ativar',
+                                    ),
+                                  ],
+                          ),
                           child: ListTile(
                             title: Text("${user.name}"),
                             trailing: Icon(Icons.visibility_outlined),
@@ -142,7 +271,7 @@ class _UsersPageState extends State<UsersPage> {
                                         child: ListBody(
                                           children: <Widget>[
                                             Text(
-                                              '\nNome: ${user.name}\nEmail: ${user.email}\nPhone: ${user.phone}\nEndereço: ${user.address}\nTipo de Usuário: ${describeEnum(user.userType)}\nAtivo? ${user.active ? "Sim" : "Não"}\n',
+                                              '\nNome: ${user.name}\nEmail: ${user.email}\nTipo de Usuário: ${user.userType.name}',
                                             ),
                                           ],
                                         ),
@@ -166,133 +295,6 @@ class _UsersPageState extends State<UsersPage> {
                                   });
                             },
                           ),
-                          secondaryActions: user.active
-                              ? <Widget>[
-                                  IconSlideAction(
-                                    caption: 'Editar',
-                                    icon: Icons.edit,
-                                    color: Colors.black,
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => SignUpUserPage(
-                                                    companyId: widget.companyId,
-                                                    departmentId:
-                                                        widget.departmentId,
-                                                    userViewModel: user,
-                                                    isUpdate: true,
-                                                    isPerfil: false,
-                                                  )));
-                                    },
-                                  ),
-                                  IconSlideAction(
-                                    caption: 'Desativar',
-                                    icon: Icons.block,
-                                    color: Colors.red[400],
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          barrierDismissible: true,
-                                          builder: (BuildContext ctx) {
-                                            return AlertDialog(
-                                              title: Text('Tem certeza?'),
-                                              content: Text(
-                                                  'Esta ação irá desativar o usuário selecionado!'),
-                                              actions: <Widget>[
-                                                ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                    Colors.purple[400],
-                                                  )),
-                                                  child: Text('Cancelar',
-                                                      style: TextStyle(
-                                                          color: Colors.white)),
-                                                  onPressed: () {
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                ),
-                                                ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                    Colors.white,
-                                                  )),
-                                                  child: Text('Desativar',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .purple[400])),
-                                                  onPressed: () {
-                                                    userStore.updateUser(
-                                                        user.userId(),
-                                                        {'Active': false});
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                )
-                                              ],
-                                            );
-                                          });
-                                    },
-                                  ),
-                                ]
-                              : <Widget>[
-                                  IconSlideAction(
-                                    caption: 'Ativar',
-                                    icon: Icons.block,
-                                    color: Colors.red[400],
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          barrierDismissible: true,
-                                          builder: (BuildContext ctx) {
-                                            return AlertDialog(
-                                              title: Text('Tem certeza?'),
-                                              content: Text(
-                                                  'Esta ação irá ativar o usuário selecionado!'),
-                                              actions: <Widget>[
-                                                ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                    Colors.purple[400],
-                                                  )),
-                                                  child: Text('Cancelar',
-                                                      style: TextStyle(
-                                                          color: Colors.white)),
-                                                  onPressed: () {
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                ),
-                                                ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                    Colors.white,
-                                                  )),
-                                                  child: Text('Ativar',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .purple[400])),
-                                                  onPressed: () {
-                                                    //alguma ação para ativar o usuario
-                                                    userStore.updateUser(
-                                                        user.userId(),
-                                                        {'Active': true});
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                )
-                                              ],
-                                            );
-                                          });
-                                    },
-                                  ),
-                                ],
-                          actionPane: SlidableBehindActionPane(),
                         );
                       }).toList(),
                     ),

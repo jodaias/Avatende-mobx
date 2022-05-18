@@ -6,10 +6,10 @@ class ButtonHeaderWidget extends StatelessWidget {
   final VoidCallback onClicked;
 
   const ButtonHeaderWidget({
-    Key key,
-    @required this.title,
-    @required this.text,
-    @required this.onClicked,
+    Key? key,
+    required this.title,
+    required this.text,
+    required this.onClicked,
   }) : super(key: key);
 
   @override
@@ -27,9 +27,9 @@ class ButtonWidget extends StatelessWidget {
   final VoidCallback onClicked;
 
   const ButtonWidget({
-    Key key,
-    @required this.text,
-    @required this.onClicked,
+    Key? key,
+    required this.text,
+    required this.onClicked,
   }) : super(key: key);
 
   @override
@@ -53,9 +53,9 @@ class HeaderWidget extends StatelessWidget {
   final Widget child;
 
   const HeaderWidget({
-    Key key,
-    @required this.title,
-    @required this.child,
+    Key? key,
+    required this.title,
+    required this.child,
   }) : super(key: key);
 
   @override

@@ -1,7 +1,7 @@
 import 'package:avatende/app/models/views/company_view_model.dart';
 import 'package:avatende/app/pages/stores/signup/signup_company_store.dart';
 import 'package:avatende/app/pages/signup/components/field_title.dart';
-import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
+// import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -10,7 +10,7 @@ import 'package:mobx/mobx.dart';
 class SignUpCompanyPage extends StatefulWidget {
   const SignUpCompanyPage({this.isUpdate = false, this.companyViewModel});
   final bool isUpdate;
-  final CompanyViewModel companyViewModel;
+  final CompanyViewModel? companyViewModel;
 
   @override
   _SignUpCompanyPageState createState() => _SignUpCompanyPageState();
@@ -19,7 +19,7 @@ class SignUpCompanyPage extends StatefulWidget {
 class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
   SignupCompanyStore signupCompanyStore = SignupCompanyStore();
 
-  ReactionDisposer disposer;
+  late ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
@@ -27,7 +27,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
 
     disposer =
         reaction((_) => signupCompanyStore.signupSuccess, (signupSuccess) {
-      if (signupSuccess) {
+      if (signupSuccess == true) {
         Navigator.of(context).pop(true);
       } else {
         print('não foi possivel cadastrar');
@@ -36,11 +36,11 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
   }
 
   void setAtributsIfUpdate() {
-    signupCompanyStore.setCompanyId(widget.companyViewModel.companyId());
-    signupCompanyStore.setName(widget.companyViewModel.name);
-    signupCompanyStore.setAddress(widget.companyViewModel.address);
-    signupCompanyStore.setActive(widget.companyViewModel.active);
-    signupCompanyStore.setPhone(widget.companyViewModel.phone);
+    signupCompanyStore.setCompanyId(widget.companyViewModel!.companyId());
+    signupCompanyStore.setName(widget.companyViewModel!.name);
+    signupCompanyStore.setAddress(widget.companyViewModel!.address);
+    signupCompanyStore.setActive(widget.companyViewModel!.active);
+    signupCompanyStore.setPhone(widget.companyViewModel!.phone);
   }
 
   @override
@@ -79,7 +79,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         Observer(builder: (_) {
                           return TextFormField(
                             initialValue: widget.isUpdate
-                                ? widget.companyViewModel.name
+                                ? widget.companyViewModel!.name
                                 : '',
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -100,7 +100,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         Observer(builder: (_) {
                           return TextFormField(
                             initialValue: widget.isUpdate
-                                ? widget.companyViewModel.address
+                                ? widget.companyViewModel!.address
                                 : '',
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -121,7 +121,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         Observer(builder: (_) {
                           return TextFormField(
                             initialValue: widget.isUpdate
-                                ? widget.companyViewModel.phone
+                                ? widget.companyViewModel!.phone
                                 : '',
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -132,7 +132,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                             keyboardType: TextInputType.phone,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
-                              TelefoneInputFormatter()
+                              // TelefoneInputFormatter()
                             ],
                             onChanged: signupCompanyStore.setPhone,
                           );
@@ -151,17 +151,13 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                               Radio(
                                 groupValue: signupCompanyStore.active,
                                 value: true,
-                                onChanged: (val) {
-                                  signupCompanyStore.setActive(val);
-                                },
+                                onChanged: signupCompanyStore.setActive,
                               ),
                               Text('Sim'),
                               Radio(
                                 groupValue: signupCompanyStore.active,
                                 value: false,
-                                onChanged: (val) {
-                                  signupCompanyStore.setActive(val);
-                                },
+                                onChanged: signupCompanyStore.setActive,
                               ),
                               Text('Não'),
                             ],

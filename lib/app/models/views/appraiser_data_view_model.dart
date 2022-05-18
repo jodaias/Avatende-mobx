@@ -2,5 +2,5 @@ class AppraiserDataViewModel {
   List<String> observations;
   List<String> contacts;
 
-  AppraiserDataViewModel({this.observations, this.contacts});
+  AppraiserDataViewModel({required this.observations, required this.contacts});
 }

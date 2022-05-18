@@ -1,22 +1,22 @@
 import 'package:avatende/app/models/views/appraiser_data_view_model.dart';
 
 class RelatoryViewModel {
-  String userId;
-  String userName;
-  double mediaScores = 0.0;
-  AppraiserDataViewModel appraiserData;
-  String departmentName;
-  int totalAvaliations;
+  late String userId;
+  late double mediaScores = 0.0;
+  late int totalAvaliations;
+  late String rangePeriod;
   bool isSelected;
-  String rangePeriod;
+  AppraiserDataViewModel? appraiserData;
+  late String? userName;
+  late String? departmentName;
 
   RelatoryViewModel(
-      {this.userId,
-      this.mediaScores,
-      this.appraiserData,
+      {required this.userId,
+      required this.mediaScores,
+      required this.totalAvaliations,
       this.departmentName,
+      this.appraiserData,
       this.userName,
-      this.totalAvaliations,
       this.isSelected = false});
 
   String getPerformanceLevel() {

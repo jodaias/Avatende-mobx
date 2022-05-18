@@ -1,6 +1,5 @@
 import 'package:avatende/app/models/department_model.dart';
 import 'package:avatende/app/models/views/department_view_model.dart';
-import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:avatende/app/repositories/user/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobx/mobx.dart';
@@ -14,6 +13,7 @@ class DepartmentRepository {
     try {
       //logica para salvar no banco
       await _instance.collection(_collection).add({
+        'Id': '',
         'Name': departmodel.name,
         'Phone': departmodel.phone,
         'Active': departmodel.active,
@@ -37,8 +37,9 @@ class DepartmentRepository {
         .orderBy('Name', descending: !orderByAz)
         .get();
 
-    var departments =
-        snapshots.docs.map((e) => DepartmentViewModel.fromMap(e)).toList();
+    var departments = snapshots.docs
+        .map((doc) => DepartmentViewModel.fromMap(doc.data(), doc.id))
+        .toList();
 
     //Atribui a lista de users para cada departamento
     for (var department in departments) {
@@ -59,13 +60,14 @@ class DepartmentRepository {
         .orderBy('Name', descending: !orderByAz)
         .snapshots()
         .map((query) => query.docs
-            .map<DepartmentViewModel>(
-                (document) => DepartmentViewModel.fromMap(document))
+            .map<DepartmentViewModel>((document) =>
+                DepartmentViewModel.fromMap(document.data(), document.id))
             .toList()));
   }
 
   Future<bool> updateDepartments(
-      {String departmentId, Map<String, dynamic> departmentData}) async {
+      {required String departmentId,
+      required Map<String, dynamic> departmentData}) async {
     try {
       await _instance
           .collection(_collection)

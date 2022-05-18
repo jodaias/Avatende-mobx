@@ -7,9 +7,9 @@ class ImageUploadModel {
   String subFolder;
 
   ImageUploadModel({
-    this.fileName,
-    this.fileToUpload,
-    this.folder,
-    this.subFolder,
+    required this.fileName,
+    required this.fileToUpload,
+    required this.folder,
+    required this.subFolder,
   });
 }

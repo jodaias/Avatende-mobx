@@ -2,6 +2,7 @@ import 'package:avatende/app/enums/user-type.dart';
 import 'package:avatende/app/models/user_model.dart';
 import 'package:avatende/app/repositories/user/user_repository.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:avatende/app/helpers/extensions.dart';
@@ -23,43 +24,37 @@ abstract class _SignUpUserStoreBase with Store {
   bool loading = false;
 
   @observable
-  String phone;
+  UserType? userType;
 
   @observable
-  UserType userType;
+  String? password1;
 
   @observable
-  String password1;
+  String? password2;
 
   @observable
-  String password2;
+  String? name;
 
   @observable
-  String name;
+  String? email;
 
   @observable
-  String email;
-
-  @observable
-  bool active = false;
+  bool? active = false;
 
   @observable
   bool nivel = true;
 
   @observable
-  String address;
+  String? departmentId;
 
   @observable
-  String departmentId;
+  String? companyId;
 
   @observable
-  String companyId;
+  String? userId;
 
   @observable
-  String userId;
-
-  @observable
-  bool signupSuccess;
+  bool? signupSuccess;
 
   @observable
   bool isObscureText = true;
@@ -70,7 +65,7 @@ abstract class _SignUpUserStoreBase with Store {
   bool listActive = true;
 
   @observable
-  List<UserType> userTypes;
+  List<UserType> userTypes = <UserType>[];
 
   //ACTIONS
   @action
@@ -86,16 +81,10 @@ abstract class _SignUpUserStoreBase with Store {
   void setName(String value) => name = value;
 
   @action
-  void setAddress(String value) => address = value;
-
-  @action
-  void setPhone(String value) => phone = value;
-
-  @action
   void setUserType(UserType value) => userType = value;
 
   @action
-  void setActive(bool value) => active = value;
+  void setActive(bool? value) => active = value;
 
   @action
   void setNivel(bool value) => nivel = value;
@@ -113,13 +102,13 @@ abstract class _SignUpUserStoreBase with Store {
   void setListActive(bool value) => listActive = value;
 
   @action
-  void setDepartmentId(String value) => departmentId = value;
+  void setDepartmentId(String? value) => departmentId = value;
 
   @action
-  void setCompanyId(String value) => companyId = value;
+  void setCompanyId(String? value) => companyId = value;
 
   @action
-  void setUserId(String value) => userId = value;
+  void setUserId(String? value) => userId = value;
 
   @action
   void setUserTypes(List<UserType> value) => userTypes = value;
@@ -127,22 +116,22 @@ abstract class _SignUpUserStoreBase with Store {
 
   //Validando variaveis
   @computed
-  bool get nameValid => name != null && name.length > 2;
-  String get nameError {
+  bool get nameValid => name != null && name!.length > 2;
+  String? get nameError {
     if (name == null || nameValid)
       return null;
-    else if (name.isEmpty)
+    else if (name!.isEmpty)
       return 'Campo obrigatório';
     else
       return 'Nome muito curto';
   }
 
   @computed
-  bool get emailValid => email != null && email.isEmailValid();
-  String get emailError {
+  bool get emailValid => email != null && email!.isEmailValid();
+  String? get emailError {
     if (email == null || emailValid)
       return null;
-    else if (email.isEmpty)
+    else if (email!.isEmpty)
       return 'Campo obrigatório';
     else
       return 'Email inválido';
@@ -152,33 +141,11 @@ abstract class _SignUpUserStoreBase with Store {
   bool get activeValid => active != null;
 
   @computed
-  bool get phoneValid => phone != null && phone.length >= 14;
-  String get phoneError {
-    if (phone == null || phoneValid)
-      return null;
-    else if (phone.isEmpty)
-      return 'Campo obrigatório';
-    else
-      return 'Número inválido';
-  }
-
-  @computed
-  bool get addressValid => address != null && address.length > 6;
-  String get addressError {
-    if (address == null || addressValid)
-      return null;
-    else if (address.isEmpty)
-      return 'Campo obrigatório';
-    else
-      return 'Endereço muito curto';
-  }
-
-  @computed
   bool get userTypeValid =>
-      userType != null && appStore.userViewModel.userType == UserType.Master
+      userType != null && appStore.userViewModel!.userType == UserType.Master
           ? (userType == UserType.Admin || userType == UserType.Master)
           : (userType == UserType.Admin || userType == UserType.User);
-  String get userTypeError {
+  String? get userTypeError {
     if (userType == null || userTypeValid)
       return null;
     else if (userType != UserType.Admin ||
@@ -190,11 +157,11 @@ abstract class _SignUpUserStoreBase with Store {
   }
 
   @computed
-  bool get password1Valid => password1 != null && password1.isPasswordValid();
-  String get password1Error {
+  bool get password1Valid => password1 != null && password1!.isPasswordValid();
+  String? get password1Error {
     if (password1 == null || password1Valid)
       return null;
-    else if (password1.isEmpty)
+    else if (password1!.isEmpty)
       return 'Campo obrigatório';
     else
       return 'Senha fraca';
@@ -202,7 +169,7 @@ abstract class _SignUpUserStoreBase with Store {
 
   @computed
   bool get password2Valid => password2 != null && password2 == password1;
-  String get password2Error {
+  String? get password2Error {
     if (password2 == null || password2Valid)
       return null;
     else
@@ -210,23 +177,18 @@ abstract class _SignUpUserStoreBase with Store {
   }
 
   @computed
-  Function get signUpPressed => (emailValid &&
+  VoidCallback? get signUpPressed => (emailValid &&
           password1Valid &&
           password2Valid &&
           nameValid &&
-          phoneValid &&
-          addressValid &&
-          userTypeValid &&
           activeValid &&
           !loading)
       ? signUp
       : null;
 
   @computed
-  Function get updatePressed =>
-      (nameValid && phoneValid && addressValid && activeValid && !loading)
-          ? updateUser
-          : null;
+  VoidCallback? get updatePressed =>
+      (nameValid && activeValid && !loading) ? updateUser : null;
 
   @action
   Future<void> signUp() async {
@@ -239,16 +201,14 @@ abstract class _SignUpUserStoreBase with Store {
     repository
         .signUpUser(
             usermodel: UserModel(
-              name: name,
-              phone: phone,
-              active: active,
+              name: name!,
+              active: active!,
               departmentId: departmentId,
               companyId: companyId,
-              email: email,
-              address: address,
-              userType: userType,
+              email: email!,
+              userType: userType!,
             ),
-            password: password1)
+            password: password1!)
         .then((value) {
       loading = false;
       signupSuccess = true;
@@ -256,7 +216,7 @@ abstract class _SignUpUserStoreBase with Store {
   }
 
   _setUserType() {
-    switch (appStore.userViewModel.userType) {
+    switch (appStore.userViewModel!.userType) {
       case UserType.Master:
         userType = UserType.Admin;
         break;
@@ -272,11 +232,9 @@ abstract class _SignUpUserStoreBase with Store {
 
     //Salvar a empresa no banco
     //e salvar no company model via appStore
-    await repository.updateUser(userId: userId, userData: {
+    await repository.updateUser(userId: userId!, userData: {
       'Name': name,
-      'Phone': phone,
       'Active': active,
-      'Address': address,
       'UpdatedAt': DateTime.now()
     });
 

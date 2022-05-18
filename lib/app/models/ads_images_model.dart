@@ -3,7 +3,7 @@ class AdsImagesModel {
   String companyId;
 
   AdsImagesModel({
-    this.adsImages,
-    this.companyId,
+    required this.adsImages,
+    required this.companyId,
   });
 }

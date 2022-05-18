@@ -110,7 +110,7 @@ class _AddImagesPageState extends State<AddImagesPage> {
                                     if (companyStore.images.length ==
                                         appStore.imageFiles.length) {
                                       companyStore.setCompanyId(appStore
-                                          .companyViewModel
+                                          .companyViewModel!
                                           .companyId());
                                       await companyStore.saveImages();
 
@@ -136,14 +136,14 @@ class _AddImagesPageState extends State<AddImagesPage> {
   _setImageUpload(File file) {
     var company = appStore.companyViewModel;
 
-    var fileName = "${company.companyId()}-${DateTime.now()}";
+    var fileName = "${company!.companyId()}-${DateTime.now()}";
     var folder = "ads_images";
 
     var imageUpload = new ImageUploadModel(
         fileName: fileName,
         fileToUpload: file,
         folder: folder,
-        subFolder: company.companyId());
+        subFolder: company.companyId() ?? "");
 
     return imageUpload;
   }

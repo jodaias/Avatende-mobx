@@ -7,14 +7,17 @@ import 'package:avatende/app/storesGlobal/page_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   setupLocators();
   await getUser();
@@ -33,7 +36,7 @@ Future<void> getUser() async {
       await _instance.collection("Users").doc(_auth.currentUser?.uid).get();
 
   if (user.data() != null) {
-    appStore.setUser(new UserViewModel.fromMap(user));
+    appStore.setUser(new UserViewModel.fromMap(user.data()!));
     await appStore.getCompanyAndDepartment();
   }
 }

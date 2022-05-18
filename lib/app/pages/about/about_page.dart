@@ -40,7 +40,7 @@ class AboutPage extends StatelessWidget {
                     ),
                     SizedBox(height: 50),
                     Image.asset(
-                      "images/icon.png",
+                      "assets/images/icon.png",
                       filterQuality: FilterQuality.high,
                       height: 140,
                       width: 140,

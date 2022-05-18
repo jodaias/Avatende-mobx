@@ -23,22 +23,22 @@ abstract class _RelatoryStoreBase with Store {
   bool loading = false;
 
   @observable
-  DateTime selectedStartDate;
+  DateTime? selectedStartDate;
 
   @observable
-  DateTimeRange dateRange;
+  DateTimeRange? dateRange;
 
   @observable
-  DateTime selectedEndDate;
+  DateTime? selectedEndDate;
 
   @observable
-  TypeRelatory typeReportSelected;
+  TypeRelatory? typeReportSelected;
 
   @observable
-  UserViewModel userSelected;
+  UserViewModel? userSelected;
 
   @observable
-  DepartmentViewModel departmentSelected;
+  DepartmentViewModel? departmentSelected;
 
   @observable
   List<RelatoryViewModel> relatories = <RelatoryViewModel>[];
@@ -80,7 +80,7 @@ abstract class _RelatoryStoreBase with Store {
   void setDateRange(DateTimeRange value) => dateRange = value;
 
   @action
-  void setTypeReportSelected(TypeRelatory value) => typeReportSelected = value;
+  void setTypeReportSelected(TypeRelatory? value) => typeReportSelected = value;
 
   @action
   void setRelatory(RelatoryViewModel value) {
@@ -103,10 +103,10 @@ abstract class _RelatoryStoreBase with Store {
 
   @action
   Future<void> getRelatoryByDepartment() async {
-    if (departmentSelected.users.isNotEmpty || attendants.isNotEmpty) {
-      for (var user in departmentSelected.users ?? attendants) {
-        await getRelatoryByAttendant(user.userId(), selectedStartDate,
-            selectedEndDate, departmentSelected.name, user.name);
+    if (departmentSelected!.users!.isNotEmpty || attendants.isNotEmpty) {
+      for (var user in departmentSelected!.users ?? attendants) {
+        await getRelatoryByAttendant(user.userId()!, selectedStartDate!,
+            selectedEndDate!, departmentSelected!.name, user.name!);
       }
     }
   }
@@ -116,10 +116,10 @@ abstract class _RelatoryStoreBase with Store {
     await getDepartments();
 
     for (var department in departments) {
-      if (department.users.isNotEmpty) {
-        for (var user in department.users) {
-          await getRelatoryByAttendant(user.userId(), selectedStartDate,
-              selectedEndDate, department.name, user.name);
+      if (department.users!.isNotEmpty) {
+        for (var user in department.users!) {
+          await getRelatoryByAttendant(user.userId()!, selectedStartDate!,
+              selectedEndDate!, department.name, user.name!);
         }
       }
     }
@@ -143,15 +143,15 @@ abstract class _RelatoryStoreBase with Store {
   Future<void> getDepartments() async {
     if (departments.isEmpty)
       departments = await _departmentRepository
-          .getDepartments(_appStore.companyViewModel.companyId());
+          .getDepartments(_appStore.companyViewModel!.companyId()!);
 
     departmentSelected = departments.first;
 
     var hasUser = departments
-        .where((element) => element.users != null && element.users.isNotEmpty)
+        .where((element) => element.users != null && element.users!.isNotEmpty)
         .any((_) => true);
 
-    attendants = departments.first.users;
+    attendants = departments.first.users!;
     userSelected = attendants.first;
 
     if (!hasUser && departments.isNotEmpty) {
@@ -168,7 +168,7 @@ abstract class _RelatoryStoreBase with Store {
   }
 
   @computed
-  Function get generatePressed => (selectedStartDate != null &&
+  VoidCallback? get generatePressed => (selectedStartDate != null &&
               selectedEndDate != null &&
               attendants.isNotEmpty &&
               typeReportSelected != null &&
@@ -186,8 +186,12 @@ abstract class _RelatoryStoreBase with Store {
     switch (typeReportSelected) {
       case TypeRelatory.attendant:
         relatories.clear();
-        await getRelatoryByAttendant(userSelected.userId(), selectedStartDate,
-            selectedEndDate, departmentSelected.name, userSelected.name);
+        await getRelatoryByAttendant(
+            userSelected!.userId()!,
+            selectedStartDate!,
+            selectedEndDate!,
+            departmentSelected!.name,
+            userSelected!.name!);
 
         if (relatories.isNotEmpty) {
           generatedReport = true;

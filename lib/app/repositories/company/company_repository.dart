@@ -32,8 +32,8 @@ class CompanyRepository {
   }
 
   Future<bool> updateCompany(
-      {@required String companyId,
-      @required Map<String, dynamic> companyData}) async {
+      {required String companyId,
+      required Map<String, dynamic> companyData}) async {
     try {
       await _instance
           .collection(_collection)
@@ -48,7 +48,8 @@ class CompanyRepository {
   }
 
   Future<bool> addImagesCompany(
-      {String companyId, Map<String, dynamic> companyData}) async {
+      {required String companyId,
+      required Map<String, dynamic> companyData}) async {
     try {
       await _instance
           .collection(_collection)
@@ -73,8 +74,8 @@ class CompanyRepository {
         .orderBy('Name', descending: !orderByAz)
         .snapshots()
         .map((query) => query.docs
-            .map<CompanyViewModel>(
-                (document) => CompanyViewModel.fromMap(document))
+            .map<CompanyViewModel>((document) =>
+                CompanyViewModel.fromMap(document.data(), document.id))
             .toList()));
   }
 
@@ -93,8 +94,8 @@ class CompanyRepository {
             .first));
   }
 
-  Future<Map<String, dynamic>> getCompanyAndDepartment(
-      {UserViewModel userViewModel}) async {
+  Future<Map<String, dynamic>?> getCompanyAndDepartment(
+      {required UserViewModel userViewModel}) async {
     if (userViewModel.userType == UserType.Master) return null;
     var department;
 
@@ -118,12 +119,13 @@ class CompanyRepository {
 
       if (userViewModel.userType == UserType.User) {
         return {
-          'Company': CompanyViewModel.fromMap(company),
-          'Department': DepartmentViewModel.fromMap(department)
+          'Company': CompanyViewModel.fromMap(company.data()!, company.id),
+          'Department':
+              DepartmentViewModel.fromMap(department.data()!, department.id)
         };
       } else {
         return {
-          'Company': CompanyViewModel.fromMap(company),
+          'Company': CompanyViewModel.fromMap(company.data()!, company.id),
         };
       }
     } catch (e) {

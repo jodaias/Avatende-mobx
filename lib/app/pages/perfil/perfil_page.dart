@@ -5,7 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 class PerfilPage extends StatefulWidget {
-  PerfilPage({Key key, this.title = "Perfil"}) : super(key: key);
+  PerfilPage({Key? key, this.title = "Perfil"}) : super(key: key);
 
   final String title;
 
@@ -40,7 +40,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 height: 4,
               ),
               Text(
-                '${appStore.userViewModel.name}',
+                '${appStore.userViewModel!.name}',
               ),
               SizedBox(
                 height: 16,
@@ -52,52 +52,21 @@ class _PerfilPageState extends State<PerfilPage> {
               SizedBox(
                 height: 4,
               ),
-              Text('${appStore.userViewModel.email}'),
+              Text('${appStore.userViewModel!.email}'),
+              SizedBox(
+                height: 16,
+              ),
               SizedBox(
                 height: 16,
               ),
               Text(
-                "Endereço:",
-                style: _style(),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                  '${appStore.userViewModel.address != null ? appStore.userViewModel.address : "_"}'),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Contato:",
-                style: _style(),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text('${appStore.userViewModel.phone}'),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Idiomas:",
+                "Idioma:",
                 style: _style(),
               ),
               SizedBox(
                 height: 4,
               ),
               Text("Português/BR"),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "profissão:",
-                style: _style(),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text("Não definido"),
               SizedBox(
                 height: 16,
               ),

@@ -13,7 +13,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get_it/get_it.dart';
 
 class CompanysPage extends StatefulWidget {
-  CompanysPage({Key key, this.title = "Empresas"}) : super(key: key);
+  CompanysPage({Key? key, this.title = "Empresas"}) : super(key: key);
 
   final String title;
 
@@ -84,7 +84,7 @@ class _CompanysPageState extends State<CompanysPage> {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                if (snapshot.data.isEmpty) {
+                if (snapshot.data!.isEmpty) {
                   return Container(
                     padding: EdgeInsets.all(30),
                     child: Text('Desculpe, nenhuma empresa cadastrada.'),
@@ -102,11 +102,138 @@ class _CompanysPageState extends State<CompanysPage> {
 
                 return Container(
                   child: ListView(
-                    children: snapshot.data.map((company) {
+                    children: snapshot.data!.map((company) {
                       return Slidable(
                         closeOnScroll: true,
-                        actionExtentRatio: 0.2,
                         direction: Axis.horizontal,
+                        startActionPane: ActionPane(
+                          dismissible: DismissiblePane(onDismissed: () {}),
+                          motion: const ScrollMotion(),
+                          children: company.active
+                              ? <Widget>[
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => SignUpCompanyPage(
+                                                    companyViewModel: company,
+                                                    isUpdate: true,
+                                                  )));
+                                    },
+                                    backgroundColor: Color(0xFFFE4A49),
+                                    foregroundColor: Colors.black,
+                                    icon: Icons.edit,
+                                    label: 'Editar',
+                                  ),
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      showDialog(
+                                          context: context,
+                                          barrierDismissible: true,
+                                          builder: (BuildContext ctx) {
+                                            return AlertDialog(
+                                              title: Text('Tem certeza?'),
+                                              content: Text(
+                                                  'Esta ação irá desativar a empresa selecionada!'),
+                                              actions: <Widget>[
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.purple[400],
+                                                  )),
+                                                  child: Text('Cancelar',
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                  onPressed: () {
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                ),
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.white,
+                                                  )),
+                                                  onPressed: () {
+                                                    companyStore.updateCompany(
+                                                        company.companyId()!,
+                                                        {'Active': false});
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                  child: Text('Desativar',
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .purple[400])),
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    foregroundColor: Colors.red[400],
+                                    icon: Icons.block,
+                                    label: 'Desativar',
+                                  ),
+                                ]
+                              : <Widget>[
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      showDialog(
+                                          context: context,
+                                          barrierDismissible: true,
+                                          builder: (BuildContext ctx) {
+                                            return AlertDialog(
+                                              title: Text('Tem certeza?'),
+                                              content: Text(
+                                                  'Esta ação irá ativar a compania selecionada!'),
+                                              actions: <Widget>[
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.purple[400],
+                                                  )),
+                                                  child: Text('Cancelar',
+                                                      style: TextStyle(
+                                                          color: Colors.white)),
+                                                  onPressed: () {
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                ),
+                                                ElevatedButton(
+                                                  style: ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                    Colors.white,
+                                                  )),
+                                                  child: Text('Ativar',
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .purple[400])),
+                                                  onPressed: () {
+                                                    //alguma ação para ativar o usuario
+                                                    companyStore.updateCompany(
+                                                        company.companyId()!,
+                                                        {'Active': true});
+                                                    Navigator.of(ctx).pop();
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          });
+                                    },
+                                    backgroundColor: Color(0xFFFE4A49),
+                                    foregroundColor: Colors.red[400],
+                                    icon: Icons.block,
+                                    label: 'Ativar',
+                                  ),
+                                ],
+                        ),
                         child: ListTile(
                           title: Text('${company.name}'),
                           //trailing: Icon(Icons.arrow_forward_ios),
@@ -154,13 +281,14 @@ class _CompanysPageState extends State<CompanysPage> {
                               IconButton(
                                 icon: Icon(Icons.arrow_forward_ios),
                                 onPressed: () {
-                                  appStore.userViewModel.userType !=
+                                  appStore.userViewModel!.userType !=
                                           UserType.Master
                                       ? Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (_) => DepartmentsPage(
-                                              companyId: company.companyId(),
+                                              companyId:
+                                                  company.companyId() ?? "",
                                             ),
                                           ),
                                         )
@@ -168,7 +296,7 @@ class _CompanysPageState extends State<CompanysPage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (_) => UsersPage(
-                                              companyId: company.companyId(),
+                                              companyId: company.companyId()!,
                                             ),
                                           ),
                                         );
@@ -211,194 +339,6 @@ class _CompanysPageState extends State<CompanysPage> {
                                 });
                           },
                         ),
-                        secondaryActions: company.active
-                            ? <Widget>[
-                                IconSlideAction(
-                                  caption: 'Editar',
-                                  icon: Icons.edit,
-                                  color: Colors.black,
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) => SignUpCompanyPage(
-                                                  companyViewModel: company,
-                                                  isUpdate: true,
-                                                )));
-                                    //   showDialog(
-                                    //       context: context,
-                                    //       barrierDismissible: true,
-                                    //       builder: (BuildContext ctx) {
-                                    //         final input = Form(
-                                    //             child: TextFormField(
-                                    //           autofocus: true,
-                                    //           initialValue: company.name,
-                                    //           decoration: InputDecoration(
-                                    //               hintText: 'Nome',
-                                    //               contentPadding: EdgeInsets.fromLTRB(
-                                    //                   20, 10, 20, 10),
-                                    //               border: OutlineInputBorder(
-                                    //                   borderRadius:
-                                    //                       BorderRadius.circular(5))),
-                                    //           validator: (value) {
-                                    //             if (value.isEmpty) {
-                                    //               return 'Este campo não pode ficar vazio';
-                                    //             }
-                                    //             return null;
-                                    //           },
-                                    //         ));
-
-                                    //         return AlertDialog(
-                                    //           title: Text('Editar nome'),
-                                    //           content: SingleChildScrollView(
-                                    //             child: ListBody(
-                                    //               children: <Widget>[input],
-                                    //             ),
-                                    //           ),
-                                    //           actions: <Widget>[
-                                    //             ElevatedButton(
-                                    //               style: ButtonStyle(
-                                    //                   backgroundColor:
-                                    //                       MaterialStateProperty.all(
-                                    //                 Colors.white,
-                                    //               )),
-                                    //               child: Text('Cancelar',
-                                    //                   style:
-                                    //                       TextStyle(color: Colors.red)),
-                                    //               onPressed: () {
-                                    //                 Navigator.of(ctx).pop();
-                                    //               },
-                                    //             ),
-                                    //             ElevatedButton(
-                                    //               style: ButtonStyle(
-                                    //                   backgroundColor:
-                                    //                       MaterialStateProperty.all(
-                                    //                 Colors.white,
-                                    //               )),
-                                    //               child: Text('Salvar',
-                                    //                   style: TextStyle(
-                                    //                       color: Colors.purple[400])),
-                                    //               onPressed: () {
-                                    //                 //atualiza a informação no banco de dados
-                                    //                 //salva um dado na tabela LOG dizendo que atualizou um dado
-                                    //                 print('dados atualizados');
-                                    //                 print('dados salvos na tabela LOG');
-                                    //                 Navigator.of(ctx).pop();
-                                    //               },
-                                    //             )
-                                    //           ],
-                                    //         );
-                                    //       });
-                                  },
-                                ),
-                                IconSlideAction(
-                                  caption: 'Desativar',
-                                  icon: Icons.block,
-                                  color: Colors.red[400],
-                                  onTap: () {
-                                    print("passou aqui");
-                                    showDialog(
-                                        context: context,
-                                        barrierDismissible: true,
-                                        builder: (BuildContext ctx) {
-                                          return AlertDialog(
-                                            title: Text('Tem certeza?'),
-                                            content: Text(
-                                                'Esta ação irá desativar a empresa selecionada!'),
-                                            actions: <Widget>[
-                                              ElevatedButton(
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(
-                                                  Colors.purple[400],
-                                                )),
-                                                child: Text('Cancelar',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                                onPressed: () {
-                                                  Navigator.of(ctx).pop();
-                                                },
-                                              ),
-                                              ElevatedButton(
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(
-                                                  Colors.white,
-                                                )),
-                                                onPressed: () {
-                                                  companyStore.updateCompany(
-                                                      company.companyId(),
-                                                      {'Active': false});
-                                                  Navigator.of(ctx).pop();
-                                                },
-                                                child: Text('Desativar',
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .purple[400])),
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  },
-                                ),
-                              ]
-                            : <Widget>[
-                                IconSlideAction(
-                                  caption: 'Ativar',
-                                  icon: Icons.block,
-                                  color: Colors.red[400],
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        barrierDismissible: true,
-                                        builder: (BuildContext ctx) {
-                                          return AlertDialog(
-                                            title: Text('Tem certeza?'),
-                                            content: Text(
-                                                'Esta ação irá ativar a compania selecionada!'),
-                                            actions: <Widget>[
-                                              ElevatedButton(
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(
-                                                  Colors.purple[400],
-                                                )),
-                                                child: Text('Cancelar',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                                onPressed: () {
-                                                  Navigator.of(ctx).pop();
-                                                },
-                                              ),
-                                              ElevatedButton(
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(
-                                                  Colors.white,
-                                                )),
-                                                child: Text('Ativar',
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .purple[400])),
-                                                onPressed: () {
-                                                  //alguma ação para ativar o usuario
-                                                  companyStore.updateCompany(
-                                                      company.companyId(),
-                                                      {'Active': true});
-                                                  Navigator.of(ctx).pop();
-                                                },
-                                              )
-                                            ],
-                                          );
-                                        });
-                                  },
-                                ),
-                              ],
-                        actionPane: SlidableBehindActionPane(),
                       );
                     }).toList(),
                   ),

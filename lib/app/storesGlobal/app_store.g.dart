@@ -6,71 +6,59 @@ part of 'app_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AppStore on _AppStoreBase, Store {
-  final _$producaoAtom = Atom(name: '_AppStoreBase.producao');
+  late final _$userViewModelAtom =
+      Atom(name: '_AppStoreBase.userViewModel', context: context);
 
   @override
-  bool get producao {
-    _$producaoAtom.reportRead();
-    return super.producao;
-  }
-
-  @override
-  set producao(bool value) {
-    _$producaoAtom.reportWrite(value, super.producao, () {
-      super.producao = value;
-    });
-  }
-
-  final _$userViewModelAtom = Atom(name: '_AppStoreBase.userViewModel');
-
-  @override
-  UserViewModel get userViewModel {
+  UserViewModel? get userViewModel {
     _$userViewModelAtom.reportRead();
     return super.userViewModel;
   }
 
   @override
-  set userViewModel(UserViewModel value) {
+  set userViewModel(UserViewModel? value) {
     _$userViewModelAtom.reportWrite(value, super.userViewModel, () {
       super.userViewModel = value;
     });
   }
 
-  final _$companyViewModelAtom = Atom(name: '_AppStoreBase.companyViewModel');
+  late final _$companyViewModelAtom =
+      Atom(name: '_AppStoreBase.companyViewModel', context: context);
 
   @override
-  CompanyViewModel get companyViewModel {
+  CompanyViewModel? get companyViewModel {
     _$companyViewModelAtom.reportRead();
     return super.companyViewModel;
   }
 
   @override
-  set companyViewModel(CompanyViewModel value) {
+  set companyViewModel(CompanyViewModel? value) {
     _$companyViewModelAtom.reportWrite(value, super.companyViewModel, () {
       super.companyViewModel = value;
     });
   }
 
-  final _$departmentViewModelAtom =
-      Atom(name: '_AppStoreBase.departmentViewModel');
+  late final _$departmentViewModelAtom =
+      Atom(name: '_AppStoreBase.departmentViewModel', context: context);
 
   @override
-  DepartmentViewModel get departmentViewModel {
+  DepartmentViewModel? get departmentViewModel {
     _$departmentViewModelAtom.reportRead();
     return super.departmentViewModel;
   }
 
   @override
-  set departmentViewModel(DepartmentViewModel value) {
+  set departmentViewModel(DepartmentViewModel? value) {
     _$departmentViewModelAtom.reportWrite(value, super.departmentViewModel, () {
       super.departmentViewModel = value;
     });
   }
 
-  final _$imageFilesAtom = Atom(name: '_AppStoreBase.imageFiles');
+  late final _$imageFilesAtom =
+      Atom(name: '_AppStoreBase.imageFiles', context: context);
 
   @override
   List<File> get imageFiles {
@@ -85,15 +73,16 @@ mixin _$AppStore on _AppStoreBase, Store {
     });
   }
 
-  final _$getUserAsyncAction = AsyncAction('_AppStoreBase.getUser');
+  late final _$getUserAsyncAction =
+      AsyncAction('_AppStoreBase.getUser', context: context);
 
   @override
   Future<void> getUser() {
     return _$getUserAsyncAction.run(() => super.getUser());
   }
 
-  final _$getCompanyAndDepartmentAsyncAction =
-      AsyncAction('_AppStoreBase.getCompanyAndDepartment');
+  late final _$getCompanyAndDepartmentAsyncAction =
+      AsyncAction('_AppStoreBase.getCompanyAndDepartment', context: context);
 
   @override
   Future<void> getCompanyAndDepartment() {
@@ -101,8 +90,8 @@ mixin _$AppStore on _AppStoreBase, Store {
         .run(() => super.getCompanyAndDepartment());
   }
 
-  final _$showDialogGetImageAsyncAction =
-      AsyncAction('_AppStoreBase.showDialogGetImage');
+  late final _$showDialogGetImageAsyncAction =
+      AsyncAction('_AppStoreBase.showDialogGetImage', context: context);
 
   @override
   Future<void> showDialogGetImage(BuildContext ctx) {
@@ -110,8 +99,8 @@ mixin _$AppStore on _AppStoreBase, Store {
         .run(() => super.showDialogGetImage(ctx));
   }
 
-  final _$uploadImageFileInStorageAsyncAction =
-      AsyncAction('_AppStoreBase.uploadImageFileInStorage');
+  late final _$uploadImageFileInStorageAsyncAction =
+      AsyncAction('_AppStoreBase.uploadImageFileInStorage', context: context);
 
   @override
   Future<String> uploadImageFileInStorage(
@@ -120,14 +109,16 @@ mixin _$AppStore on _AppStoreBase, Store {
         .run(() => super.uploadImageFileInStorage(ctx, imageUploadModel));
   }
 
-  final _$_pickImageAsyncAction = AsyncAction('_AppStoreBase._pickImage');
+  late final _$_pickImageAsyncAction =
+      AsyncAction('_AppStoreBase._pickImage', context: context);
 
   @override
   Future<void> _pickImage(ImageSource source) {
     return _$_pickImageAsyncAction.run(() => super._pickImage(source));
   }
 
-  final _$_updateImageAsyncAction = AsyncAction('_AppStoreBase._updateImage');
+  late final _$_updateImageAsyncAction =
+      AsyncAction('_AppStoreBase._updateImage', context: context);
 
   @override
   Future<String> _updateImage(ImageUploadModel imageUploadModel) {
@@ -135,19 +126,8 @@ mixin _$AppStore on _AppStoreBase, Store {
         .run(() => super._updateImage(imageUploadModel));
   }
 
-  final _$_AppStoreBaseActionController =
-      ActionController(name: '_AppStoreBase');
-
-  @override
-  void setProducao(bool value) {
-    final _$actionInfo = _$_AppStoreBaseActionController.startAction(
-        name: '_AppStoreBase.setProducao');
-    try {
-      return super.setProducao(value);
-    } finally {
-      _$_AppStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
+  late final _$_AppStoreBaseActionController =
+      ActionController(name: '_AppStoreBase', context: context);
 
   @override
   void setUser(UserViewModel value) {
@@ -196,7 +176,6 @@ mixin _$AppStore on _AppStoreBase, Store {
   @override
   String toString() {
     return '''
-producao: ${producao},
 userViewModel: ${userViewModel},
 companyViewModel: ${companyViewModel},
 departmentViewModel: ${departmentViewModel},

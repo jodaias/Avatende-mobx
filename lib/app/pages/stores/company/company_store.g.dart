@@ -6,10 +6,10 @@ part of 'company_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$CompanyStore on _CompanyStoreBase, Store {
-  Computed<dynamic> _$companyListComputed;
+  Computed<dynamic>? _$companyListComputed;
 
   @override
   dynamic get companyList =>
@@ -17,7 +17,8 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
               name: '_CompanyStoreBase.companyList'))
           .value;
 
-  final _$loadingAtom = Atom(name: '_CompanyStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_CompanyStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -32,7 +33,8 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
     });
   }
 
-  final _$orderByAzAtom = Atom(name: '_CompanyStoreBase.orderByAz');
+  late final _$orderByAzAtom =
+      Atom(name: '_CompanyStoreBase.orderByAz', context: context);
 
   @override
   bool get orderByAz {
@@ -47,7 +49,8 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
     });
   }
 
-  final _$listActiveAtom = Atom(name: '_CompanyStoreBase.listActive');
+  late final _$listActiveAtom =
+      Atom(name: '_CompanyStoreBase.listActive', context: context);
 
   @override
   bool get listActive {
@@ -62,7 +65,8 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
     });
   }
 
-  final _$imagesAtom = Atom(name: '_CompanyStoreBase.images');
+  late final _$imagesAtom =
+      Atom(name: '_CompanyStoreBase.images', context: context);
 
   @override
   List<String> get images {
@@ -77,38 +81,40 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
     });
   }
 
-  final _$companyIdAtom = Atom(name: '_CompanyStoreBase.companyId');
+  late final _$companyIdAtom =
+      Atom(name: '_CompanyStoreBase.companyId', context: context);
 
   @override
-  String get companyId {
+  String? get companyId {
     _$companyIdAtom.reportRead();
     return super.companyId;
   }
 
   @override
-  set companyId(String value) {
+  set companyId(String? value) {
     _$companyIdAtom.reportWrite(value, super.companyId, () {
       super.companyId = value;
     });
   }
 
-  final _$imageFileAtom = Atom(name: '_CompanyStoreBase.imageFile');
+  late final _$imageFileAtom =
+      Atom(name: '_CompanyStoreBase.imageFile', context: context);
 
   @override
-  File get imageFile {
+  File? get imageFile {
     _$imageFileAtom.reportRead();
     return super.imageFile;
   }
 
   @override
-  set imageFile(File value) {
+  set imageFile(File? value) {
     _$imageFileAtom.reportWrite(value, super.imageFile, () {
       super.imageFile = value;
     });
   }
 
-  final _$saveImagesSuccessAtom =
-      Atom(name: '_CompanyStoreBase.saveImagesSuccess');
+  late final _$saveImagesSuccessAtom =
+      Atom(name: '_CompanyStoreBase.saveImagesSuccess', context: context);
 
   @override
   bool get saveImagesSuccess {
@@ -123,15 +129,16 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
     });
   }
 
-  final _$saveImagesAsyncAction = AsyncAction('_CompanyStoreBase.saveImages');
+  late final _$saveImagesAsyncAction =
+      AsyncAction('_CompanyStoreBase.saveImages', context: context);
 
   @override
   Future<void> saveImages() {
     return _$saveImagesAsyncAction.run(() => super.saveImages());
   }
 
-  final _$updateCompanyAsyncAction =
-      AsyncAction('_CompanyStoreBase.updateCompany');
+  late final _$updateCompanyAsyncAction =
+      AsyncAction('_CompanyStoreBase.updateCompany', context: context);
 
   @override
   Future<void> updateCompany(
@@ -140,11 +147,11 @@ mixin _$CompanyStore on _CompanyStoreBase, Store {
         .run(() => super.updateCompany(companyId, companyData));
   }
 
-  final _$_CompanyStoreBaseActionController =
-      ActionController(name: '_CompanyStoreBase');
+  late final _$_CompanyStoreBaseActionController =
+      ActionController(name: '_CompanyStoreBase', context: context);
 
   @override
-  void setCompanyId(String value) {
+  void setCompanyId(String? value) {
     final _$actionInfo = _$_CompanyStoreBaseActionController.startAction(
         name: '_CompanyStoreBase.setCompanyId');
     try {

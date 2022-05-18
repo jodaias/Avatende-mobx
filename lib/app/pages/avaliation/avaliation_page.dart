@@ -17,7 +17,6 @@ class _AvaliationPageState extends State<AvaliationPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 30)).then((_) {
       if (avaliationStore.scores == 0) {
@@ -48,7 +47,7 @@ class _AvaliationPageState extends State<AvaliationPage> {
                       child: Padding(
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          "Você está avaliando " + appStore.userViewModel.name,
+                          "Você está avaliando ${appStore.userViewModel!.name ?? ''}",
                           style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,

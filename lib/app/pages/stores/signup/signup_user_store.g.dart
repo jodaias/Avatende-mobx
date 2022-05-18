@@ -6,81 +6,68 @@ part of 'signup_user_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
-  Computed<bool> _$nameValidComputed;
+  Computed<bool>? _$nameValidComputed;
 
   @override
   bool get nameValid =>
       (_$nameValidComputed ??= Computed<bool>(() => super.nameValid,
               name: '_SignUpUserStoreBase.nameValid'))
           .value;
-  Computed<bool> _$emailValidComputed;
+  Computed<bool>? _$emailValidComputed;
 
   @override
   bool get emailValid =>
       (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
               name: '_SignUpUserStoreBase.emailValid'))
           .value;
-  Computed<bool> _$activeValidComputed;
+  Computed<bool>? _$activeValidComputed;
 
   @override
   bool get activeValid =>
       (_$activeValidComputed ??= Computed<bool>(() => super.activeValid,
               name: '_SignUpUserStoreBase.activeValid'))
           .value;
-  Computed<bool> _$phoneValidComputed;
-
-  @override
-  bool get phoneValid =>
-      (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
-              name: '_SignUpUserStoreBase.phoneValid'))
-          .value;
-  Computed<bool> _$addressValidComputed;
-
-  @override
-  bool get addressValid =>
-      (_$addressValidComputed ??= Computed<bool>(() => super.addressValid,
-              name: '_SignUpUserStoreBase.addressValid'))
-          .value;
-  Computed<bool> _$userTypeValidComputed;
+  Computed<bool>? _$userTypeValidComputed;
 
   @override
   bool get userTypeValid =>
       (_$userTypeValidComputed ??= Computed<bool>(() => super.userTypeValid,
               name: '_SignUpUserStoreBase.userTypeValid'))
           .value;
-  Computed<bool> _$password1ValidComputed;
+  Computed<bool>? _$password1ValidComputed;
 
   @override
   bool get password1Valid =>
       (_$password1ValidComputed ??= Computed<bool>(() => super.password1Valid,
               name: '_SignUpUserStoreBase.password1Valid'))
           .value;
-  Computed<bool> _$password2ValidComputed;
+  Computed<bool>? _$password2ValidComputed;
 
   @override
   bool get password2Valid =>
       (_$password2ValidComputed ??= Computed<bool>(() => super.password2Valid,
               name: '_SignUpUserStoreBase.password2Valid'))
           .value;
-  Computed<Function> _$signUpPressedComputed;
+  Computed<VoidCallback?>? _$signUpPressedComputed;
 
   @override
-  Function get signUpPressed =>
-      (_$signUpPressedComputed ??= Computed<Function>(() => super.signUpPressed,
+  VoidCallback? get signUpPressed => (_$signUpPressedComputed ??=
+          Computed<VoidCallback?>(() => super.signUpPressed,
               name: '_SignUpUserStoreBase.signUpPressed'))
-          .value;
-  Computed<Function> _$updatePressedComputed;
+      .value;
+  Computed<VoidCallback?>? _$updatePressedComputed;
 
   @override
-  Function get updatePressed =>
-      (_$updatePressedComputed ??= Computed<Function>(() => super.updatePressed,
+  VoidCallback? get updatePressed => (_$updatePressedComputed ??=
+          Computed<VoidCallback?>(() => super.updatePressed,
               name: '_SignUpUserStoreBase.updatePressed'))
-          .value;
+      .value;
 
-  final _$loadingAtom = Atom(name: '_SignUpUserStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_SignUpUserStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -95,112 +82,104 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
-  final _$phoneAtom = Atom(name: '_SignUpUserStoreBase.phone');
+  late final _$userTypeAtom =
+      Atom(name: '_SignUpUserStoreBase.userType', context: context);
 
   @override
-  String get phone {
-    _$phoneAtom.reportRead();
-    return super.phone;
-  }
-
-  @override
-  set phone(String value) {
-    _$phoneAtom.reportWrite(value, super.phone, () {
-      super.phone = value;
-    });
-  }
-
-  final _$userTypeAtom = Atom(name: '_SignUpUserStoreBase.userType');
-
-  @override
-  UserType get userType {
+  UserType? get userType {
     _$userTypeAtom.reportRead();
     return super.userType;
   }
 
   @override
-  set userType(UserType value) {
+  set userType(UserType? value) {
     _$userTypeAtom.reportWrite(value, super.userType, () {
       super.userType = value;
     });
   }
 
-  final _$password1Atom = Atom(name: '_SignUpUserStoreBase.password1');
+  late final _$password1Atom =
+      Atom(name: '_SignUpUserStoreBase.password1', context: context);
 
   @override
-  String get password1 {
+  String? get password1 {
     _$password1Atom.reportRead();
     return super.password1;
   }
 
   @override
-  set password1(String value) {
+  set password1(String? value) {
     _$password1Atom.reportWrite(value, super.password1, () {
       super.password1 = value;
     });
   }
 
-  final _$password2Atom = Atom(name: '_SignUpUserStoreBase.password2');
+  late final _$password2Atom =
+      Atom(name: '_SignUpUserStoreBase.password2', context: context);
 
   @override
-  String get password2 {
+  String? get password2 {
     _$password2Atom.reportRead();
     return super.password2;
   }
 
   @override
-  set password2(String value) {
+  set password2(String? value) {
     _$password2Atom.reportWrite(value, super.password2, () {
       super.password2 = value;
     });
   }
 
-  final _$nameAtom = Atom(name: '_SignUpUserStoreBase.name');
+  late final _$nameAtom =
+      Atom(name: '_SignUpUserStoreBase.name', context: context);
 
   @override
-  String get name {
+  String? get name {
     _$nameAtom.reportRead();
     return super.name;
   }
 
   @override
-  set name(String value) {
+  set name(String? value) {
     _$nameAtom.reportWrite(value, super.name, () {
       super.name = value;
     });
   }
 
-  final _$emailAtom = Atom(name: '_SignUpUserStoreBase.email');
+  late final _$emailAtom =
+      Atom(name: '_SignUpUserStoreBase.email', context: context);
 
   @override
-  String get email {
+  String? get email {
     _$emailAtom.reportRead();
     return super.email;
   }
 
   @override
-  set email(String value) {
+  set email(String? value) {
     _$emailAtom.reportWrite(value, super.email, () {
       super.email = value;
     });
   }
 
-  final _$activeAtom = Atom(name: '_SignUpUserStoreBase.active');
+  late final _$activeAtom =
+      Atom(name: '_SignUpUserStoreBase.active', context: context);
 
   @override
-  bool get active {
+  bool? get active {
     _$activeAtom.reportRead();
     return super.active;
   }
 
   @override
-  set active(bool value) {
+  set active(bool? value) {
     _$activeAtom.reportWrite(value, super.active, () {
       super.active = value;
     });
   }
 
-  final _$nivelAtom = Atom(name: '_SignUpUserStoreBase.nivel');
+  late final _$nivelAtom =
+      Atom(name: '_SignUpUserStoreBase.nivel', context: context);
 
   @override
   bool get nivel {
@@ -215,82 +194,72 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
-  final _$addressAtom = Atom(name: '_SignUpUserStoreBase.address');
+  late final _$departmentIdAtom =
+      Atom(name: '_SignUpUserStoreBase.departmentId', context: context);
 
   @override
-  String get address {
-    _$addressAtom.reportRead();
-    return super.address;
-  }
-
-  @override
-  set address(String value) {
-    _$addressAtom.reportWrite(value, super.address, () {
-      super.address = value;
-    });
-  }
-
-  final _$departmentIdAtom = Atom(name: '_SignUpUserStoreBase.departmentId');
-
-  @override
-  String get departmentId {
+  String? get departmentId {
     _$departmentIdAtom.reportRead();
     return super.departmentId;
   }
 
   @override
-  set departmentId(String value) {
+  set departmentId(String? value) {
     _$departmentIdAtom.reportWrite(value, super.departmentId, () {
       super.departmentId = value;
     });
   }
 
-  final _$companyIdAtom = Atom(name: '_SignUpUserStoreBase.companyId');
+  late final _$companyIdAtom =
+      Atom(name: '_SignUpUserStoreBase.companyId', context: context);
 
   @override
-  String get companyId {
+  String? get companyId {
     _$companyIdAtom.reportRead();
     return super.companyId;
   }
 
   @override
-  set companyId(String value) {
+  set companyId(String? value) {
     _$companyIdAtom.reportWrite(value, super.companyId, () {
       super.companyId = value;
     });
   }
 
-  final _$userIdAtom = Atom(name: '_SignUpUserStoreBase.userId');
+  late final _$userIdAtom =
+      Atom(name: '_SignUpUserStoreBase.userId', context: context);
 
   @override
-  String get userId {
+  String? get userId {
     _$userIdAtom.reportRead();
     return super.userId;
   }
 
   @override
-  set userId(String value) {
+  set userId(String? value) {
     _$userIdAtom.reportWrite(value, super.userId, () {
       super.userId = value;
     });
   }
 
-  final _$signupSuccessAtom = Atom(name: '_SignUpUserStoreBase.signupSuccess');
+  late final _$signupSuccessAtom =
+      Atom(name: '_SignUpUserStoreBase.signupSuccess', context: context);
 
   @override
-  bool get signupSuccess {
+  bool? get signupSuccess {
     _$signupSuccessAtom.reportRead();
     return super.signupSuccess;
   }
 
   @override
-  set signupSuccess(bool value) {
+  set signupSuccess(bool? value) {
     _$signupSuccessAtom.reportWrite(value, super.signupSuccess, () {
       super.signupSuccess = value;
     });
   }
 
-  final _$isObscureTextAtom = Atom(name: '_SignUpUserStoreBase.isObscureText');
+  late final _$isObscureTextAtom =
+      Atom(name: '_SignUpUserStoreBase.isObscureText', context: context);
 
   @override
   bool get isObscureText {
@@ -305,7 +274,8 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
-  final _$orderByAzAtom = Atom(name: '_SignUpUserStoreBase.orderByAz');
+  late final _$orderByAzAtom =
+      Atom(name: '_SignUpUserStoreBase.orderByAz', context: context);
 
   @override
   bool get orderByAz {
@@ -320,7 +290,8 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
-  final _$listActiveAtom = Atom(name: '_SignUpUserStoreBase.listActive');
+  late final _$listActiveAtom =
+      Atom(name: '_SignUpUserStoreBase.listActive', context: context);
 
   @override
   bool get listActive {
@@ -335,7 +306,8 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
-  final _$userTypesAtom = Atom(name: '_SignUpUserStoreBase.userTypes');
+  late final _$userTypesAtom =
+      Atom(name: '_SignUpUserStoreBase.userTypes', context: context);
 
   @override
   List<UserType> get userTypes {
@@ -350,23 +322,24 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
     });
   }
 
-  final _$signUpAsyncAction = AsyncAction('_SignUpUserStoreBase.signUp');
+  late final _$signUpAsyncAction =
+      AsyncAction('_SignUpUserStoreBase.signUp', context: context);
 
   @override
   Future<void> signUp() {
     return _$signUpAsyncAction.run(() => super.signUp());
   }
 
-  final _$updateUserAsyncAction =
-      AsyncAction('_SignUpUserStoreBase.updateUser');
+  late final _$updateUserAsyncAction =
+      AsyncAction('_SignUpUserStoreBase.updateUser', context: context);
 
   @override
   Future<void> updateUser() {
     return _$updateUserAsyncAction.run(() => super.updateUser());
   }
 
-  final _$_SignUpUserStoreBaseActionController =
-      ActionController(name: '_SignUpUserStoreBase');
+  late final _$_SignUpUserStoreBaseActionController =
+      ActionController(name: '_SignUpUserStoreBase', context: context);
 
   @override
   void setEmail(String value) {
@@ -413,28 +386,6 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
-  void setAddress(String value) {
-    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
-        name: '_SignUpUserStoreBase.setAddress');
-    try {
-      return super.setAddress(value);
-    } finally {
-      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setPhone(String value) {
-    final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
-        name: '_SignUpUserStoreBase.setPhone');
-    try {
-      return super.setPhone(value);
-    } finally {
-      _$_SignUpUserStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void setUserType(UserType value) {
     final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
         name: '_SignUpUserStoreBase.setUserType');
@@ -446,7 +397,7 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
-  void setActive(bool value) {
+  void setActive(bool? value) {
     final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
         name: '_SignUpUserStoreBase.setActive');
     try {
@@ -512,7 +463,7 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
-  void setDepartmentId(String value) {
+  void setDepartmentId(String? value) {
     final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
         name: '_SignUpUserStoreBase.setDepartmentId');
     try {
@@ -523,7 +474,7 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
-  void setCompanyId(String value) {
+  void setCompanyId(String? value) {
     final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
         name: '_SignUpUserStoreBase.setCompanyId');
     try {
@@ -534,7 +485,7 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   }
 
   @override
-  void setUserId(String value) {
+  void setUserId(String? value) {
     final _$actionInfo = _$_SignUpUserStoreBaseActionController.startAction(
         name: '_SignUpUserStoreBase.setUserId');
     try {
@@ -559,7 +510,6 @@ mixin _$SignUpUserStore on _SignUpUserStoreBase, Store {
   String toString() {
     return '''
 loading: ${loading},
-phone: ${phone},
 userType: ${userType},
 password1: ${password1},
 password2: ${password2},
@@ -567,7 +517,6 @@ name: ${name},
 email: ${email},
 active: ${active},
 nivel: ${nivel},
-address: ${address},
 departmentId: ${departmentId},
 companyId: ${companyId},
 userId: ${userId},
@@ -579,8 +528,6 @@ userTypes: ${userTypes},
 nameValid: ${nameValid},
 emailValid: ${emailValid},
 activeValid: ${activeValid},
-phoneValid: ${phoneValid},
-addressValid: ${addressValid},
 userTypeValid: ${userTypeValid},
 password1Valid: ${password1Valid},
 password2Valid: ${password2Valid},

@@ -2,32 +2,28 @@ import 'package:avatende/app/models/views/department_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CompanyViewModel {
-  String _companyId;
-  String name;
-  String address;
-  bool active;
-  String phone;
-  List<DepartmentViewModel> departments;
+  late String _companyId;
+  late String name;
+  late String address;
+  late bool active;
+  late String phone;
+  List<DepartmentViewModel>? departments;
 
-  CompanyViewModel();
+  CompanyViewModel(
+      {required this.name,
+      required this.address,
+      this.active = false,
+      required this.phone,
+      this.departments});
 
-  CompanyViewModel.fromMap(DocumentSnapshot document) {
-    _companyId = document.id;
-    this.name = document.data()["Name"];
-    this.active = document.data()["Active"] ?? false;
-    this.phone = document.data()["Phone"];
-    this.address = document.data()["Address"];
-    this.departments = document.data()["Departments"];
+  CompanyViewModel.fromMap(Map<String, dynamic> document, String id) {
+    _companyId = id;
+    this.name = document["Name"];
+    this.active = document["Active"] ?? false;
+    this.phone = document["Phone"];
+    this.address = document["Address"];
+    this.departments = document["Departments"];
   }
 
-  toMap() {
-    var map = new Map<String, dynamic>();
-    map['Name'] = this.name;
-    map['Active'] = this.active;
-    map['Phone'] = this.phone;
-    map['Address'] = this.address;
-    return map;
-  }
-
-  String companyId() => _companyId;
+  String? companyId() => _companyId;
 }

@@ -1,23 +1,22 @@
 import 'package:avatende/app/models/views/user_view_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DepartmentViewModel {
-  String _departmentId;
-  String name;
-  String companyId;
-  String phone;
-  bool active;
-  List<UserViewModel> users;
+  late String _departmentId;
+  late String name;
+  late String companyId;
+  late String phone;
+  late bool active;
+  late List<UserViewModel>? users;
 
   DepartmentViewModel();
 
-  DepartmentViewModel.fromMap(DocumentSnapshot document) {
-    _departmentId = document.id;
-    this.name = document.data()['Name'];
-    this.active = document.data()['Active'] ?? false;
-    this.phone = document.data()['Phone'];
-    this.companyId = document.data()['CompanyId'];
-    this.users = document.data()["Users"];
+  DepartmentViewModel.fromMap(Map<String, dynamic> document, String id) {
+    _departmentId = id;
+    this.name = document['Name'];
+    this.active = document['Active'] ?? false;
+    this.phone = document['Phone'];
+    this.companyId = document['CompanyId'];
+    this.users = document["Users"];
   }
 
   toMap() {
@@ -26,7 +25,6 @@ class DepartmentViewModel {
     map['Active'] = this.active;
     map['Phone'] = this.phone;
     map['CompanyId'] = this.companyId;
-    map['DepartmentId'] = this.departmentId();
     return map;
   }
 

@@ -12,8 +12,8 @@ class EXCELViewerPage extends StatefulWidget {
 }
 
 class _EXCELViewerPageState extends State<EXCELViewerPage> {
-  PDFDocument _doc;
-  bool _loading;
+  PDFDocument? _doc;
+  bool? _loading;
 
   @override
   void initState() {
@@ -46,10 +46,10 @@ class _EXCELViewerPageState extends State<EXCELViewerPage> {
             )
           ],
         ),
-        body: _loading
+        body: _loading!
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : PDFViewer(document: _doc));
+            : PDFViewer(document: _doc!));
   }
 }

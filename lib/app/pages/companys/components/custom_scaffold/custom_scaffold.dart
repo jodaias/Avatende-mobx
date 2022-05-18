@@ -6,12 +6,12 @@ import 'package:get_it/get_it.dart';
 
 class CustomScaffold extends StatefulWidget {
   CustomScaffold({
-    Key key,
-    this.title,
-    this.widget,
-    this.drawer,
-    this.actions,
-    this.floatingActionButton,
+    Key? key,
+    required this.title,
+    required this.widget,
+    required this.drawer,
+    required this.actions,
+    required this.floatingActionButton,
   }) : super(key: key);
 
   final String title;

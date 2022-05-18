@@ -26,10 +26,10 @@ abstract class _DepartmentStoreBase with Store {
   bool listActive = true;
 
   @observable
-  String companyId;
+  String? companyId;
 
   @observable
-  String name;
+  String? name;
 
   //ACTIONS
   @action
@@ -64,7 +64,7 @@ abstract class _DepartmentStoreBase with Store {
   //COMPUTEDS
   @computed
   get departmentList =>
-      _repository.departments(companyId, listActive, orderByAz).value;
+      _repository.departments(companyId!, listActive, orderByAz).value;
 
   @action
   Future<bool> updateDepartments(

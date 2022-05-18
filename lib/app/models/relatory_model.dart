@@ -2,16 +2,16 @@ class RelatoryModel {
   String userId;
   String dataInicial;
   String dataFinal;
-  String mensagem;
   String email;
-  String atendenteId;
+  String? mensagem;
+  String? atendenteId;
 
   RelatoryModel({
-    this.userId,
-    this.dataInicial,
-    this.dataFinal,
-    this.mensagem,
-    this.email,
+    required this.userId,
+    required this.dataInicial,
+    required this.dataFinal,
+    required this.email,
     this.atendenteId,
+    this.mensagem,
   });
 }

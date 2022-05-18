@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RelatoryRepository {
   var _instance = FirebaseFirestore.instance;
 
-  Future<RelatoryViewModel> filterRelatoryByUserAndRangeDate(String userId,
+  Future<RelatoryViewModel?> filterRelatoryByUserAndRangeDate(String userId,
       DateTime startDate, DateTime endDate, bool userActive) async {
     //filtra as avalizações de um só usuario;
     var avaliations = <AvaliationModel>[];
@@ -16,16 +16,8 @@ class RelatoryRepository {
         .collection("Users")
         .doc(userId)
         .collection("Avaliations")
-        // .where("CreatedAt",
-        //     isGreaterThanOrEqualTo: startDate)
-        // .where("CreatedAt", isLessThanOrEqualTo: endDate)
         .get();
-    //     .then((value) {
-    //   avaliations = value.docs
-    //       .map<AvaliationModel>(
-    //           (document) => AvaliationModel.fromMap(document.data()))
-    //       .toList();
-    // });
+
     for (var item in snapshots.docs) {
       Timestamp timestamp = item.data()["CreatedAt"];
 

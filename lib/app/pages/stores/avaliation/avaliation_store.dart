@@ -1,5 +1,6 @@
 import 'package:avatende/app/repositories/avaliation/avaliation_repository.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:avatende/app/helpers/extensions.dart';
@@ -15,22 +16,19 @@ abstract class _AvaliationStoreBase with Store {
   double scores = 0;
 
   @observable
-  String observation;
+  String? observation;
 
   @observable
-  String email;
+  String? email;
 
   @observable
-  String phone;
-
-  @observable
-  String companyId;
+  String? companyId;
 
   @observable
   bool loading = false;
 
   @observable
-  bool anonymous = true;
+  bool? anonymous = true;
 
   @observable
   bool avaliationSuccess = false;
@@ -39,57 +37,30 @@ abstract class _AvaliationStoreBase with Store {
   void setScores(double value) => scores = value;
 
   @action
-  void setObservation(String value) => observation = value;
+  void setObservation(String? value) => observation = value;
 
   @action
-  void setEmail(String value) => email = value;
+  void setEmail(String? value) => email = value;
 
   @action
-  void setPhone(String value) => phone = value;
+  void setAnonymous(bool? value) => anonymous = value;
 
   @action
-  void setAnonymous(bool value) => anonymous = value;
-
-  @action
-  void setCompanyId(String value) => companyId = value;
-
-//Validando variaveis
-  // @computed
-  // bool get observationValid => observation != null && observation.length > 3;
-  // String get observationError {
-  //   if (observation == null || observationValid)
-  //     return null;
-  //   else if (observation.isEmpty)
-  //     return 'Digite uma observação';
-  //   else
-  //     return 'Observação muito curta';
-  // }
+  void setCompanyId(String? value) => companyId = value;
 
   @computed
-  bool get emailValid => email != null && email.isEmailValid();
-  String get emailError {
+  bool get emailValid => email != null && email!.isEmailValid();
+  String? get emailError {
     if (email == null || emailValid)
       return null;
-    else if (email.isEmpty)
+    else if (email!.isEmpty)
       return 'Digite um email';
     else
       return 'Email inválido';
   }
 
   @computed
-  bool get phoneValid => phone != null && phone.length >= 14;
-  String get phoneError {
-    if (phone == null || phoneValid)
-      return null;
-    else if (phone.isEmpty)
-      return 'Digite um número';
-    else
-      return 'Número inválido';
-  }
-
-  @computed
-  Function get sendPressed =>
-      (/*observationValid && emailValid &&*/ !loading) ? sendAvaliation : null;
+  VoidCallback? get sendPressed => !loading ? sendAvaliation : null;
 
   @action
   Future<void> sendAvaliation() async {
@@ -100,16 +71,13 @@ abstract class _AvaliationStoreBase with Store {
       'CreatedAt': DateTime.now(),
       'Scores': scores,
       'Observation': observation,
-      'Contato': phone,
       'Email': email
-    }, userViewModel: appStore.userViewModel);
-
-    print('result cadastro: $result');
+    }, userViewModel: appStore.userViewModel!);
 
     loading = false;
     avaliationSuccess = true;
   }
 
   @computed
-  get listAdsImages => avaliationRepository.adsImages(companyId).value;
+  get listAdsImages => avaliationRepository.adsImages(companyId ?? '').value;
 }

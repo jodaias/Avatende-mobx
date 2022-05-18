@@ -17,8 +17,8 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     if (relatoryStore.dateRange == null) {
       return 'De: ';
     } else {
-      relatoryStore.setSelectedStartDate(relatoryStore.dateRange.start);
-      return DateFormat('dd/MM/yyyy').format(relatoryStore.dateRange.start);
+      relatoryStore.setSelectedStartDate(relatoryStore.dateRange!.start);
+      return DateFormat('dd/MM/yyyy').format(relatoryStore.dateRange!.start);
     }
   }
 
@@ -26,8 +26,8 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
     if (relatoryStore.dateRange == null) {
       return 'Até: ';
     } else {
-      relatoryStore.setSelectedEndDate(relatoryStore.dateRange.end);
-      return DateFormat('dd/MM/yyyy').format(relatoryStore.dateRange.end);
+      relatoryStore.setSelectedEndDate(relatoryStore.dateRange!.end);
+      return DateFormat('dd/MM/yyyy').format(relatoryStore.dateRange!.end);
     }
   }
 

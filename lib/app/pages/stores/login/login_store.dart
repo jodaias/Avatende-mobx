@@ -1,5 +1,6 @@
 import 'package:avatende/app/repositories//user/user_repository.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:avatende/app/helpers/extensions.dart';
 import 'package:mobx/mobx.dart';
@@ -17,10 +18,10 @@ abstract class _LoginStoreBase with Store {
 
   //OBSERVABLEs
   @observable
-  String email;
+  String? email;
 
   @observable
-  String password;
+  String? password;
 
   @observable
   bool loading = false;
@@ -46,33 +47,33 @@ abstract class _LoginStoreBase with Store {
 
   //COMPUTEDs
   @computed
-  bool get emailValid => email != null && email.isEmailValid();
-  String get emailError {
+  bool get emailValid => email != null && email!.isEmailValid();
+  String? get emailError {
     if (email == null || emailValid)
       return null;
-    else if (email.isEmpty)
+    else if (email!.isEmpty)
       return 'Campo obrigatório';
     else
       return 'Email inválido';
   }
 
   @computed
-  bool get passwordValid => password != null && password.length >= 6;
-  String get passwordError {
+  bool get passwordValid => password != null && password!.length >= 6;
+  String? get passwordError {
     if (password == null || passwordValid)
       return null;
-    else if (password.isEmpty)
+    else if (password!.isEmpty)
       return 'Campo obrigatório';
     else
       return 'Senha fraca';
   }
 
   @computed
-  Function get loginPressed =>
+  VoidCallback? get loginPressed =>
       (emailValid && passwordValid && !loading) ? login : null;
 
   @computed
-  Function get resetPasswordPressed =>
+  VoidCallback? get resetPasswordPressed =>
       (emailValid && !loading) ? resetPassword : null;
 
   @action
@@ -82,12 +83,12 @@ abstract class _LoginStoreBase with Store {
     //verificar se usuario existe no banco e salvar
     //no usuario modelo via appStore
 
-    repository.signIn(email: email, password: password).then((data) async {
+    repository.signIn(email: email!, password: password!).then((data) async {
       print(data.name);
       appStore.setUser(data);
       await appStore.getCompanyAndDepartment();
       loading = false;
-      if (appStore.userViewModel.name != null) loggedIn = true;
+      if (appStore.userViewModel!.name != null) loggedIn = true;
     }).catchError((error) {
       loading = false;
       print("Error01: $error");
@@ -99,7 +100,7 @@ abstract class _LoginStoreBase with Store {
     loading = true;
 
     //verificar se usuario existe no banco e enviar link de redefinição de senha
-    await repository.resetPassword(email);
+    await repository.resetPassword(email!);
 
     loading = false;
     resetPass = true;

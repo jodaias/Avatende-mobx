@@ -18,14 +18,14 @@ class RelatoryPage extends StatefulWidget {
 class _RelatoryPageState extends State<RelatoryPage> {
   final relatoryStore = GetIt.I<RelatoryStore>();
 
-  ReactionDisposer disposer;
+  late ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     disposer = reaction((_) => relatoryStore.generatedReport, (gen) {
-      if (gen) {
+      if (gen == true) {
         relatoryStore.setGeneratedReport(false);
         relatoryStore.cleanFieldsSelecteds();
         relatoryStore.setLoading(false);
@@ -86,10 +86,10 @@ class _RelatoryPageState extends State<RelatoryPage> {
                             iconSize: 30,
                             hint: Text('Selecione o tipo de relatório'),
                             items: TypeRelatory.values
-                                .map((subject) => DropdownMenuItem(
-                                      value: subject,
+                                .map((typeReport) => DropdownMenuItem(
+                                      value: typeReport,
                                       child: Text(relatoryStore
-                                          .getEnumDescription(subject)),
+                                          .getEnumDescription(typeReport)),
                                     ))
                                 .toList(),
                           );
@@ -144,11 +144,11 @@ class _RelatoryPageState extends State<RelatoryPage> {
                                                 hint: Text(
                                                     'Selecione o departamento'),
                                                 items: relatoryStore.departments
-                                                    .map((subject) =>
+                                                    .map((depart) =>
                                                         DropdownMenuItem(
-                                                          value: subject,
-                                                          child: Text(
-                                                              subject.name),
+                                                          value: depart,
+                                                          child:
+                                                              Text(depart.name),
                                                           onTap: () {},
                                                         ))
                                                     .toList(),
@@ -197,11 +197,11 @@ class _RelatoryPageState extends State<RelatoryPage> {
                                                 hint: Text(
                                                     'Selecione o atendente'),
                                                 items: relatoryStore.attendants
-                                                    .map((subject) =>
+                                                    .map((attendant) =>
                                                         DropdownMenuItem(
-                                                          value: subject,
+                                                          value: attendant,
                                                           child: Text(
-                                                              subject.name),
+                                                              attendant.name!),
                                                           onTap: () {},
                                                         ))
                                                     .toList(),

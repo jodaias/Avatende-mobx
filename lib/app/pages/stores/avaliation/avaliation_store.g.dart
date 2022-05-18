@@ -6,31 +6,24 @@ part of 'avaliation_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AvaliationStore on _AvaliationStoreBase, Store {
-  Computed<bool> _$emailValidComputed;
+  Computed<bool>? _$emailValidComputed;
 
   @override
   bool get emailValid =>
       (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
               name: '_AvaliationStoreBase.emailValid'))
           .value;
-  Computed<bool> _$phoneValidComputed;
+  Computed<VoidCallback?>? _$sendPressedComputed;
 
   @override
-  bool get phoneValid =>
-      (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
-              name: '_AvaliationStoreBase.phoneValid'))
-          .value;
-  Computed<Function> _$sendPressedComputed;
-
-  @override
-  Function get sendPressed =>
-      (_$sendPressedComputed ??= Computed<Function>(() => super.sendPressed,
+  VoidCallback? get sendPressed => (_$sendPressedComputed ??=
+          Computed<VoidCallback?>(() => super.sendPressed,
               name: '_AvaliationStoreBase.sendPressed'))
-          .value;
-  Computed<dynamic> _$listAdsImagesComputed;
+      .value;
+  Computed<dynamic>? _$listAdsImagesComputed;
 
   @override
   dynamic get listAdsImages =>
@@ -38,7 +31,8 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
               name: '_AvaliationStoreBase.listAdsImages'))
           .value;
 
-  final _$scoresAtom = Atom(name: '_AvaliationStoreBase.scores');
+  late final _$scoresAtom =
+      Atom(name: '_AvaliationStoreBase.scores', context: context);
 
   @override
   double get scores {
@@ -53,67 +47,56 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
     });
   }
 
-  final _$observationAtom = Atom(name: '_AvaliationStoreBase.observation');
+  late final _$observationAtom =
+      Atom(name: '_AvaliationStoreBase.observation', context: context);
 
   @override
-  String get observation {
+  String? get observation {
     _$observationAtom.reportRead();
     return super.observation;
   }
 
   @override
-  set observation(String value) {
+  set observation(String? value) {
     _$observationAtom.reportWrite(value, super.observation, () {
       super.observation = value;
     });
   }
 
-  final _$emailAtom = Atom(name: '_AvaliationStoreBase.email');
+  late final _$emailAtom =
+      Atom(name: '_AvaliationStoreBase.email', context: context);
 
   @override
-  String get email {
+  String? get email {
     _$emailAtom.reportRead();
     return super.email;
   }
 
   @override
-  set email(String value) {
+  set email(String? value) {
     _$emailAtom.reportWrite(value, super.email, () {
       super.email = value;
     });
   }
 
-  final _$phoneAtom = Atom(name: '_AvaliationStoreBase.phone');
+  late final _$companyIdAtom =
+      Atom(name: '_AvaliationStoreBase.companyId', context: context);
 
   @override
-  String get phone {
-    _$phoneAtom.reportRead();
-    return super.phone;
-  }
-
-  @override
-  set phone(String value) {
-    _$phoneAtom.reportWrite(value, super.phone, () {
-      super.phone = value;
-    });
-  }
-
-  final _$companyIdAtom = Atom(name: '_AvaliationStoreBase.companyId');
-
-  @override
-  String get companyId {
+  String? get companyId {
     _$companyIdAtom.reportRead();
     return super.companyId;
   }
 
   @override
-  set companyId(String value) {
+  set companyId(String? value) {
     _$companyIdAtom.reportWrite(value, super.companyId, () {
       super.companyId = value;
     });
   }
 
-  final _$loadingAtom = Atom(name: '_AvaliationStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_AvaliationStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -128,23 +111,24 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
     });
   }
 
-  final _$anonymousAtom = Atom(name: '_AvaliationStoreBase.anonymous');
+  late final _$anonymousAtom =
+      Atom(name: '_AvaliationStoreBase.anonymous', context: context);
 
   @override
-  bool get anonymous {
+  bool? get anonymous {
     _$anonymousAtom.reportRead();
     return super.anonymous;
   }
 
   @override
-  set anonymous(bool value) {
+  set anonymous(bool? value) {
     _$anonymousAtom.reportWrite(value, super.anonymous, () {
       super.anonymous = value;
     });
   }
 
-  final _$avaliationSuccessAtom =
-      Atom(name: '_AvaliationStoreBase.avaliationSuccess');
+  late final _$avaliationSuccessAtom =
+      Atom(name: '_AvaliationStoreBase.avaliationSuccess', context: context);
 
   @override
   bool get avaliationSuccess {
@@ -159,16 +143,16 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
     });
   }
 
-  final _$sendAvaliationAsyncAction =
-      AsyncAction('_AvaliationStoreBase.sendAvaliation');
+  late final _$sendAvaliationAsyncAction =
+      AsyncAction('_AvaliationStoreBase.sendAvaliation', context: context);
 
   @override
   Future<void> sendAvaliation() {
     return _$sendAvaliationAsyncAction.run(() => super.sendAvaliation());
   }
 
-  final _$_AvaliationStoreBaseActionController =
-      ActionController(name: '_AvaliationStoreBase');
+  late final _$_AvaliationStoreBaseActionController =
+      ActionController(name: '_AvaliationStoreBase', context: context);
 
   @override
   void setScores(double value) {
@@ -182,7 +166,7 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
   }
 
   @override
-  void setObservation(String value) {
+  void setObservation(String? value) {
     final _$actionInfo = _$_AvaliationStoreBaseActionController.startAction(
         name: '_AvaliationStoreBase.setObservation');
     try {
@@ -193,7 +177,7 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
   }
 
   @override
-  void setEmail(String value) {
+  void setEmail(String? value) {
     final _$actionInfo = _$_AvaliationStoreBaseActionController.startAction(
         name: '_AvaliationStoreBase.setEmail');
     try {
@@ -204,18 +188,7 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
   }
 
   @override
-  void setPhone(String value) {
-    final _$actionInfo = _$_AvaliationStoreBaseActionController.startAction(
-        name: '_AvaliationStoreBase.setPhone');
-    try {
-      return super.setPhone(value);
-    } finally {
-      _$_AvaliationStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setAnonymous(bool value) {
+  void setAnonymous(bool? value) {
     final _$actionInfo = _$_AvaliationStoreBaseActionController.startAction(
         name: '_AvaliationStoreBase.setAnonymous');
     try {
@@ -226,7 +199,7 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
   }
 
   @override
-  void setCompanyId(String value) {
+  void setCompanyId(String? value) {
     final _$actionInfo = _$_AvaliationStoreBaseActionController.startAction(
         name: '_AvaliationStoreBase.setCompanyId');
     try {
@@ -242,13 +215,11 @@ mixin _$AvaliationStore on _AvaliationStoreBase, Store {
 scores: ${scores},
 observation: ${observation},
 email: ${email},
-phone: ${phone},
 companyId: ${companyId},
 loading: ${loading},
 anonymous: ${anonymous},
 avaliationSuccess: ${avaliationSuccess},
 emailValid: ${emailValid},
-phoneValid: ${phoneValid},
 sendPressed: ${sendPressed},
 listAdsImages: ${listAdsImages}
     ''';

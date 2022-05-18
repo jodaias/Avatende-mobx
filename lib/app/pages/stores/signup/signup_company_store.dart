@@ -1,5 +1,7 @@
 import 'package:avatende/app/models/company_model.dart';
+import 'package:avatende/app/models/views/company_view_model.dart';
 import 'package:avatende/app/repositories/company/company_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 part 'signup_company_store.g.dart';
 
@@ -11,19 +13,19 @@ abstract class _SignupCompanyStoreBase with Store {
 
   //OBSERVABLES
   @observable
-  String companyId;
+  String? companyId;
 
   @observable
-  String name;
+  String? name;
 
   @observable
-  String address;
+  String? address;
 
   @observable
-  String phone;
+  String? phone;
 
   @observable
-  bool active = false;
+  bool? active = false;
 
   @observable
   bool loading = false;
@@ -33,54 +35,54 @@ abstract class _SignupCompanyStoreBase with Store {
 
   //ACTIONS
   @action
-  void setCompanyId(String value) => companyId = value;
+  void setCompanyId(String? value) => companyId = value;
 
   @action
-  void setName(String value) => name = value;
+  void setName(String? value) => name = value;
 
   @action
-  void setPhone(String value) => phone = value;
+  void setPhone(String? value) => phone = value;
 
   @action
-  void setActive(bool value) => active = value;
+  void setActive(bool? value) => active = value;
 
   @action
   void setSignupSuccess(bool value) => signupSuccess = value;
 
   @action
-  void setAddress(String value) => address = value;
+  void setAddress(String? value) => address = value;
 
   //COMPUTEDS
 
   //Validando variaveis
   @computed
-  bool get nameValid => name != null && name.length > 3;
-  String get nameError {
+  bool get nameValid => name != null && name!.length > 3;
+  String? get nameError {
     if (name == null || nameValid)
       return null;
-    else if (name.isEmpty)
+    else if (name!.isEmpty)
       return 'Campo obrigatório';
     else
       return 'Nome muito curto';
   }
 
   @computed
-  bool get phoneValid => phone != null && phone.length >= 14;
-  String get phoneError {
+  bool get phoneValid => phone != null && phone!.length >= 14;
+  String? get phoneError {
     if (phone == null || phoneValid)
       return null;
-    else if (phone.isEmpty)
+    else if (phone!.isEmpty)
       return 'Campo obrigatório';
     else
       return 'Número inválido';
   }
 
   @computed
-  bool get addressValid => address != null && address.length > 6;
-  String get addressError {
+  bool get addressValid => address != null && address!.length > 6;
+  String? get addressError {
     if (address == null || addressValid)
       return null;
-    else if (address.isEmpty)
+    else if (address!.isEmpty)
       return 'Campo obrigatório';
     else
       return 'Endereço muito curto';
@@ -90,13 +92,13 @@ abstract class _SignupCompanyStoreBase with Store {
   bool get activeValid => active != null;
 
   @computed
-  Function get signUpPressed =>
+  VoidCallback? get signUpPressed =>
       (nameValid && phoneValid && addressValid && activeValid && !loading)
           ? signUp
           : null;
 
   @computed
-  Function get updatePressed =>
+  VoidCallback? get updatePressed =>
       (nameValid && phoneValid && addressValid && activeValid && !loading)
           ? updateCompany
           : null;
@@ -108,10 +110,10 @@ abstract class _SignupCompanyStoreBase with Store {
     //Salvar a empresa no banco
     //e salvar no companyModel via appStore
     var result = await repository.createCompany(CompanyModel(
-      name: name,
-      address: address,
-      phone: phone,
-      active: active,
+      name: name!,
+      address: address!,
+      phone: phone!,
+      active: active!,
     ));
     print(result);
     if (result.contains('sucesso')) {
@@ -126,16 +128,12 @@ abstract class _SignupCompanyStoreBase with Store {
   @action
   Future<void> updateCompany() async {
     loading = true;
-    var companyData = {
-      "Name": name,
-      "Address": address,
-      "Phone": phone,
-      "Active": active,
-      "UpdatedAt": DateTime.now()
-    };
+    var companyViewModel = new CompanyViewModel(
+        name: name!, address: address!, phone: phone!, active: active!);
+    var companyData = CompanyModel.mapperFromCompanyViewModel(companyViewModel);
 
     var result = await repository.updateCompany(
-        companyData: companyData, companyId: companyId);
+        companyData: companyData.toMap(), companyId: companyId!);
 
     if (result) {
       setSignupSuccess(true);

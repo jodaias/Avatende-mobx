@@ -12,11 +12,11 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get_it/get_it.dart';
 
 class DepartmentsPage extends StatefulWidget {
-  DepartmentsPage({Key key, this.title = "Departamentos", this.companyId})
+  DepartmentsPage({Key? key, this.title = "Departamentos", this.companyId})
       : super(key: key);
 
   final String title;
-  final String companyId;
+  final String? companyId;
 
   @override
   _DepartmentsPageState createState() => _DepartmentsPageState();
@@ -28,10 +28,9 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
-      departmentStore.setCompanyId(widget.companyId);
+      departmentStore.setCompanyId(widget.companyId!);
     });
   }
 
@@ -47,7 +46,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => SignUpDepartmentPage(
-                          companyId: widget.companyId,
+                          companyId: widget.companyId!,
                         )));
           },
         ),
@@ -89,7 +88,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
             })
           ],
         ),
-        drawer: appStore.userViewModel.userType == UserType.Admin
+        drawer: appStore.userViewModel!.userType == UserType.Admin
             ? CustomDrawer()
             : null,
         body: Container(
@@ -102,7 +101,7 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                     return Center(child: CircularProgressIndicator());
                   }
 
-                  if (snapshot.data.isEmpty) {
+                  if (snapshot.data!.isEmpty) {
                     return Container(
                       padding: EdgeInsets.all(30),
                       child: Text(departmentStore.listActive
@@ -122,11 +121,161 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
 
                   return Container(
                     child: ListView(
-                      children: snapshot.data.map((department) {
+                      children: snapshot.data!.map((department) {
                         return Slidable(
                           closeOnScroll: true,
-                          actionExtentRatio: 0.2,
                           direction: Axis.horizontal,
+                          startActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            children: <Widget>[
+                              department.active
+                                  ? SlidableAction(
+                                      onPressed: (context) {
+                                        showDialog(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (BuildContext ctx) {
+                                              final input = Form(
+                                                  child: TextFormField(
+                                                autofocus: true,
+                                                initialValue: department.name,
+                                                decoration: InputDecoration(
+                                                    hintText: 'Nome',
+                                                    contentPadding:
+                                                        EdgeInsets.fromLTRB(
+                                                            20, 10, 20, 10),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5))),
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return 'Este campo não pode ficar vazio';
+                                                  }
+                                                  return null;
+                                                },
+                                                onChanged:
+                                                    departmentStore.setName,
+                                              ));
+
+                                              return AlertDialog(
+                                                title: Text('Editar nome'),
+                                                content: SingleChildScrollView(
+                                                  child: ListBody(
+                                                    children: <Widget>[input],
+                                                  ),
+                                                ),
+                                                actions: <Widget>[
+                                                  ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                      Colors.white,
+                                                    )),
+                                                    child: Text('Cancelar',
+                                                        style: TextStyle(
+                                                            color: Colors.red)),
+                                                    onPressed: () {
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                  ),
+                                                  ElevatedButton(
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(
+                                                      Colors.white,
+                                                    )),
+                                                    child: Text('Salvar',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .greenAccent)),
+                                                    onPressed: () {
+                                                      var departmentData = {
+                                                        "Name":
+                                                            departmentStore.name
+                                                      };
+
+                                                      departmentStore
+                                                          .updateDepartments(
+                                                              department
+                                                                  .departmentId(),
+                                                              departmentData);
+                                                      Navigator.of(ctx).pop();
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                      },
+                                      backgroundColor: Color(0xFFFE4A49),
+                                      foregroundColor: Colors.black,
+                                      icon: Icons.edit,
+                                      label: 'Editar',
+                                    )
+                                  : Container(),
+                              SlidableAction(
+                                onPressed: (context) {
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext ctx) {
+                                        return AlertDialog(
+                                          title: Text('Tem certeza?'),
+                                          content: Text(department.active
+                                              ? 'Esta ação irá desativar o departamento selecionado!'
+                                              : 'Esta ação irá ativar o departamento selecionado!'),
+                                          actions: <Widget>[
+                                            ElevatedButton(
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                Colors.greenAccent,
+                                              )),
+                                              child: Text('Cancelar',
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                              onPressed: () {
+                                                Navigator.of(ctx).pop();
+                                              },
+                                            ),
+                                            ElevatedButton(
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(
+                                                  Colors.white,
+                                                )),
+                                                child: Text(
+                                                    department.active
+                                                        ? 'Desativar'
+                                                        : 'Ativar',
+                                                    style: TextStyle(
+                                                        color: Colors.red)),
+                                                onPressed: () {
+                                                  var departData = {
+                                                    "Active": !department.active
+                                                  };
+
+                                                  departmentStore
+                                                      .updateDepartments(
+                                                          department
+                                                              .departmentId(),
+                                                          departData);
+                                                  Navigator.of(ctx).pop();
+                                                })
+                                          ],
+                                        );
+                                      });
+                                },
+                                foregroundColor: Colors.red[400],
+                                icon: Icons.block,
+                                label:
+                                    department.active ? 'Desativar' : 'Ativar',
+                              ),
+                            ],
+                          ),
                           child: ListTile(
                             title: Text(department.name),
                             trailing: Wrap(
@@ -227,153 +376,6 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                   });
                             },
                           ),
-                          secondaryActions: <Widget>[
-                            department.active
-                                ? IconSlideAction(
-                                    caption: 'Editar',
-                                    icon: Icons.edit,
-                                    color: Colors.black,
-                                    onTap: () {
-                                      showDialog(
-                                          context: context,
-                                          barrierDismissible: true,
-                                          builder: (BuildContext ctx) {
-                                            final input = Form(
-                                                child: TextFormField(
-                                              autofocus: true,
-                                              initialValue: department.name,
-                                              decoration: InputDecoration(
-                                                  hintText: 'Nome',
-                                                  contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          20, 10, 20, 10),
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5))),
-                                              validator: (value) {
-                                                if (value.isEmpty) {
-                                                  return 'Este campo não pode ficar vazio';
-                                                }
-                                                return null;
-                                              },
-                                              onChanged:
-                                                  departmentStore.setName,
-                                            ));
-
-                                            return AlertDialog(
-                                              title: Text('Editar nome'),
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: <Widget>[input],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                    Colors.white,
-                                                  )),
-                                                  child: Text('Cancelar',
-                                                      style: TextStyle(
-                                                          color: Colors.red)),
-                                                  onPressed: () {
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                ),
-                                                ElevatedButton(
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(
-                                                    Colors.white,
-                                                  )),
-                                                  child: Text('Salvar',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .greenAccent)),
-                                                  onPressed: () {
-                                                    var departmentData = {
-                                                      "Name":
-                                                          departmentStore.name
-                                                    };
-
-                                                    departmentStore
-                                                        .updateDepartments(
-                                                            department
-                                                                .departmentId(),
-                                                            departmentData);
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                )
-                                              ],
-                                            );
-                                          });
-                                    },
-                                  )
-                                : Container(),
-                            IconSlideAction(
-                              caption:
-                                  department.active ? 'Desativar' : 'Ativar',
-                              icon: Icons.block,
-                              color: Colors.red[400],
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    builder: (BuildContext ctx) {
-                                      return AlertDialog(
-                                        title: Text('Tem certeza?'),
-                                        content: Text(department.active
-                                            ? 'Esta ação irá desativar o departamento selecionado!'
-                                            : 'Esta ação irá ativar o departamento selecionado!'),
-                                        actions: <Widget>[
-                                          ElevatedButton(
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                              Colors.greenAccent,
-                                            )),
-                                            child: Text('Cancelar',
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                            onPressed: () {
-                                              Navigator.of(ctx).pop();
-                                            },
-                                          ),
-                                          ElevatedButton(
-                                              style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                Colors.white,
-                                              )),
-                                              child: Text(
-                                                  department.active
-                                                      ? 'Desativar'
-                                                      : 'Ativar',
-                                                  style: TextStyle(
-                                                      color: Colors.red)),
-                                              onPressed: () {
-                                                var departData = {
-                                                  "Active": !department.active
-                                                };
-
-                                                departmentStore
-                                                    .updateDepartments(
-                                                        department
-                                                            .departmentId(),
-                                                        departData);
-                                                Navigator.of(ctx).pop();
-                                              })
-                                        ],
-                                      );
-                                    });
-                              },
-                            ),
-                          ],
-                          actionPane: SlidableBehindActionPane(),
                         );
                       }).toList(),
                     ),

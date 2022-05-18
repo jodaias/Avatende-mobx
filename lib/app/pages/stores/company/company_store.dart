@@ -32,17 +32,17 @@ abstract class _CompanyStoreBase with Store {
   List<String> images = <String>[];
 
   @observable
-  String companyId;
+  String? companyId;
 
   @observable
-  File imageFile;
+  File? imageFile;
 
   @observable
   bool saveImagesSuccess = false;
 
   //ACTIONS
   @action
-  void setCompanyId(String value) => companyId = value;
+  void setCompanyId(String? value) => companyId = value;
 
   @action
   void setImageFile(File value) => imageFile = value;
@@ -64,7 +64,7 @@ abstract class _CompanyStoreBase with Store {
     var companyData = {"Images": images};
 
     var result = await _repository.addImagesCompany(
-        companyId: companyId, companyData: companyData);
+        companyId: companyId!, companyData: companyData);
 
     setSaveImagesSuccess(false);
 

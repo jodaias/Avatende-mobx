@@ -7,7 +7,7 @@ import 'package:get_it/get_it.dart';
 class RelatoryResultPage extends StatefulWidget {
   final List<RelatoryViewModel> relatories;
 
-  const RelatoryResultPage({Key key, @required this.relatories})
+  const RelatoryResultPage({Key? key, required this.relatories})
       : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class _RelatoryResultPageState extends State<RelatoryResultPage> {
           sortAscending: relatoryStore.sortAscending,
           columnSpacing: 0,
           dividerThickness: 5,
-          onSelectAll: (bool isSelected) {
+          onSelectAll: (bool? isSelected) {
             setState(() {
               if (isSelected != null) {
                 widget.relatories.forEach((item) {
@@ -103,7 +103,7 @@ class _RelatoryResultPageState extends State<RelatoryResultPage> {
     return DataRow(
       key: ValueKey(relatory.userId + "${DateTime.now()}"),
       selected: relatory.isSelected,
-      onSelectChanged: (bool isSelected) {
+      onSelectChanged: (bool? isSelected) {
         if (isSelected != null) {
           setState(() {
             relatory.isSelected = isSelected;
@@ -116,10 +116,10 @@ class _RelatoryResultPageState extends State<RelatoryResultPage> {
               : Color.fromARGB(100, 215, 217, 219)),
       cells: [
         DataCell(
-          Text(relatory.departmentName.toString()),
+          Text(relatory.departmentName!),
         ),
         DataCell(
-          Text(relatory.userName),
+          Text(relatory.userName!),
         ),
         DataCell(
           Text(relatory.mediaScores.toString()),

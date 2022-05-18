@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdsImagesViewModel {
-  List<String> images = [];
-  String _companyId;
+  late List<String> images = [];
+  late String _companyId;
 
   AdsImagesViewModel();
 
   AdsImagesViewModel.fromMap(DocumentSnapshot document) {
-    this.images = List.from(document.data()['Images']);
+    this.images = List.from(document['Images']);
     _companyId = document.id;
   }
 

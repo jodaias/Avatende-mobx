@@ -8,8 +8,8 @@ class AvaliationRepository {
   var _collection;
 
   Future<String> saveAvaliation(
-      {UserViewModel userViewModel,
-      Map<String, dynamic> avaliationData}) async {
+      {required UserViewModel userViewModel,
+      required Map<String, dynamic> avaliationData}) async {
     _collection = 'Users';
 
     try {

@@ -6,31 +6,31 @@ part of 'relatory_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$RelatoryStore on _RelatoryStoreBase, Store {
-  Computed<Function> _$generatePressedComputed;
+  Computed<VoidCallback?>? _$generatePressedComputed;
 
   @override
-  Function get generatePressed => (_$generatePressedComputed ??=
-          Computed<Function>(() => super.generatePressed,
+  VoidCallback? get generatePressed => (_$generatePressedComputed ??=
+          Computed<VoidCallback?>(() => super.generatePressed,
               name: '_RelatoryStoreBase.generatePressed'))
       .value;
-  Computed<bool> _$showAttendantsComputed;
+  Computed<bool>? _$showAttendantsComputed;
 
   @override
   bool get showAttendants =>
       (_$showAttendantsComputed ??= Computed<bool>(() => super.showAttendants,
               name: '_RelatoryStoreBase.showAttendants'))
           .value;
-  Computed<bool> _$showDepartmentsComputed;
+  Computed<bool>? _$showDepartmentsComputed;
 
   @override
   bool get showDepartments =>
       (_$showDepartmentsComputed ??= Computed<bool>(() => super.showDepartments,
               name: '_RelatoryStoreBase.showDepartments'))
           .value;
-  Computed<bool> _$showTypeReportSelectComputed;
+  Computed<bool>? _$showTypeReportSelectComputed;
 
   @override
   bool get showTypeReportSelect => (_$showTypeReportSelectComputed ??=
@@ -38,7 +38,8 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
               name: '_RelatoryStoreBase.showTypeReportSelect'))
       .value;
 
-  final _$loadingAtom = Atom(name: '_RelatoryStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_RelatoryStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -53,101 +54,104 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
     });
   }
 
-  final _$selectedStartDateAtom =
-      Atom(name: '_RelatoryStoreBase.selectedStartDate');
+  late final _$selectedStartDateAtom =
+      Atom(name: '_RelatoryStoreBase.selectedStartDate', context: context);
 
   @override
-  DateTime get selectedStartDate {
+  DateTime? get selectedStartDate {
     _$selectedStartDateAtom.reportRead();
     return super.selectedStartDate;
   }
 
   @override
-  set selectedStartDate(DateTime value) {
+  set selectedStartDate(DateTime? value) {
     _$selectedStartDateAtom.reportWrite(value, super.selectedStartDate, () {
       super.selectedStartDate = value;
     });
   }
 
-  final _$dateRangeAtom = Atom(name: '_RelatoryStoreBase.dateRange');
+  late final _$dateRangeAtom =
+      Atom(name: '_RelatoryStoreBase.dateRange', context: context);
 
   @override
-  DateTimeRange get dateRange {
+  DateTimeRange? get dateRange {
     _$dateRangeAtom.reportRead();
     return super.dateRange;
   }
 
   @override
-  set dateRange(DateTimeRange value) {
+  set dateRange(DateTimeRange? value) {
     _$dateRangeAtom.reportWrite(value, super.dateRange, () {
       super.dateRange = value;
     });
   }
 
-  final _$selectedEndDateAtom =
-      Atom(name: '_RelatoryStoreBase.selectedEndDate');
+  late final _$selectedEndDateAtom =
+      Atom(name: '_RelatoryStoreBase.selectedEndDate', context: context);
 
   @override
-  DateTime get selectedEndDate {
+  DateTime? get selectedEndDate {
     _$selectedEndDateAtom.reportRead();
     return super.selectedEndDate;
   }
 
   @override
-  set selectedEndDate(DateTime value) {
+  set selectedEndDate(DateTime? value) {
     _$selectedEndDateAtom.reportWrite(value, super.selectedEndDate, () {
       super.selectedEndDate = value;
     });
   }
 
-  final _$typeReportSelectedAtom =
-      Atom(name: '_RelatoryStoreBase.typeReportSelected');
+  late final _$typeReportSelectedAtom =
+      Atom(name: '_RelatoryStoreBase.typeReportSelected', context: context);
 
   @override
-  TypeRelatory get typeReportSelected {
+  TypeRelatory? get typeReportSelected {
     _$typeReportSelectedAtom.reportRead();
     return super.typeReportSelected;
   }
 
   @override
-  set typeReportSelected(TypeRelatory value) {
+  set typeReportSelected(TypeRelatory? value) {
     _$typeReportSelectedAtom.reportWrite(value, super.typeReportSelected, () {
       super.typeReportSelected = value;
     });
   }
 
-  final _$userSelectedAtom = Atom(name: '_RelatoryStoreBase.userSelected');
+  late final _$userSelectedAtom =
+      Atom(name: '_RelatoryStoreBase.userSelected', context: context);
 
   @override
-  UserViewModel get userSelected {
+  UserViewModel? get userSelected {
     _$userSelectedAtom.reportRead();
     return super.userSelected;
   }
 
   @override
-  set userSelected(UserViewModel value) {
+  set userSelected(UserViewModel? value) {
     _$userSelectedAtom.reportWrite(value, super.userSelected, () {
       super.userSelected = value;
     });
   }
 
-  final _$departmentSelectedAtom =
-      Atom(name: '_RelatoryStoreBase.departmentSelected');
+  late final _$departmentSelectedAtom =
+      Atom(name: '_RelatoryStoreBase.departmentSelected', context: context);
 
   @override
-  DepartmentViewModel get departmentSelected {
+  DepartmentViewModel? get departmentSelected {
     _$departmentSelectedAtom.reportRead();
     return super.departmentSelected;
   }
 
   @override
-  set departmentSelected(DepartmentViewModel value) {
+  set departmentSelected(DepartmentViewModel? value) {
     _$departmentSelectedAtom.reportWrite(value, super.departmentSelected, () {
       super.departmentSelected = value;
     });
   }
 
-  final _$relatoriesAtom = Atom(name: '_RelatoryStoreBase.relatories');
+  late final _$relatoriesAtom =
+      Atom(name: '_RelatoryStoreBase.relatories', context: context);
 
   @override
   List<RelatoryViewModel> get relatories {
@@ -162,7 +166,8 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
     });
   }
 
-  final _$departmentsAtom = Atom(name: '_RelatoryStoreBase.departments');
+  late final _$departmentsAtom =
+      Atom(name: '_RelatoryStoreBase.departments', context: context);
 
   @override
   List<DepartmentViewModel> get departments {
@@ -177,7 +182,8 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
     });
   }
 
-  final _$attendantsAtom = Atom(name: '_RelatoryStoreBase.attendants');
+  late final _$attendantsAtom =
+      Atom(name: '_RelatoryStoreBase.attendants', context: context);
 
   @override
   List<UserViewModel> get attendants {
@@ -192,8 +198,8 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
     });
   }
 
-  final _$sortColumnIndexAtom =
-      Atom(name: '_RelatoryStoreBase.sortColumnIndex');
+  late final _$sortColumnIndexAtom =
+      Atom(name: '_RelatoryStoreBase.sortColumnIndex', context: context);
 
   @override
   int get sortColumnIndex {
@@ -208,7 +214,8 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
     });
   }
 
-  final _$sortAscendingAtom = Atom(name: '_RelatoryStoreBase.sortAscending');
+  late final _$sortAscendingAtom =
+      Atom(name: '_RelatoryStoreBase.sortAscending', context: context);
 
   @override
   bool get sortAscending {
@@ -223,8 +230,8 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
     });
   }
 
-  final _$generatedReportAtom =
-      Atom(name: '_RelatoryStoreBase.generatedReport');
+  late final _$generatedReportAtom =
+      Atom(name: '_RelatoryStoreBase.generatedReport', context: context);
 
   @override
   bool get generatedReport {
@@ -239,8 +246,9 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
     });
   }
 
-  final _$getRelatoryByAttendantAsyncAction =
-      AsyncAction('_RelatoryStoreBase.getRelatoryByAttendant');
+  late final _$getRelatoryByAttendantAsyncAction = AsyncAction(
+      '_RelatoryStoreBase.getRelatoryByAttendant',
+      context: context);
 
   @override
   Future<void> getRelatoryByAttendant(String userId, DateTime startDate,
@@ -252,8 +260,9 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
             userActive: userActive));
   }
 
-  final _$getRelatoryByDepartmentAsyncAction =
-      AsyncAction('_RelatoryStoreBase.getRelatoryByDepartment');
+  late final _$getRelatoryByDepartmentAsyncAction = AsyncAction(
+      '_RelatoryStoreBase.getRelatoryByDepartment',
+      context: context);
 
   @override
   Future<void> getRelatoryByDepartment() {
@@ -261,8 +270,9 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
         .run(() => super.getRelatoryByDepartment());
   }
 
-  final _$getRelatoryByDepartmentsAsyncAction =
-      AsyncAction('_RelatoryStoreBase.getRelatoryByDepartments');
+  late final _$getRelatoryByDepartmentsAsyncAction = AsyncAction(
+      '_RelatoryStoreBase.getRelatoryByDepartments',
+      context: context);
 
   @override
   Future<void> getRelatoryByDepartments() {
@@ -270,16 +280,16 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
         .run(() => super.getRelatoryByDepartments());
   }
 
-  final _$getDepartmentsAsyncAction =
-      AsyncAction('_RelatoryStoreBase.getDepartments');
+  late final _$getDepartmentsAsyncAction =
+      AsyncAction('_RelatoryStoreBase.getDepartments', context: context);
 
   @override
   Future<void> getDepartments() {
     return _$getDepartmentsAsyncAction.run(() => super.getDepartments());
   }
 
-  final _$getAttendantsAsyncAction =
-      AsyncAction('_RelatoryStoreBase.getAttendants');
+  late final _$getAttendantsAsyncAction =
+      AsyncAction('_RelatoryStoreBase.getAttendants', context: context);
 
   @override
   Future<void> getAttendants(String departmentId) {
@@ -287,16 +297,16 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
         .run(() => super.getAttendants(departmentId));
   }
 
-  final _$generateReportAsyncAction =
-      AsyncAction('_RelatoryStoreBase.generateReport');
+  late final _$generateReportAsyncAction =
+      AsyncAction('_RelatoryStoreBase.generateReport', context: context);
 
   @override
   Future<void> generateReport() {
     return _$generateReportAsyncAction.run(() => super.generateReport());
   }
 
-  final _$_RelatoryStoreBaseActionController =
-      ActionController(name: '_RelatoryStoreBase');
+  late final _$_RelatoryStoreBaseActionController =
+      ActionController(name: '_RelatoryStoreBase', context: context);
 
   @override
   void setSortColumnIndex(int value) {
@@ -376,7 +386,7 @@ mixin _$RelatoryStore on _RelatoryStoreBase, Store {
   }
 
   @override
-  void setTypeReportSelected(TypeRelatory value) {
+  void setTypeReportSelected(TypeRelatory? value) {
     final _$actionInfo = _$_RelatoryStoreBaseActionController.startAction(
         name: '_RelatoryStoreBase.setTypeReportSelected');
     try {

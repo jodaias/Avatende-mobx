@@ -15,8 +15,8 @@ class PDFViewerPage extends StatefulWidget {
 }
 
 class _PDFViewerPageState extends State<PDFViewerPage> {
-  PDFDocument _doc;
-  bool _loading;
+  PDFDocument? _doc;
+  bool? _loading;
 
   @override
   void initState() {
@@ -63,12 +63,12 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
             )
           ],
         ),
-        body: _loading
+        body: _loading!
             ? Center(
                 child: CircularProgressIndicator(),
               )
             : PDFViewer(
-                document: _doc,
+                document: _doc!,
                 tooltip: _setTollTipViewer(),
               ));
   }

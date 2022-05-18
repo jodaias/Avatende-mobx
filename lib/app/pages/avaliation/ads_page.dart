@@ -3,7 +3,7 @@ import 'package:avatende/app/models/views/ads_images_view_model.dart';
 import 'package:avatende/app/pages/avaliation/avaliation_page.dart';
 import 'package:avatende/app/pages/stores/avaliation/avaliation_store.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
-import 'package:carousel_pro/carousel_pro.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,11 +20,9 @@ class _AdsPageState extends State<AdsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print('comp ${appStore.companyViewModel.companyId()}');
-    avaliationStore.setCompanyId(appStore.companyViewModel.companyId());
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    avaliationStore.setCompanyId(appStore.companyViewModel!.companyId());
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
   @override
@@ -44,11 +42,11 @@ class _AdsPageState extends State<AdsPage> {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(color: Colors.white),
                       );
                     }
 
-                    if (snapshot.data.images.isEmpty) {
+                    if (snapshot.data!.images.isEmpty) {
                       return Container(
                         padding: EdgeInsets.all(30),
                         child: Text('Desculpe, nenhum anúncio cadastrado.'),
@@ -65,27 +63,28 @@ class _AdsPageState extends State<AdsPage> {
                     }
 
                     return Container(
-                      child: Carousel(
-                        images: snapshot.data.images.map((url) {
-                          print('url $url');
-                          return NetworkImage(url);
-                        }).toList(),
-                        dotSize: 6.0,
-                        dotSpacing: 20.0,
-                        dotBgColor: Colors.purple.withOpacity(0.5),
-                        dotColor: primaryColor,
-                        autoplay: true,
-                        autoplayDuration: Duration(seconds: 5),
-                        borderRadius: false,
-                        moveIndicatorFromBottom: 18.0,
-                        noRadiusForIndicator: true,
-                        indicatorBgPadding: 2.0,
-                        overlayShadow: true,
-                        overlayShadowColors: Colors.white,
-                        onImageTap: nextPage,
-                        animationCurve: Curves.fastOutSlowIn,
-                        animationDuration: Duration(milliseconds: 2000),
-                      ),
+                      child: CarouselSlider(
+                          items: snapshot.data!.images.map((url) {
+                            return Image.network(url);
+                          }).toList(),
+                          options: CarouselOptions(
+                            // height: 400,
+                            // aspectRatio: 16 / 9,
+                            viewportFraction: 0.8,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            reverse: false,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 5),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 2000),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            onPageChanged: (index, carrosel) {
+                              nextPage(index);
+                            },
+                            scrollDirection: Axis.horizontal,
+                          )),
                     );
                   },
                 );
@@ -100,8 +99,8 @@ class _AdsPageState extends State<AdsPage> {
         .push(MaterialPageRoute(builder: (context) => AvaliationPage()));
   }
 
-  Future<bool> _onBackPressed() {
-    return showDialog(
+  Future<bool> _onBackPressed() async {
+    return await showDialog(
           context: context,
           builder: (context) => new AlertDialog(
             title: new Text('Tem certeza?'),

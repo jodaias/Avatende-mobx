@@ -4,7 +4,6 @@ import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
 class UserRepository {
@@ -13,11 +12,14 @@ class UserRepository {
   var _instance = FirebaseFirestore.instance;
   var _collection = "Users";
 
-  Future<String> signUpUser({UserModel usermodel, String password}) async {
+  Future<String> signUpUser(
+      {required UserModel usermodel, required String password}) async {
+    var authSecond = await _getSecondInstanceAuth();
+
     try {
       //Criando user no authentication
-      var user =
-          await _createNewAccount(email: usermodel.email, password: password);
+      var user = await _createNewAccount(
+          email: usermodel.email, password: password, authSecond: authSecond);
 
       if (user == null) return 'Erro: Falha ao criar usuário!';
 
@@ -36,32 +38,43 @@ class UserRepository {
       //logica para salvar no banco firestore
       await _instance.collection(_collection).doc(user.uid).set({
         'Name': usermodel.name,
-        'Phone': usermodel.phone,
         'Active': usermodel.active,
         'Email': usermodel.email,
         'UserType': usermodel.userType.index,
-        'Address': usermodel.address,
         'Image': image,
         'CreatedAt': DateTime.now(),
+        'UserId': user.uid,
         stringKey: stringValue,
       });
 
+      authSecond.signOut();
+
       return 'Usuário criado com sucesso!';
     } catch (e) {
+      authSecond.currentUser!.delete();
+      authSecond.signOut();
       print('Error: $e');
       return 'Erro: Falha ao criar usuário!';
     }
   }
 
-  Future<User> _createNewAccount({String email, String password}) async {
-    var authSecond = await _getSecondInstanceAuth();
+  Future<bool> deleteuserInDatabase(String uid) async {
+    try {
+      await _instance.collection(_collection).doc(uid).delete();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
+  Future<User?> _createNewAccount(
+      {required String email,
+      required String password,
+      required FirebaseAuth authSecond}) async {
     var result = await authSecond.createUserWithEmailAndPassword(
         email: email, password: password);
 
     if (result.user == null) return null;
-
-    authSecond.signOut();
 
     return result.user;
   }
@@ -80,7 +93,8 @@ class UserRepository {
     return FirebaseAuth.instanceFor(app: app);
   }
 
-  Future<UserViewModel> signIn({String email, String password}) async {
+  Future<UserViewModel> signIn(
+      {required String email, required String password}) async {
     try {
       //Logica de enviar os dados no banco e retornar o usuario logado.
       var credentialUser = await _auth.signInWithEmailAndPassword(
@@ -90,8 +104,9 @@ class UserRepository {
           .collection("Users")
           .doc(credentialUser.user?.uid)
           .get();
-
-      return UserViewModel.fromMap(user);
+      final userId = <String, dynamic>{"": user.id};
+      user.data()!.addEntries(userId.entries);
+      return UserViewModel.fromMap(user.data()!);
     } catch (e) {
       print('Error: $e');
       return UserViewModel();
@@ -99,8 +114,7 @@ class UserRepository {
   }
 
   Future<bool> updateUser(
-      {@required String userId,
-      @required Map<String, dynamic> userData}) async {
+      {required String userId, required Map<String, dynamic> userData}) async {
     try {
       _collection = 'Users';
 
@@ -117,11 +131,12 @@ class UserRepository {
     await _auth.sendPasswordResetEmail(email: email);
   }
 
-  Future<UserViewModel> getUser({String userId, UserType userType}) async {
+  Future<UserViewModel> getUser(
+      {required String userId, UserType? userType}) async {
     try {
       var user = await _instance.collection(_collection).doc(userId).get();
-
-      return UserViewModel.fromMap(user);
+      user.data()!.addEntries({"Id": userId}.entries);
+      return UserViewModel.fromMap(user.data()!);
     } catch (e) {
       print('Error: $e');
       return UserViewModel();
@@ -139,7 +154,11 @@ class UserRepository {
         .where("Active", isEqualTo: userActive)
         .get();
 
-    var users = snapshot.docs.map((doc) => UserViewModel.fromMap(doc)).toList();
+    var users = snapshot.docs.map((doc) {
+      final userId = <String, dynamic>{"": doc.id};
+      doc.data().addEntries(userId.entries);
+      return UserViewModel.fromMap(doc.data());
+    }).toList();
     return users;
   }
 
@@ -161,8 +180,10 @@ class UserRepository {
         .where("Active", isEqualTo: usersActive)
         .orderBy('Name', descending: !orderByAz)
         .snapshots()
-        .map((query) => query.docs
-            .map<UserViewModel>((document) => UserViewModel.fromMap(document))
-            .toList()));
+        .map((query) => query.docs.map<UserViewModel>((document) {
+              final userId = <String, dynamic>{"": document.id};
+              document.data().addEntries(userId.entries);
+              return UserViewModel.fromMap(document.data());
+            }).toList()));
   }
 }

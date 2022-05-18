@@ -63,7 +63,8 @@ class _CustomGridImagesState extends State<CustomGridImages> {
                                 shape: BoxShape.rectangle,
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: NetworkImage(adsUrlDefault),
+                                  image:
+                                      AssetImage("assets/images/addImage.png"),
                                 ),
                               ),
                             ),

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 class PageTile extends StatelessWidget {
   const PageTile(
-      {Key key, this.label, this.iconData, this.onTap, this.highlighted})
+      {Key? key,
+      required this.label,
+      required this.iconData,
+      required this.onTap,
+      required this.highlighted})
       : super(key: key);
 
   final String label;

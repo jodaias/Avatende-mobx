@@ -8,7 +8,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'dart:math' as math;
 
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
 
 class CustomAppBar extends StatefulWidget with PreferredSizeWidget {
   @override
@@ -71,8 +70,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       return GestureDetector(
                         onTap: () async {
                           await appStore.showDialogGetImage(context);
-                          userStore.setLoading(true);
-                          await _saveImageProfile(context);
+                          if (appStore.imageFiles.isNotEmpty) {
+                            userStore.setLoading(true);
+                            await _saveImageProfile(context);
+                          }
                         },
                         child: Observer(builder: (_) {
                           return userStore.loading
@@ -93,20 +94,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                       shape: BoxShape.circle,
                                       color: Colors.purple[700],
                                       image: DecorationImage(
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.fitHeight,
                                           image: appStore.imageFiles.isNotEmpty
                                               ? FileImage(
-                                                      appStore.imageFiles[0])
-                                                  as ImageProvider
-                                              : appStore.userViewModel.image ==
+                                                  appStore.imageFiles[0])
+                                              : appStore.userViewModel!.image ==
                                                           "" ||
-                                                      appStore.userViewModel
+                                                      appStore.userViewModel!
                                                               .image ==
                                                           null
-                                                  ? NetworkImage(
-                                                      profileUrlDefault)
+                                                  ? AssetImage(
+                                                          "assets/images/profileDefault.png")
+                                                      as ImageProvider
                                                   : NetworkImage(appStore
-                                                      .userViewModel.image))),
+                                                          .userViewModel!
+                                                          .image ??
+                                                      ""))),
                                 );
                         }),
                       );
@@ -116,7 +119,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     ),
                     Observer(builder: (_) {
                       return Text(
-                        '${appStore.userViewModel.name}',
+                        '${appStore.userViewModel!.name}',
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       );
                     })
@@ -129,7 +132,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
               child: Observer(builder: (_) {
                 return GestureDetector(
                   onTap: () {
-                    print("//TODO: button clicked");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -174,7 +176,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   Future<void> _saveImageProfile(BuildContext ctx) async {
     var user = appStore.userViewModel;
-    user.imageFile =
+    user!.imageFile =
         appStore.imageFiles.isNotEmpty ? appStore.imageFiles[0] : null;
 
     //Formando Object to send
@@ -183,14 +185,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
       var uploadImage = new ImageUploadModel(
           fileName: fileName,
           folder: "profile_images",
-          subFolder: user.userId(),
-          fileToUpload: user.imageFile);
+          subFolder: user.userId()!,
+          fileToUpload: user.imageFile!);
 
       var urlResul = await appStore.uploadImageFileInStorage(ctx, uploadImage);
       user.image = urlResul;
       appStore.setUser(user);
 
-      await userStore.updateUser(user.userId(), user.toMap());
+      await userStore.updateUser(user.userId()!, user.toMap());
       appStore.setImageFiles([]);
       userStore.setLoading(false);
     }

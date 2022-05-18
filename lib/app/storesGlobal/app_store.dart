@@ -17,32 +17,21 @@ part 'app_store.g.dart';
 
 class AppStore = _AppStoreBase with _$AppStore;
 
-final profileUrlDefault =
-    "https://cdn1.iconfinder.com/data/icons/rounded-black-basic-ui/139/Photo_Add-RoundedBlack-512.png";
-final adsUrlDefault =
-    "https://cdn.icon-icons.com/icons2/564/PNG/512/Add_Image_icon-icons.com_54218.png";
-
 abstract class _AppStoreBase with Store {
   final _repositoryUser = new UserRepository();
   final _companyRepository = new CompanyRepository();
 
   @observable
-  bool producao;
+  UserViewModel? userViewModel;
 
   @observable
-  UserViewModel userViewModel;
+  CompanyViewModel? companyViewModel;
 
   @observable
-  CompanyViewModel companyViewModel;
-
-  @observable
-  DepartmentViewModel departmentViewModel;
+  DepartmentViewModel? departmentViewModel;
 
   @observable
   List<File> imageFiles = <File>[];
-
-  @action
-  void setProducao(bool value) => producao = value;
 
   @action
   void setUser(UserViewModel value) => userViewModel = value;
@@ -58,8 +47,8 @@ abstract class _AppStoreBase with Store {
 
   @action
   Future<void> getUser() async {
-    var user = await _repositoryUser.getUser(
-        userId: userViewModel.userId(), userType: userViewModel.userType);
+    var user =
+        await _repositoryUser.getUser(userId: userViewModel!.userId() ?? "");
 
     setUser(user);
   }
@@ -67,11 +56,11 @@ abstract class _AppStoreBase with Store {
   @action
   Future<void> getCompanyAndDepartment() async {
     var map = await _companyRepository.getCompanyAndDepartment(
-        userViewModel: userViewModel);
+        userViewModel: userViewModel!);
     if (map != null) {
       setCompany(map['Company']);
 
-      if (userViewModel.userType == UserType.User) {
+      if (userViewModel!.userType == UserType.User) {
         setDepartment(map['Department']);
       }
     }
@@ -124,7 +113,7 @@ abstract class _AppStoreBase with Store {
 //Methods privates
   @action
   Future<void> _pickImage(ImageSource source) async {
-    var file = await ImagePicker().getImage(source: source);
+    var file = await ImagePicker().pickImage(source: source);
     if (file == null) return;
     imageFiles.add(File(file.path));
     setImageFiles(imageFiles);
@@ -139,8 +128,25 @@ abstract class _AppStoreBase with Store {
         .child(imageUploadModel.fileName)
         .putFile(imageUploadModel.fileToUpload);
 
-    var snapshot = await uploadTask.onComplete;
-    var profileImageUrl = await snapshot.ref.getDownloadURL();
+    var profileImageUrl = await uploadTask.snapshot.ref.getDownloadURL();
     return profileImageUrl;
   }
+
+  bool userMasterHasAccessGranted() =>
+      userViewModel != null &&
+      userViewModel!.userType == UserType.Master &&
+      userViewModel!.active;
+
+  bool userAdminHasAccessGranted() =>
+      userViewModel != null &&
+      userViewModel!.userType == UserType.Admin &&
+      companyViewModel!.active &&
+      userViewModel!.active;
+
+  bool userHasAccessGranted() =>
+      userViewModel != null &&
+      userViewModel!.userType == UserType.User &&
+      companyViewModel!.active &&
+      departmentViewModel!.active &&
+      userViewModel!.active;
 }

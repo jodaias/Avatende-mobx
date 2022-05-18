@@ -1,9 +1,8 @@
 import 'package:avatende/app/pages/avaliation/acknowledgment_page.dart';
 import 'package:avatende/app/pages/signup/components/field_title.dart';
 import 'package:avatende/app/pages/stores/avaliation/avaliation_store.dart';
-import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
+// import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -11,7 +10,8 @@ import 'package:mobx/mobx.dart';
 class ObservationPage extends StatefulWidget {
   final String title;
 
-  const ObservationPage({Key key, this.title = "Observação"}) : super(key: key);
+  const ObservationPage({Key? key, this.title = "Observação"})
+      : super(key: key);
   @override
   _ObservationPageState createState() => _ObservationPageState();
 }
@@ -19,7 +19,7 @@ class ObservationPage extends StatefulWidget {
 class _ObservationPageState extends State<ObservationPage> {
   final avaliationStore = GetIt.I<AvaliationStore>();
 
-  ReactionDisposer disposer;
+  late ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
@@ -31,7 +31,7 @@ class _ObservationPageState extends State<ObservationPage> {
 
     disposer =
         reaction((_) => avaliationStore.avaliationSuccess, (createdAvaliation) {
-      if (createdAvaliation) {
+      if (createdAvaliation == true) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => AcknowledgmentPage()));
       } else {
@@ -84,7 +84,7 @@ class _ObservationPageState extends State<ObservationPage> {
                           onChanged: avaliationStore.setObservation,
                         );
                       }),
-                      !avaliationStore.anonymous
+                      avaliationStore.anonymous!
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -111,29 +111,6 @@ class _ObservationPageState extends State<ObservationPage> {
                                 SizedBox(
                                   height: 16,
                                 ),
-                                FieldTitle(
-                                  title: 'Contato',
-                                  subtitle: 'Telefone / Celular',
-                                ),
-                                Observer(builder: (_) {
-                                  return TextFormField(
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: '(99) 99999-9999',
-                                      isDense: true,
-                                      errorText: avaliationStore.phoneError,
-                                    ),
-                                    keyboardType: TextInputType.phone,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      TelefoneInputFormatter()
-                                    ],
-                                    onChanged: avaliationStore.setPhone,
-                                  );
-                                }),
-                                SizedBox(
-                                  height: 16,
-                                ),
                               ],
                             )
                           : SizedBox(
@@ -150,17 +127,13 @@ class _ObservationPageState extends State<ObservationPage> {
                             Radio(
                               groupValue: avaliationStore.anonymous,
                               value: true,
-                              onChanged: (val) {
-                                avaliationStore.setAnonymous(val);
-                              },
+                              onChanged: avaliationStore.setAnonymous,
                             ),
                             Text('Sim'),
                             Radio(
                               groupValue: avaliationStore.anonymous,
                               value: false,
-                              onChanged: (val) {
-                                avaliationStore.setAnonymous(val);
-                              },
+                              onChanged: avaliationStore.setAnonymous,
                             ),
                             Text('Não'),
                           ],

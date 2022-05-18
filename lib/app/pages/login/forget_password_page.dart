@@ -12,7 +12,7 @@ class ForgetPasswordPage extends StatefulWidget {
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   LoginStore loginStore = LoginStore();
 
-  ReactionDisposer disposer;
+  late ReactionDisposer disposer;
 
   _showDialogLinkSend() {
     return showDialog(
@@ -63,7 +63,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     super.didChangeDependencies();
 
     disposer = reaction((_) => loginStore.resetPass, (resetPass) {
-      if (resetPass) {
+      if (resetPass == true) {
         _showDialogLinkSend();
       } else {
         _showDialogLinkNotSend();

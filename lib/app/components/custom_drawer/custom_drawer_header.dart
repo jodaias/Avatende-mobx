@@ -28,10 +28,11 @@ class CustomDrawerHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: appStore.userViewModel.image == "" ||
-                              appStore.userViewModel.image == null
-                          ? NetworkImage(profileUrlDefault)
-                          : NetworkImage(appStore.userViewModel.image),
+                      image: appStore.userViewModel!.image == "" ||
+                              appStore.userViewModel!.image == null
+                          ? AssetImage("assets/images/profileDefault.png")
+                              as ImageProvider
+                          : NetworkImage(appStore.userViewModel!.image ?? ''),
                     )),
               ),
             ),
@@ -41,18 +42,14 @@ class CustomDrawerHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    appStore.userViewModel.name != null
-                        ? appStore.userViewModel.name
-                        : '',
+                    appStore.userViewModel!.name ?? '',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),
                   ),
                   Text(
-                    appStore.userViewModel.email != null
-                        ? appStore.userViewModel.email
-                        : '',
+                    appStore.userViewModel!.email ?? '',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,

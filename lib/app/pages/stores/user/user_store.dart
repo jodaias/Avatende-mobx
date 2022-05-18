@@ -27,13 +27,13 @@ abstract class _UserStoreBase with Store {
   bool listActive = true;
 
   @observable
-  String departmentId;
+  String? departmentId;
 
   @observable
-  String companyId;
+  String? companyId;
 
   @observable
-  UserType userType;
+  UserType? userType;
 
   //ACTIONS
   @action
@@ -80,7 +80,7 @@ abstract class _UserStoreBase with Store {
   //COMPUTEDS
   @computed
   get userList => _repository
-      .users(departmentId != null ? departmentId : companyId, userType,
+      .users(departmentId != null ? departmentId! : companyId!, userType!,
           listActive, orderByAz)
       .value;
 }

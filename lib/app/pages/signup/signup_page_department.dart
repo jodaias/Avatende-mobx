@@ -1,15 +1,15 @@
 import 'package:avatende/app/pages/stores/signup/signup_department_store.dart';
 import 'package:avatende/app/pages/signup/components/field_title.dart';
-import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
+// import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 class SignUpDepartmentPage extends StatefulWidget {
-  const SignUpDepartmentPage({Key key, this.companyId}) : super(key: key);
+  const SignUpDepartmentPage({Key? key, this.companyId}) : super(key: key);
 
-  final String companyId;
+  final String? companyId;
 
   @override
   _SignUpDepartmentPageState createState() => _SignUpDepartmentPageState();
@@ -18,7 +18,7 @@ class SignUpDepartmentPage extends StatefulWidget {
 class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
   SignupDepartmentStore signupDepartmentStore = SignupDepartmentStore();
 
-  ReactionDisposer disposer;
+  late ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
@@ -26,7 +26,7 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
 
     disposer =
         reaction((_) => signupDepartmentStore.signupSuccess, (signupSuccess) {
-      if (signupSuccess) {
+      if (signupSuccess == true) {
         Navigator.of(context).pop();
       } else {
         print('não foi possivel cadastrar');
@@ -36,7 +36,7 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    signupDepartmentStore.setCompanyId(widget.companyId);
+    signupDepartmentStore.setCompanyId(widget.companyId!);
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastro'),
@@ -95,7 +95,7 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
                         keyboardType: TextInputType.phone,
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          TelefoneInputFormatter()
+                          // TelefoneInputFormatter()
                         ],
                         onChanged: signupDepartmentStore.setPhone,
                       );
@@ -114,17 +114,13 @@ class _SignUpDepartmentPageState extends State<SignUpDepartmentPage> {
                           Radio(
                             groupValue: signupDepartmentStore.active,
                             value: true,
-                            onChanged: (val) {
-                              signupDepartmentStore.setActive(val);
-                            },
+                            onChanged: signupDepartmentStore.setActive,
                           ),
                           Text('Sim'),
                           Radio(
                             groupValue: signupDepartmentStore.active,
                             value: false,
-                            onChanged: (val) {
-                              signupDepartmentStore.setActive(val);
-                            },
+                            onChanged: signupDepartmentStore.setActive,
                           ),
                           Text('Não'),
                         ],

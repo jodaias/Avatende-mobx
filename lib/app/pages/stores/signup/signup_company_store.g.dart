@@ -6,128 +6,134 @@ part of 'signup_company_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
-  Computed<bool> _$nameValidComputed;
+  Computed<bool>? _$nameValidComputed;
 
   @override
   bool get nameValid =>
       (_$nameValidComputed ??= Computed<bool>(() => super.nameValid,
               name: '_SignupCompanyStoreBase.nameValid'))
           .value;
-  Computed<bool> _$phoneValidComputed;
+  Computed<bool>? _$phoneValidComputed;
 
   @override
   bool get phoneValid =>
       (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
               name: '_SignupCompanyStoreBase.phoneValid'))
           .value;
-  Computed<bool> _$addressValidComputed;
+  Computed<bool>? _$addressValidComputed;
 
   @override
   bool get addressValid =>
       (_$addressValidComputed ??= Computed<bool>(() => super.addressValid,
               name: '_SignupCompanyStoreBase.addressValid'))
           .value;
-  Computed<bool> _$activeValidComputed;
+  Computed<bool>? _$activeValidComputed;
 
   @override
   bool get activeValid =>
       (_$activeValidComputed ??= Computed<bool>(() => super.activeValid,
               name: '_SignupCompanyStoreBase.activeValid'))
           .value;
-  Computed<Function> _$signUpPressedComputed;
+  Computed<VoidCallback?>? _$signUpPressedComputed;
 
   @override
-  Function get signUpPressed =>
-      (_$signUpPressedComputed ??= Computed<Function>(() => super.signUpPressed,
+  VoidCallback? get signUpPressed => (_$signUpPressedComputed ??=
+          Computed<VoidCallback?>(() => super.signUpPressed,
               name: '_SignupCompanyStoreBase.signUpPressed'))
-          .value;
-  Computed<Function> _$updatePressedComputed;
+      .value;
+  Computed<VoidCallback?>? _$updatePressedComputed;
 
   @override
-  Function get updatePressed =>
-      (_$updatePressedComputed ??= Computed<Function>(() => super.updatePressed,
+  VoidCallback? get updatePressed => (_$updatePressedComputed ??=
+          Computed<VoidCallback?>(() => super.updatePressed,
               name: '_SignupCompanyStoreBase.updatePressed'))
-          .value;
+      .value;
 
-  final _$companyIdAtom = Atom(name: '_SignupCompanyStoreBase.companyId');
+  late final _$companyIdAtom =
+      Atom(name: '_SignupCompanyStoreBase.companyId', context: context);
 
   @override
-  String get companyId {
+  String? get companyId {
     _$companyIdAtom.reportRead();
     return super.companyId;
   }
 
   @override
-  set companyId(String value) {
+  set companyId(String? value) {
     _$companyIdAtom.reportWrite(value, super.companyId, () {
       super.companyId = value;
     });
   }
 
-  final _$nameAtom = Atom(name: '_SignupCompanyStoreBase.name');
+  late final _$nameAtom =
+      Atom(name: '_SignupCompanyStoreBase.name', context: context);
 
   @override
-  String get name {
+  String? get name {
     _$nameAtom.reportRead();
     return super.name;
   }
 
   @override
-  set name(String value) {
+  set name(String? value) {
     _$nameAtom.reportWrite(value, super.name, () {
       super.name = value;
     });
   }
 
-  final _$addressAtom = Atom(name: '_SignupCompanyStoreBase.address');
+  late final _$addressAtom =
+      Atom(name: '_SignupCompanyStoreBase.address', context: context);
 
   @override
-  String get address {
+  String? get address {
     _$addressAtom.reportRead();
     return super.address;
   }
 
   @override
-  set address(String value) {
+  set address(String? value) {
     _$addressAtom.reportWrite(value, super.address, () {
       super.address = value;
     });
   }
 
-  final _$phoneAtom = Atom(name: '_SignupCompanyStoreBase.phone');
+  late final _$phoneAtom =
+      Atom(name: '_SignupCompanyStoreBase.phone', context: context);
 
   @override
-  String get phone {
+  String? get phone {
     _$phoneAtom.reportRead();
     return super.phone;
   }
 
   @override
-  set phone(String value) {
+  set phone(String? value) {
     _$phoneAtom.reportWrite(value, super.phone, () {
       super.phone = value;
     });
   }
 
-  final _$activeAtom = Atom(name: '_SignupCompanyStoreBase.active');
+  late final _$activeAtom =
+      Atom(name: '_SignupCompanyStoreBase.active', context: context);
 
   @override
-  bool get active {
+  bool? get active {
     _$activeAtom.reportRead();
     return super.active;
   }
 
   @override
-  set active(bool value) {
+  set active(bool? value) {
     _$activeAtom.reportWrite(value, super.active, () {
       super.active = value;
     });
   }
 
-  final _$loadingAtom = Atom(name: '_SignupCompanyStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_SignupCompanyStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -142,8 +148,8 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
     });
   }
 
-  final _$signupSuccessAtom =
-      Atom(name: '_SignupCompanyStoreBase.signupSuccess');
+  late final _$signupSuccessAtom =
+      Atom(name: '_SignupCompanyStoreBase.signupSuccess', context: context);
 
   @override
   bool get signupSuccess {
@@ -158,26 +164,27 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
     });
   }
 
-  final _$signUpAsyncAction = AsyncAction('_SignupCompanyStoreBase.signUp');
+  late final _$signUpAsyncAction =
+      AsyncAction('_SignupCompanyStoreBase.signUp', context: context);
 
   @override
   Future<void> signUp() {
     return _$signUpAsyncAction.run(() => super.signUp());
   }
 
-  final _$updateCompanyAsyncAction =
-      AsyncAction('_SignupCompanyStoreBase.updateCompany');
+  late final _$updateCompanyAsyncAction =
+      AsyncAction('_SignupCompanyStoreBase.updateCompany', context: context);
 
   @override
   Future<void> updateCompany() {
     return _$updateCompanyAsyncAction.run(() => super.updateCompany());
   }
 
-  final _$_SignupCompanyStoreBaseActionController =
-      ActionController(name: '_SignupCompanyStoreBase');
+  late final _$_SignupCompanyStoreBaseActionController =
+      ActionController(name: '_SignupCompanyStoreBase', context: context);
 
   @override
-  void setCompanyId(String value) {
+  void setCompanyId(String? value) {
     final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
         name: '_SignupCompanyStoreBase.setCompanyId');
     try {
@@ -188,7 +195,7 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   }
 
   @override
-  void setName(String value) {
+  void setName(String? value) {
     final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
         name: '_SignupCompanyStoreBase.setName');
     try {
@@ -199,7 +206,7 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   }
 
   @override
-  void setPhone(String value) {
+  void setPhone(String? value) {
     final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
         name: '_SignupCompanyStoreBase.setPhone');
     try {
@@ -210,7 +217,7 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   }
 
   @override
-  void setActive(bool value) {
+  void setActive(bool? value) {
     final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
         name: '_SignupCompanyStoreBase.setActive');
     try {
@@ -232,7 +239,7 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   }
 
   @override
-  void setAddress(String value) {
+  void setAddress(String? value) {
     final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
         name: '_SignupCompanyStoreBase.setAddress');
     try {

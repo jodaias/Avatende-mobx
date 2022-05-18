@@ -3,7 +3,7 @@ import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:avatende/app/pages/stores/signup/signup_user_store.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
 import 'package:avatende/app/pages/signup/components/field_title.dart';
-import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
+// import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +13,7 @@ import 'package:mobx/mobx.dart';
 
 class SignUpUserPage extends StatefulWidget {
   const SignUpUserPage({
-    Key key,
+    Key? key,
     this.isUpdate,
     this.departmentId,
     this.companyId,
@@ -21,11 +21,11 @@ class SignUpUserPage extends StatefulWidget {
     this.isPerfil,
   }) : super(key: key);
 
-  final String departmentId;
-  final String companyId;
-  final UserViewModel userViewModel;
-  final bool isUpdate;
-  final bool isPerfil;
+  final String? departmentId;
+  final String? companyId;
+  final UserViewModel? userViewModel;
+  final bool? isUpdate;
+  final bool? isPerfil;
 
   @override
   _SignUpUserPageState createState() => _SignUpUserPageState();
@@ -35,14 +35,14 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
   final signupUserStore = SignUpUserStore();
   final appStore = GetIt.I<AppStore>();
 
-  ReactionDisposer disposer;
+  late ReactionDisposer disposer;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     disposer = reaction((_) => signupUserStore.signupSuccess, (signupSuccess) {
-      if (signupSuccess) {
+      if (signupSuccess == true) {
         appStore.getUser();
         Navigator.of(context).pop();
       } else {
@@ -52,15 +52,13 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
   }
 
   void setAtributs() {
-    signupUserStore.setCompanyId(widget.companyId);
-    signupUserStore.setDepartmentId(widget.departmentId);
+    signupUserStore.setCompanyId(widget.companyId ?? "");
+    signupUserStore.setDepartmentId(widget.departmentId ?? "");
 
-    if (widget.isUpdate) {
-      signupUserStore.setName(widget.userViewModel.name);
-      signupUserStore.setAddress(widget.userViewModel.address);
-      signupUserStore.setActive(widget.userViewModel.active);
-      signupUserStore.setPhone(widget.userViewModel.phone);
-      signupUserStore.setUserId(widget.userViewModel.userId());
+    if (widget.isUpdate!) {
+      signupUserStore.setName(widget.userViewModel!.name ?? "");
+      signupUserStore.setActive(widget.userViewModel!.active);
+      signupUserStore.setUserId(widget.userViewModel!.userId() ?? "");
     }
   }
 
@@ -70,7 +68,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
       setAtributs();
       return Scaffold(
           appBar: AppBar(
-            title: Text('${widget.isUpdate ? "Atualização" : "Cadastro"}'),
+            title: Text('${widget.isUpdate! ? "Atualização" : "Cadastro"}'),
             centerTitle: true,
           ),
           body: Container(
@@ -96,8 +94,8 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                         ),
                         Observer(builder: (_) {
                           return TextFormField(
-                            initialValue: widget.isUpdate
-                                ? widget.userViewModel.name
+                            initialValue: widget.isUpdate!
+                                ? widget.userViewModel!.name
                                 : '',
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -108,7 +106,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                             onChanged: signupUserStore.setName,
                           );
                         }),
-                        !widget.isUpdate
+                        !widget.isUpdate!
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -121,8 +119,8 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                   ),
                                   Observer(builder: (_) {
                                     return TextFormField(
-                                      initialValue: widget.isUpdate
-                                          ? widget.userViewModel.email
+                                      initialValue: widget.isUpdate!
+                                          ? widget.userViewModel!.email
                                           : '',
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
@@ -143,51 +141,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                             : SizedBox(
                                 height: 16,
                               ),
-                        FieldTitle(
-                          title: 'Endereço ',
-                          subtitle: 'Digite o endereço',
-                        ),
-                        Observer(builder: (_) {
-                          return TextFormField(
-                            initialValue: widget.isUpdate
-                                ? widget.userViewModel.address
-                                : '',
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Exemplo: Rua01, nº 09, Cidade-Estado',
-                              isDense: true,
-                              errorText: signupUserStore.addressError,
-                            ),
-                            onChanged: signupUserStore.setAddress,
-                          );
-                        }),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        FieldTitle(
-                          title: 'Telefone ',
-                          subtitle: 'Digite o número de telefone',
-                        ),
-                        Observer(builder: (_) {
-                          return TextFormField(
-                            initialValue: widget.isUpdate
-                                ? widget.userViewModel.phone
-                                : '',
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: '(99) 99999-9999',
-                              isDense: true,
-                              errorText: signupUserStore.phoneError,
-                            ),
-                            keyboardType: TextInputType.phone,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              TelefoneInputFormatter()
-                            ],
-                            onChanged: signupUserStore.setPhone,
-                          );
-                        }),
-                        !widget.isUpdate
+                        !widget.isUpdate!
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -264,60 +218,9 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                 height: 16,
                               ),
                         SizedBox(
-                          height: widget.isUpdate ? 0 : 16,
+                          height: widget.isUpdate! ? 0 : 16,
                         ),
-                        // FieldTitle(
-                        //   title: 'Nível ',
-                        //   subtitle: widget.isPerfil
-                        //       ? 'Seu nível de Acesso'
-                        //       : 'Escolha o nível de acesso',
-                        // ),
-                        // Observer(
-                        //   builder: (_) {
-                        //     return Row(
-                        //       children: signupUserStore.userTypes.length > 1
-                        //           ? <Widget>[
-                        //               Radio(
-                        //                 groupValue: signupUserStore.nivel,
-                        //                 value: true,
-                        //                 onChanged: (val) {
-                        //                   signupUserStore.setNivel(val);
-                        //                   signupUserStore.setUserType(
-                        //                       signupUserStore.userTypes[0]);
-                        //                 },
-                        //               ),
-                        //               Text(
-                        //                   "${describeEnum(signupUserStore.userTypes[0])}"),
-                        //               Radio(
-                        //                 groupValue: signupUserStore.nivel,
-                        //                 value: false,
-                        //                 onChanged: (val) {
-                        //                   signupUserStore.setNivel(val);
-                        //                   signupUserStore.setUserType(
-                        //                       signupUserStore.userTypes[1]);
-                        //                 },
-                        //               ),
-                        //               Text(
-                        //                   "${describeEnum(signupUserStore.userTypes[1])}"),
-                        //             ]
-                        //           : <Widget>[
-                        //               Radio(
-                        //                 groupValue: signupUserStore.nivel,
-                        //                 value: true,
-                        //                 onChanged: (val) {
-                        //                   signupUserStore.setNivel(val);
-                        //                   signupUserStore.setUserType(
-                        //                       signupUserStore.userTypes[0]);
-                        //                 },
-                        //               ),
-                        //               Text(
-                        //                   "${describeEnum(signupUserStore.userTypes[0])}"),
-                        //             ],
-                        //     );
-                        //   },
-                        // ),
-                        // appStore.userViewModel.userType != UserType.User &&
-                        !widget.isPerfil
+                        !widget.isPerfil!
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -335,17 +238,13 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                         Radio(
                                           groupValue: signupUserStore.active,
                                           value: true,
-                                          onChanged: (val) {
-                                            signupUserStore.setActive(val);
-                                          },
+                                          onChanged: signupUserStore.setActive,
                                         ),
                                         Text('Sim'),
                                         Radio(
                                           groupValue: signupUserStore.active,
                                           value: false,
-                                          onChanged: (val) {
-                                            signupUserStore.setActive(val);
-                                          },
+                                          onChanged: signupUserStore.setActive,
                                         ),
                                         Text('Não'),
                                       ],
@@ -372,7 +271,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                           AlwaysStoppedAnimation(Colors.white),
                                     )
                                   : Text(
-                                      '${widget.isUpdate ? "ATUALIZAR" : "CADASTRAR"}'),
+                                      '${widget.isUpdate! ? "ATUALIZAR" : "CADASTRAR"}'),
                               style: ButtonStyle(
                                 elevation: MaterialStateProperty.all(0),
                                 shape: MaterialStateProperty.all(
@@ -388,7 +287,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.isUpdate
+                              onPressed: widget.isUpdate!
                                   ? signupUserStore.updatePressed
                                   : signupUserStore.signUpPressed,
                             ),
