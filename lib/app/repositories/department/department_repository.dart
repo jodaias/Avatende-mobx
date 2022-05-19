@@ -1,12 +1,15 @@
 import 'package:avatende/app/models/department_model.dart';
 import 'package:avatende/app/models/views/department_view_model.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:avatende/app/repositories/user/user_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 class DepartmentRepository {
   var _instance = FirebaseFirestore.instance;
   var _userRepository = new UserRepository();
+  final notificationStore = GetIt.I<NotificationStore>();
   var _collection = 'Departments';
 
   Future<String> createDepartment(DepartmentModel departmodel) async {
@@ -20,9 +23,10 @@ class DepartmentRepository {
         'CompanyId': departmodel.companyId,
         'CreatedAt': DateTime.now(),
       });
+      notificationStore.setMessage('Departamento criado com sucesso!');
       return 'Departamento criado com sucesso!';
     } catch (e) {
-      print('Error: $e');
+      notificationStore.setMessage('Erro: Falha ao criar departamento!');
       return 'Erro: Falha ao criar departamento!';
     }
   }
@@ -73,10 +77,11 @@ class DepartmentRepository {
           .collection(_collection)
           .doc(departmentId)
           .update(departmentData);
+      notificationStore.setMessage('Departamento atualizado com sucesso!');
 
       return true;
     } catch (e) {
-      print('Error: $e');
+      notificationStore.setMessage('Falha na atualização do departamento!');
       return false;
     }
   }

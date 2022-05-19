@@ -126,7 +126,7 @@ mixin _$UserStore on _UserStoreBase, Store {
       ActionController(name: '_UserStoreBase', context: context);
 
   @override
-  void setDepartmentId(String value) {
+  void setDepartmentId(String? value) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.setDepartmentId');
     try {
@@ -137,7 +137,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   }
 
   @override
-  void setCompanyId(String value) {
+  void setCompanyId(String? value) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.setCompanyId');
     try {
@@ -148,7 +148,7 @@ mixin _$UserStore on _UserStoreBase, Store {
   }
 
   @override
-  void setUserType(UserType value) {
+  void setUserType(UserType? value) {
     final _$actionInfo = _$_UserStoreBaseActionController.startAction(
         name: '_UserStoreBase.setUserType');
     try {

@@ -1,3 +1,4 @@
+import 'package:avatende/app/enums/user-type.dart';
 import 'package:avatende/app/models/views/user_view_model.dart';
 import 'package:avatende/app/pages/companys/components/custom_floating_action_button/custom_floating_action_button.dart';
 import 'package:avatende/app/pages/signup/signup_user_page.dart';
@@ -29,8 +30,8 @@ class _UsersPageState extends State<UsersPage> {
   void initState() {
     super.initState();
     setState(() {
-      userStore.setDepartmentId(widget.departmentId!);
-      userStore.setCompanyId(widget.companyId!);
+      userStore.setDepartmentId(widget.departmentId);
+      userStore.setCompanyId(widget.companyId);
       userStore.setUserType(appStore.userViewModel!.userType);
     });
   }
@@ -46,10 +47,8 @@ class _UsersPageState extends State<UsersPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => SignUpUserPage(
-                          companyId: widget.companyId!,
-                          departmentId: widget.departmentId!,
-                          isUpdate: false,
-                          isPerfil: false,
+                          companyId: widget.companyId,
+                          departmentId: widget.departmentId,
                         )));
           },
         ),
@@ -105,8 +104,8 @@ class _UsersPageState extends State<UsersPage> {
                     return Container(
                       padding: EdgeInsets.all(30),
                       child: Text(userStore.listActive
-                          ? 'Desculpe, nenhum usuário cadastrado para este departamento.'
-                          : 'Desculpe, nenhum usuário inativo.'),
+                          ? 'Desculpe, nenhum usuário ativo, ou cadastrado para ${appStore.userViewModel?.userType == UserType.Master ? 'esta empresa.' : 'este departamento.'}'
+                          : 'Desculpe nenhum usuário inativo.'),
                     );
                   }
 
@@ -125,7 +124,7 @@ class _UsersPageState extends State<UsersPage> {
                         return Slidable(
                           closeOnScroll: true,
                           direction: Axis.horizontal,
-                          startActionPane: ActionPane(
+                          endActionPane: ActionPane(
                             motion: const ScrollMotion(),
                             children: user.active
                                 ? <Widget>[
@@ -144,7 +143,8 @@ class _UsersPageState extends State<UsersPage> {
                                                       isPerfil: false,
                                                     )));
                                       },
-                                      foregroundColor: Colors.black,
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: Colors.black87,
                                       icon: Icons.edit,
                                       label: 'Editar',
                                     ),
@@ -196,7 +196,8 @@ class _UsersPageState extends State<UsersPage> {
                                               );
                                             });
                                       },
-                                      foregroundColor: Colors.red[400],
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: Colors.redAccent,
                                       icon: Icons.block,
                                       label: 'Desativar',
                                     ),
@@ -251,7 +252,8 @@ class _UsersPageState extends State<UsersPage> {
                                               );
                                             });
                                       },
-                                      foregroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                      backgroundColor: Colors.redAccent,
                                       icon: Icons.block,
                                       label: 'Ativar',
                                     ),

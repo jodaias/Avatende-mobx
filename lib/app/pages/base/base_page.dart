@@ -1,4 +1,3 @@
-import 'package:avatende/app/enums/user-type.dart';
 import 'package:avatende/app/pages/about/about_page.dart';
 import 'package:avatende/app/pages/addImages/add_images_page.dart';
 import 'package:avatende/app/pages/avaliation/ads_page.dart';
@@ -36,7 +35,7 @@ class _BasePageState extends State<BasePage> {
     super.initState();
     reaction(
       (_) => pageStore.page,
-      (int? page) => pageController.jumpToPage(page!),
+      (int page) => pageController.jumpToPage(page),
     );
   }
 
@@ -68,14 +67,16 @@ class _BasePageState extends State<BasePage> {
                     SettingsPage(),
                     RootPage(),
                   ]
-                : [
-                    HomePage(),
-                    AdsPage(),
-                    HelpPage(),
-                    AboutPage(),
-                    SettingsPage(),
-                    RootPage(),
-                  ],
+                : appStore.userHasAccessGranted()
+                    ? [
+                        HomePage(),
+                        AdsPage(),
+                        HelpPage(),
+                        AboutPage(),
+                        SettingsPage(),
+                        RootPage(),
+                      ]
+                    : [],
       );
     }));
   }

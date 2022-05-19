@@ -1,10 +1,13 @@
 import 'package:avatende/app/models/views/company_view_model.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:avatende/app/pages/stores/signup/signup_company_store.dart';
 import 'package:avatende/app/pages/signup/components/field_title.dart';
-// import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 class SignUpCompanyPage extends StatefulWidget {
@@ -17,7 +20,8 @@ class SignUpCompanyPage extends StatefulWidget {
 }
 
 class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
-  SignupCompanyStore signupCompanyStore = SignupCompanyStore();
+  final signupCompanyStore = SignupCompanyStore();
+  final notificationStore = GetIt.I<NotificationStore>();
 
   late ReactionDisposer disposer;
 
@@ -28,19 +32,28 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
     disposer =
         reaction((_) => signupCompanyStore.signupSuccess, (signupSuccess) {
       if (signupSuccess == true) {
+        signupCompanyStore.setSignupSuccess(null);
+        notificationStore.showMessage(
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR);
         Navigator.of(context).pop(true);
-      } else {
-        print('não foi possivel cadastrar');
+      } else if (signupSuccess == false) {
+        signupCompanyStore.setSignupSuccess(null);
+        notificationStore.showMessage(
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR);
       }
     });
   }
 
   void setAtributsIfUpdate() {
-    signupCompanyStore.setCompanyId(widget.companyViewModel!.companyId());
-    signupCompanyStore.setName(widget.companyViewModel!.name);
-    signupCompanyStore.setAddress(widget.companyViewModel!.address);
-    signupCompanyStore.setActive(widget.companyViewModel!.active);
-    signupCompanyStore.setPhone(widget.companyViewModel!.phone);
+    signupCompanyStore.setCompanyId(widget.companyViewModel?.companyId());
+    signupCompanyStore.setName(widget.companyViewModel?.name);
+    signupCompanyStore.setAddress(widget.companyViewModel?.address);
+    signupCompanyStore.setActive(widget.companyViewModel?.active);
+    signupCompanyStore.setPhone(widget.companyViewModel?.phone);
   }
 
   @override
@@ -79,7 +92,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         Observer(builder: (_) {
                           return TextFormField(
                             initialValue: widget.isUpdate
-                                ? widget.companyViewModel!.name
+                                ? widget.companyViewModel?.name
                                 : '',
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -100,7 +113,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         Observer(builder: (_) {
                           return TextFormField(
                             initialValue: widget.isUpdate
-                                ? widget.companyViewModel!.address
+                                ? widget.companyViewModel?.address
                                 : '',
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -121,7 +134,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                         Observer(builder: (_) {
                           return TextFormField(
                             initialValue: widget.isUpdate
-                                ? widget.companyViewModel!.phone
+                                ? widget.companyViewModel?.phone
                                 : '',
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -132,7 +145,7 @@ class _SignUpCompanyPageState extends State<SignUpCompanyPage> {
                             keyboardType: TextInputType.phone,
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly,
-                              // TelefoneInputFormatter()
+                              TelefoneInputFormatter()
                             ],
                             onChanged: signupCompanyStore.setPhone,
                           );

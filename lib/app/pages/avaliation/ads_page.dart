@@ -21,7 +21,8 @@ class _AdsPageState extends State<AdsPage> {
   @override
   void initState() {
     super.initState();
-    avaliationStore.setCompanyId(appStore.companyViewModel!.companyId());
+    if (appStore.companyViewModel?.companyId() != null)
+      avaliationStore.setCompanyId(appStore.companyViewModel?.companyId());
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 

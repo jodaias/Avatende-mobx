@@ -1,10 +1,6 @@
 import 'package:avatende/app/components/custom_drawer/page_tile.dart';
-import 'package:avatende/app/enums/user-type.dart';
-import 'package:avatende/app/models/views/user_view_model.dart';
-import 'package:avatende/app/pages/root/root_page.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
 import 'package:avatende/app/storesGlobal/page_store.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -12,14 +8,6 @@ import 'package:get_it/get_it.dart';
 class PageSection extends StatelessWidget {
   final pageStore = GetIt.I<PageStore>();
   final appStore = GetIt.I<AppStore>();
-  final _auth = FirebaseAuth.instance;
-
-  bool isAtendente() {
-    if (appStore.userViewModel!.userType == UserType.User) {
-      return true;
-    }
-    return false;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +48,7 @@ class PageSection extends StatelessWidget {
                 PageTile(
                   label: 'Sair',
                   iconData: Icons.logout,
-                  onTap: () async {
-                    await _auth.signOut();
-                    appStore.setUser(new UserViewModel());
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(builder: (_) => RootPage()));
-                  },
+                  onTap: () async => await appStore.signOut(context),
                   highlighted: false,
                 ),
               ]
@@ -116,12 +99,7 @@ class PageSection extends StatelessWidget {
                     PageTile(
                       label: 'Sair',
                       iconData: Icons.logout,
-                      onTap: () async {
-                        await _auth.signOut();
-                        appStore.setUser(new UserViewModel());
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (_) => RootPage()));
-                      },
+                      onTap: () async => await appStore.signOut(context),
                       highlighted: false,
                     ),
                   ]
@@ -159,14 +137,7 @@ class PageSection extends StatelessWidget {
                     PageTile(
                       label: 'Sair',
                       iconData: Icons.logout,
-                      onTap: () async {
-                        await _auth.signOut();
-                        appStore.setUser(new UserViewModel());
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => RootPage()),
-                        );
-                      },
+                      onTap: () async => await appStore.signOut(context),
                       highlighted: false,
                     ),
                   ],

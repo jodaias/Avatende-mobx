@@ -152,13 +152,13 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
       Atom(name: '_SignupCompanyStoreBase.signupSuccess', context: context);
 
   @override
-  bool get signupSuccess {
+  bool? get signupSuccess {
     _$signupSuccessAtom.reportRead();
     return super.signupSuccess;
   }
 
   @override
-  set signupSuccess(bool value) {
+  set signupSuccess(bool? value) {
     _$signupSuccessAtom.reportWrite(value, super.signupSuccess, () {
       super.signupSuccess = value;
     });
@@ -228,7 +228,7 @@ mixin _$SignupCompanyStore on _SignupCompanyStoreBase, Store {
   }
 
   @override
-  void setSignupSuccess(bool value) {
+  void setSignupSuccess(bool? value) {
     final _$actionInfo = _$_SignupCompanyStoreBaseActionController.startAction(
         name: '_SignupCompanyStoreBase.setSignupSuccess');
     try {

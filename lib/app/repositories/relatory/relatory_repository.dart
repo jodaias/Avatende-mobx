@@ -68,16 +68,3 @@ class RelatoryRepository {
     return null;
   }
 }
-
-//POR DEPARTMENTO => pega os atendentes
-//  QuerySnapshot snapshot2 = await FirebaseFirestore.instance.collection(
-//           'Atendentes').where('departamento', isEqualTo: docDepart.data['id'])
-//           .get();
-
-//foreach
-
-//consulta de documentos das avaliações de cada atendente
-        // QuerySnapshot snapshot3 = await FirebaseFirestore.instance.collection(
-        //     'Atendentes').doc(snapshot2.idDoAtendente).collection(
-        //     'Avaliações').get();
-        //snapshot3 => salva na lista de avaliações

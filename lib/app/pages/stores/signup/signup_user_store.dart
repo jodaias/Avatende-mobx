@@ -13,10 +13,10 @@ class SignUpUserStore = _SignUpUserStoreBase with _$SignUpUserStore;
 
 abstract class _SignUpUserStoreBase with Store {
   //REPOSITÓRIO
-  final repository = UserRepository();
+  final _repository = UserRepository();
 
   //extensão do app
-  final appStore = GetIt.I<AppStore>();
+  final _appStore = GetIt.I<AppStore>();
 
   //OBSERVABLES
 
@@ -54,7 +54,7 @@ abstract class _SignUpUserStoreBase with Store {
   String? userId;
 
   @observable
-  bool? signupSuccess;
+  bool? signupSuccess = null;
 
   @observable
   bool isObscureText = true;
@@ -142,7 +142,7 @@ abstract class _SignUpUserStoreBase with Store {
 
   @computed
   bool get userTypeValid =>
-      userType != null && appStore.userViewModel!.userType == UserType.Master
+      userType != null && _appStore.userViewModel!.userType == UserType.Master
           ? (userType == UserType.Admin || userType == UserType.Master)
           : (userType == UserType.Admin || userType == UserType.User);
   String? get userTypeError {
@@ -198,7 +198,7 @@ abstract class _SignUpUserStoreBase with Store {
     //e salvar no company model via appStore
     _setUserType();
 
-    repository
+    _repository
         .signUpUser(
             usermodel: UserModel(
               name: name!,
@@ -212,11 +212,14 @@ abstract class _SignUpUserStoreBase with Store {
         .then((value) {
       loading = false;
       signupSuccess = true;
+    }).catchError((onError) {
+      loading = false;
+      signupSuccess = false;
     });
   }
 
   _setUserType() {
-    switch (appStore.userViewModel!.userType) {
+    switch (_appStore.userViewModel!.userType) {
       case UserType.Master:
         userType = UserType.Admin;
         break;
@@ -232,7 +235,7 @@ abstract class _SignUpUserStoreBase with Store {
 
     //Salvar a empresa no banco
     //e salvar no company model via appStore
-    await repository.updateUser(userId: userId!, userData: {
+    await _repository.updateUser(userId: userId!, userData: {
       'Name': name,
       'Active': active,
       'UpdatedAt': DateTime.now()

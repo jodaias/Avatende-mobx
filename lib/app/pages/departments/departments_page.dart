@@ -209,8 +209,8 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                               );
                                             });
                                       },
-                                      backgroundColor: Color(0xFFFE4A49),
-                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.black87,
+                                      foregroundColor: Colors.white,
                                       icon: Icons.edit,
                                       label: 'Editar',
                                     )
@@ -269,7 +269,8 @@ class _DepartmentsPageState extends State<DepartmentsPage> {
                                         );
                                       });
                                 },
-                                foregroundColor: Colors.red[400],
+                                backgroundColor: Colors.redAccent,
+                                foregroundColor: Colors.white,
                                 icon: Icons.block,
                                 label:
                                     department.active ? 'Desativar' : 'Ativar',

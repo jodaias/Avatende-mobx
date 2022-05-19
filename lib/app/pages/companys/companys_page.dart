@@ -87,7 +87,9 @@ class _CompanysPageState extends State<CompanysPage> {
                 if (snapshot.data!.isEmpty) {
                   return Container(
                     padding: EdgeInsets.all(30),
-                    child: Text('Desculpe, nenhuma empresa cadastrada.'),
+                    child: Text(companyStore.listActive
+                        ? 'Desculpe, nenhuma empresa cadastrada.'
+                        : 'Desculpe, nenhuma empresa inativa.'),
                   );
                 }
 
@@ -106,8 +108,7 @@ class _CompanysPageState extends State<CompanysPage> {
                       return Slidable(
                         closeOnScroll: true,
                         direction: Axis.horizontal,
-                        startActionPane: ActionPane(
-                          dismissible: DismissiblePane(onDismissed: () {}),
+                        endActionPane: ActionPane(
                           motion: const ScrollMotion(),
                           children: company.active
                               ? <Widget>[
@@ -121,8 +122,8 @@ class _CompanysPageState extends State<CompanysPage> {
                                                     isUpdate: true,
                                                   )));
                                     },
-                                    backgroundColor: Color(0xFFFE4A49),
-                                    foregroundColor: Colors.black,
+                                    backgroundColor: Colors.black87,
+                                    foregroundColor: Colors.white,
                                     icon: Icons.edit,
                                     label: 'Editar',
                                   ),
@@ -173,7 +174,8 @@ class _CompanysPageState extends State<CompanysPage> {
                                             );
                                           });
                                     },
-                                    foregroundColor: Colors.red[400],
+                                    backgroundColor: Colors.redAccent,
+                                    foregroundColor: Colors.white,
                                     icon: Icons.block,
                                     label: 'Desativar',
                                   ),
@@ -227,8 +229,8 @@ class _CompanysPageState extends State<CompanysPage> {
                                             );
                                           });
                                     },
-                                    backgroundColor: Color(0xFFFE4A49),
-                                    foregroundColor: Colors.red[400],
+                                    backgroundColor: Colors.redAccent,
+                                    foregroundColor: Colors.white,
                                     icon: Icons.block,
                                     label: 'Ativar',
                                   ),

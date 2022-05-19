@@ -143,7 +143,7 @@ abstract class _RelatoryStoreBase with Store {
   Future<void> getDepartments() async {
     if (departments.isEmpty)
       departments = await _departmentRepository
-          .getDepartments(_appStore.companyViewModel!.companyId()!);
+          .getDepartments(_appStore.companyViewModel?.companyId() ?? "");
 
     departmentSelected = departments.first;
 

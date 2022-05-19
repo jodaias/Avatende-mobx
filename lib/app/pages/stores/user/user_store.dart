@@ -1,5 +1,9 @@
 import 'package:avatende/app/enums/user-type.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:avatende/app/repositories/user/user_repository.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'user_store.g.dart';
 
@@ -15,6 +19,8 @@ class UserStore = _UserStoreBase with _$UserStore;
 abstract class _UserStoreBase with Store {
   //REPOSITÓRIO
   final _repository = UserRepository();
+
+  final notificationStore = GetIt.I<NotificationStore>();
 
   //OBSERVABLES
   @observable
@@ -37,13 +43,13 @@ abstract class _UserStoreBase with Store {
 
   //ACTIONS
   @action
-  void setDepartmentId(String value) => departmentId = value;
+  void setDepartmentId(String? value) => departmentId = value;
 
   @action
-  void setCompanyId(String value) => companyId = value;
+  void setCompanyId(String? value) => companyId = value;
 
   @action
-  void setUserType(UserType value) => userType = value;
+  void setUserType(UserType? value) => userType = value;
 
   @action
   void setOrderByAz(bool value) => orderByAz = value;
@@ -74,7 +80,19 @@ abstract class _UserStoreBase with Store {
 
   @action
   Future<void> updateUser(String userId, Map<String, dynamic> userData) async {
-    await _repository.updateUser(userId: userId, userData: userData);
+    await _repository
+        .updateUser(userId: userId, userData: userData)
+        .then((value) {
+      notificationStore.showMessage(
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          gravity: ToastGravity.SNACKBAR);
+    }).catchError((onError) {
+      notificationStore.showMessage(
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          gravity: ToastGravity.SNACKBAR);
+    });
   }
 
   //COMPUTEDS

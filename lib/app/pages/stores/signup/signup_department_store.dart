@@ -34,7 +34,7 @@ abstract class _SignupDepartmentStoreBase with Store {
   bool loading = false;
 
   @observable
-  bool signupSuccess = false;
+  bool? signupSuccess = false;
   @observable
   bool orderByAz = true;
 
@@ -105,6 +105,7 @@ abstract class _SignupDepartmentStoreBase with Store {
       signupSuccess = true;
       loading = false;
     } else {
+      signupSuccess = false;
       loading = false;
     }
   }

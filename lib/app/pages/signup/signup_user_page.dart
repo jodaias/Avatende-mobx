@@ -1,31 +1,29 @@
-import 'package:avatende/app/enums/user-type.dart';
 import 'package:avatende/app/models/views/user_view_model.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:avatende/app/pages/stores/signup/signup_user_store.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
 import 'package:avatende/app/pages/signup/components/field_title.dart';
-// import 'package:brasil_fields/formatter/telefone_input_formatter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 class SignUpUserPage extends StatefulWidget {
   const SignUpUserPage({
     Key? key,
-    this.isUpdate,
     this.departmentId,
     this.companyId,
     this.userViewModel,
-    this.isPerfil,
+    this.isUpdate = false,
+    this.isPerfil = false,
   }) : super(key: key);
 
   final String? departmentId;
   final String? companyId;
   final UserViewModel? userViewModel;
-  final bool? isUpdate;
-  final bool? isPerfil;
+  final bool isUpdate;
+  final bool isPerfil;
 
   @override
   _SignUpUserPageState createState() => _SignUpUserPageState();
@@ -34,6 +32,7 @@ class SignUpUserPage extends StatefulWidget {
 class _SignUpUserPageState extends State<SignUpUserPage> {
   final signupUserStore = SignUpUserStore();
   final appStore = GetIt.I<AppStore>();
+  final notificationStore = GetIt.I<NotificationStore>();
 
   late ReactionDisposer disposer;
 
@@ -44,9 +43,18 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
     disposer = reaction((_) => signupUserStore.signupSuccess, (signupSuccess) {
       if (signupSuccess == true) {
         appStore.getUser();
+        signupUserStore.signupSuccess = null;
+        notificationStore.showMessage(
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR);
         Navigator.of(context).pop();
-      } else {
-        print('não foi possivel cadastrar');
+      } else if (signupSuccess == false) {
+        notificationStore.showMessage(
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR);
+        signupUserStore.signupSuccess = null;
       }
     });
   }
@@ -55,7 +63,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
     signupUserStore.setCompanyId(widget.companyId ?? "");
     signupUserStore.setDepartmentId(widget.departmentId ?? "");
 
-    if (widget.isUpdate!) {
+    if (widget.isUpdate) {
       signupUserStore.setName(widget.userViewModel!.name ?? "");
       signupUserStore.setActive(widget.userViewModel!.active);
       signupUserStore.setUserId(widget.userViewModel!.userId() ?? "");
@@ -68,7 +76,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
       setAtributs();
       return Scaffold(
           appBar: AppBar(
-            title: Text('${widget.isUpdate! ? "Atualização" : "Cadastro"}'),
+            title: Text('${widget.isUpdate ? "Atualização" : "Cadastro"}'),
             centerTitle: true,
           ),
           body: Container(
@@ -94,7 +102,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                         ),
                         Observer(builder: (_) {
                           return TextFormField(
-                            initialValue: widget.isUpdate!
+                            initialValue: widget.isUpdate
                                 ? widget.userViewModel!.name
                                 : '',
                             decoration: InputDecoration(
@@ -106,7 +114,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                             onChanged: signupUserStore.setName,
                           );
                         }),
-                        !widget.isUpdate!
+                        !widget.isUpdate
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -119,7 +127,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                   ),
                                   Observer(builder: (_) {
                                     return TextFormField(
-                                      initialValue: widget.isUpdate!
+                                      initialValue: widget.isUpdate
                                           ? widget.userViewModel!.email
                                           : '',
                                       decoration: InputDecoration(
@@ -141,7 +149,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                             : SizedBox(
                                 height: 16,
                               ),
-                        !widget.isUpdate!
+                        !widget.isUpdate
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -218,9 +226,9 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                 height: 16,
                               ),
                         SizedBox(
-                          height: widget.isUpdate! ? 0 : 16,
+                          height: widget.isUpdate ? 0 : 16,
                         ),
-                        !widget.isPerfil!
+                        !widget.isPerfil
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -271,7 +279,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                           AlwaysStoppedAnimation(Colors.white),
                                     )
                                   : Text(
-                                      '${widget.isUpdate! ? "ATUALIZAR" : "CADASTRAR"}'),
+                                      '${widget.isUpdate ? "ATUALIZAR" : "CADASTRAR"}'),
                               style: ButtonStyle(
                                 elevation: MaterialStateProperty.all(0),
                                 shape: MaterialStateProperty.all(
@@ -287,7 +295,7 @@ class _SignUpUserPageState extends State<SignUpUserPage> {
                                   ),
                                 ),
                               ),
-                              onPressed: widget.isUpdate!
+                              onPressed: widget.isUpdate
                                   ? signupUserStore.updatePressed
                                   : signupUserStore.signUpPressed,
                             ),

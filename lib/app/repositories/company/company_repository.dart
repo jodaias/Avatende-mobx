@@ -4,12 +4,15 @@ import 'package:avatende/app/models/views/ads_images_view_model.dart';
 import 'package:avatende/app/models/views/company_view_model.dart';
 import 'package:avatende/app/models/views/department_view_model.dart';
 import 'package:avatende/app/models/views/user_view_model.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 class CompanyRepository {
   final _instance = FirebaseFirestore.instance;
+  final notificationStore = GetIt.I<NotificationStore>();
+
   var _collection = 'Companys';
 
   //add uma empresa
@@ -23,10 +26,12 @@ class CompanyRepository {
         'Active': companymodel.active,
         'CreatedAt': DateTime.now(),
       });
-
+      notificationStore.setMessage('Cadastro realizado com sucesso!');
       return 'Cadastro realizado com sucesso!';
     } catch (e) {
-      print('Error02: $e');
+      notificationStore.setMessage(
+          'Erro: Falha ao tentar cadastrar Empresa. Tente novamente!');
+
       return 'Erro: Falha ao tentar cadastrar Empresa. Tente novamente!';
     }
   }
@@ -39,10 +44,11 @@ class CompanyRepository {
           .collection(_collection)
           .doc(companyId)
           .update(companyData);
-
+      notificationStore.setMessage('Atualizado com sucesso!');
       return true;
     } catch (e) {
-      print('Error to update company: $e');
+      notificationStore.setMessage(
+          'Erro!\n Falha na atualização.\nPor favor tente novamente!');
       return false;
     }
   }
@@ -57,10 +63,10 @@ class CompanyRepository {
           .collection("AdsImages")
           .doc(companyId)
           .set(companyData);
-
+      notificationStore.setMessage('Imagens inseridas com sucesso!');
       return true;
     } catch (e) {
-      print('Error: $e');
+      notificationStore.setMessage('Falha na inserção das Imagens!');
       return false;
     }
   }

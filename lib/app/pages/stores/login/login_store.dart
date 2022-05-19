@@ -1,9 +1,13 @@
+import 'package:avatende/app/enums/user-type.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:avatende/app/repositories//user/user_repository.dart';
 import 'package:avatende/app/storesGlobal/app_store.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:avatende/app/helpers/extensions.dart';
 import 'package:mobx/mobx.dart';
+// import 'package:firedart/firedart.dart';
 
 part 'login_store.g.dart';
 
@@ -13,7 +17,8 @@ abstract class _LoginStoreBase with Store {
   //REPOSITÓRIO
   final repository = UserRepository();
 
-  //extensão do app
+  //extensões
+  final notificationStore = GetIt.I<NotificationStore>();
   final appStore = GetIt.I<AppStore>();
 
   //OBSERVABLEs
@@ -27,10 +32,10 @@ abstract class _LoginStoreBase with Store {
   bool loading = false;
 
   @observable
-  bool loggedIn = false;
+  bool? loggedIn = null;
 
   @observable
-  bool resetPass = false;
+  bool? resetPass = null;
 
   @observable
   bool isObscureText = true;
@@ -82,27 +87,59 @@ abstract class _LoginStoreBase with Store {
 
     //verificar se usuario existe no banco e salvar
     //no usuario modelo via appStore
-
     repository.signIn(email: email!, password: password!).then((data) async {
-      print(data.name);
       appStore.setUser(data);
-      await appStore.getCompanyAndDepartment();
+      if (data.name != null && data.userType != UserType.Master)
+        await appStore.getCompanyAndDepartment();
+
       loading = false;
-      if (appStore.userViewModel!.name != null) loggedIn = true;
+      if (appStore.userViewModel?.name != null) {
+        loggedIn = true;
+      } else {
+        loggedIn = false;
+      }
     }).catchError((error) {
+      notificationStore.showMessage(
+        msg:
+            "Falha no login!\nUm erro ocorreu.\nSe persistir contacte o suporte.",
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
       loading = false;
-      print("Error01: $error");
     });
+
+    // // LOGIN COM PACKAGE FIREDART
+
+    // var auth = FirebaseAuth.instance;
+
+    // await auth.signIn(email ?? "", password ?? "").catchError((e) {
+    //   loading = false;
+    //   loggedIn = false;
+    // });
+
+    // var user = await auth.getUser();
+    // print(user);
+
+    // // Instantiate a reference to a document - this happens offline
+    // var ref =
+    //     await Firestore.instance.collection('Users').document(user.id).get();
+
+    // appStore.setUser(UserViewModel.fromMap(ref.map));
+
+    // if (appStore.userViewModel!.name != null) loggedIn = true;
+
+    // loading = false;
   }
 
   @action
   Future<void> resetPassword() async {
     loading = true;
-
-    //verificar se usuario existe no banco e enviar link de redefinição de senha
-    await repository.resetPassword(email!);
-
-    loading = false;
-    resetPass = true;
+    await repository.resetPassword(email!).then((_) {
+      loading = false;
+      resetPass = true;
+    }).catchError((onError) {
+      loading = false;
+      resetPass = false;
+    });
   }
 }

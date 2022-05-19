@@ -1,8 +1,10 @@
 import 'package:avatende/app/pages/login/forget_password_page.dart';
 import 'package:avatende/app/pages/root/root_page.dart';
 import 'package:avatende/app/pages/stores/login/login_store.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobx/mobx.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,35 +14,30 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   LoginStore loginStore = LoginStore();
+  NotificationStore notificationStore = NotificationStore();
 
   late ReactionDisposer disposer;
-
-  void _showDialogUserInactive() {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: Text('Usuário inativo'),
-              content: Text(
-                  'Infelizmente seu usuário está inativo :(. Favor entrar em contato com administrador'),
-              actions: [
-                TextButton(
-                  onPressed: Navigator.of(context).pop,
-                  child: Text('Ok'),
-                )
-              ],
-            ));
-  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    disposer = reaction((_) => loginStore.loggedIn, (loggedIn) {
+    disposer = reaction((_) => loginStore.loggedIn, (bool? loggedIn) {
       if (loggedIn == true) {
+        notificationStore.setMessage("Usuário logado com sucesso!");
+        notificationStore.showMessage(
+            msg: "",
+            backgroundColor: Colors.green[400],
+            textColor: Colors.white);
+        loginStore.loggedIn = null;
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => RootPage()));
-      } else {
-        _showDialogUserInactive();
+      } else if (loggedIn == false) {
+        notificationStore.showMessage(
+            msg: "Login inválido!\nEmail ou Senha incorretos.",
+            backgroundColor: Colors.red,
+            textColor: Colors.white);
+        loginStore.loggedIn = null;
       }
     });
   }

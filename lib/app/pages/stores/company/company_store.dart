@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:avatende/app/repositories/company/company_repository.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 part 'company_store.g.dart';
 
@@ -17,6 +20,8 @@ class CompanyStore = _CompanyStoreBase with _$CompanyStore;
 abstract class _CompanyStoreBase with Store {
   //REPOSITÓRIO
   final _repository = new CompanyRepository();
+
+  final notificationStore = GetIt.I<NotificationStore>();
 
   //OBSERVABLES
   @observable
@@ -66,9 +71,19 @@ abstract class _CompanyStoreBase with Store {
     var result = await _repository.addImagesCompany(
         companyId: companyId!, companyData: companyData);
 
-    setSaveImagesSuccess(false);
-
-    if (result) setSaveImagesSuccess(true);
+    if (result) {
+      notificationStore.showMessage(
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+      saveImagesSuccess = true;
+    } else {
+      notificationStore.showMessage(
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+      saveImagesSuccess = false;
+    }
 
     loading = false;
   }
@@ -93,8 +108,19 @@ abstract class _CompanyStoreBase with Store {
   @action
   Future<void> updateCompany(
       String companyId, Map<String, dynamic> companyData) async {
-    await _repository.updateCompany(
-        companyData: companyData, companyId: companyId);
+    await _repository
+        .updateCompany(companyData: companyData, companyId: companyId)
+        .then((value) {
+      notificationStore.showMessage(
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          gravity: ToastGravity.SNACKBAR);
+    }).catchError((onError) {
+      notificationStore.showMessage(
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          gravity: ToastGravity.SNACKBAR);
+    });
   }
 
   //COMPUTEDS

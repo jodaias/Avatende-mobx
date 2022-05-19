@@ -31,7 +31,7 @@ abstract class _SignupCompanyStoreBase with Store {
   bool loading = false;
 
   @observable
-  bool signupSuccess = false;
+  bool? signupSuccess = null;
 
   //ACTIONS
   @action
@@ -47,7 +47,7 @@ abstract class _SignupCompanyStoreBase with Store {
   void setActive(bool? value) => active = value;
 
   @action
-  void setSignupSuccess(bool value) => signupSuccess = value;
+  void setSignupSuccess(bool? value) => signupSuccess = value;
 
   @action
   void setAddress(String? value) => address = value;
@@ -115,13 +115,12 @@ abstract class _SignupCompanyStoreBase with Store {
       phone: phone!,
       active: active!,
     ));
-    print(result);
     if (result.contains('sucesso')) {
-      setSignupSuccess(true);
+      signupSuccess = true;
       loading = false;
     } else {
       loading = false;
-      setSignupSuccess(false);
+      signupSuccess = false;
     }
   }
 
@@ -134,13 +133,12 @@ abstract class _SignupCompanyStoreBase with Store {
 
     var result = await repository.updateCompany(
         companyData: companyData.toMap(), companyId: companyId!);
-
     if (result) {
-      setSignupSuccess(true);
+      signupSuccess = true;
       loading = false;
     } else {
       loading = false;
-      setSignupSuccess(false);
+      signupSuccess = false;
     }
   }
 }

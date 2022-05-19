@@ -1,7 +1,9 @@
 import 'package:avatende/app/pages/root/root_page.dart';
 import 'package:avatende/app/pages/stores/login/login_store.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
@@ -10,7 +12,8 @@ class ForgetPasswordPage extends StatefulWidget {
 }
 
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
-  LoginStore loginStore = LoginStore();
+  final loginStore = LoginStore();
+  final notificationStore = GetIt.I<NotificationStore>();
 
   late ReactionDisposer disposer;
 
@@ -18,9 +21,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     return showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text('Recuperar senha'),
+        title: Text('Redefinição de senha'),
         content: Text(
-            'Se houver uma conta Avatende associada a esse endereço de e-mail, você receberá um e-mail com instruções para redefinir sua senha em breve.'),
+            'Você receberá um e-mail com instruções para redefinir sua senha em breve.'),
         actions: [
           TextButton(
             onPressed: () {
@@ -64,9 +67,16 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
     disposer = reaction((_) => loginStore.resetPass, (resetPass) {
       if (resetPass == true) {
+        loginStore.resetPass = null;
         _showDialogLinkSend();
-      } else {
-        _showDialogLinkNotSend();
+      } else if (resetPass == false) {
+        notificationStore.showMessage(
+          msg:
+              "Erro na redefinição!\nVerifique se o email digitado faltou algum caractere, e tente novamente",
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+        );
+        loginStore.resetPass = null;
       }
     });
   }

@@ -1,13 +1,16 @@
 import 'package:avatende/app/enums/user-type.dart';
 import 'package:avatende/app/models/user_model.dart';
 import 'package:avatende/app/models/views/user_view_model.dart';
+import 'package:avatende/app/pages/stores/notification/notification_store.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 class UserRepository {
   var _auth = FirebaseAuth.instance;
+  final notificationStore = GetIt.I<NotificationStore>();
 
   var _instance = FirebaseFirestore.instance;
   var _collection = "Users";
@@ -48,21 +51,27 @@ class UserRepository {
       });
 
       authSecond.signOut();
-
+      notificationStore.setMessage('Usuário criado com sucesso!');
       return 'Usuário criado com sucesso!';
     } catch (e) {
       authSecond.currentUser!.delete();
       authSecond.signOut();
-      print('Error: $e');
+      notificationStore.setMessage('Erro: Falha ao criar usuário!\n$e');
       return 'Erro: Falha ao criar usuário!';
     }
+  }
+
+  bool isAuthenticated() {
+    return _auth.currentUser != null;
   }
 
   Future<bool> deleteuserInDatabase(String uid) async {
     try {
       await _instance.collection(_collection).doc(uid).delete();
+      notificationStore.setMessage('Usuário deletado com sucesso!');
       return true;
     } catch (e) {
+      notificationStore.setMessage('Erro: Falha ao deletar usuário!\n$e');
       return false;
     }
   }
@@ -104,13 +113,17 @@ class UserRepository {
           .collection("Users")
           .doc(credentialUser.user?.uid)
           .get();
-      final userId = <String, dynamic>{"": user.id};
-      user.data()!.addEntries(userId.entries);
+
       return UserViewModel.fromMap(user.data()!);
     } catch (e) {
       print('Error: $e');
+      notificationStore.setMessage('Erro! Falha nas credenciais');
       return UserViewModel();
     }
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 
   Future<bool> updateUser(
@@ -119,10 +132,10 @@ class UserRepository {
       _collection = 'Users';
 
       await _instance.collection(_collection).doc(userId).update(userData);
-
+      notificationStore.setMessage('Usuário Atualizado Com Sucesso!');
       return true;
     } catch (e) {
-      print('Error: $e');
+      notificationStore.setMessage('Erro: Falha na atualização!\n$e');
       return false;
     }
   }
@@ -131,14 +144,16 @@ class UserRepository {
     await _auth.sendPasswordResetEmail(email: email);
   }
 
-  Future<UserViewModel> getUser(
-      {required String userId, UserType? userType}) async {
+  Future<UserViewModel> getUser({String? userId}) async {
     try {
+      if (userId == null) userId = _auth.currentUser?.uid;
+
       var user = await _instance.collection(_collection).doc(userId).get();
-      user.data()!.addEntries({"Id": userId}.entries);
+
+      if (!user.exists) return UserViewModel();
+
       return UserViewModel.fromMap(user.data()!);
     } catch (e) {
-      print('Error: $e');
       return UserViewModel();
     }
   }
@@ -155,8 +170,6 @@ class UserRepository {
         .get();
 
     var users = snapshot.docs.map((doc) {
-      final userId = <String, dynamic>{"": doc.id};
-      doc.data().addEntries(userId.entries);
       return UserViewModel.fromMap(doc.data());
     }).toList();
     return users;
@@ -171,8 +184,6 @@ class UserRepository {
     if (userType == UserType.Master) {
       stringWhere = "CompanyId";
     }
-
-    print('meu $stringWhere repo: $deptOrCompId');
 
     return Observable(_instance
         .collection(_collection)

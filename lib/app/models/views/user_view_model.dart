@@ -5,16 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserViewModel {
   late String _userId;
-  late String? name;
-  late String? email;
-  // late String phone;
-  // late String address;
-  late String? departmentId;
-  late String? companyId;
+  String? name;
+  String? email;
+  String? departmentId;
+  String? companyId;
   late bool active = false;
   late UserType userType = UserType.User;
-  late String? image;
-  late File? imageFile;
+  String? image;
+  File? imageFile;
 
   UserViewModel();
 

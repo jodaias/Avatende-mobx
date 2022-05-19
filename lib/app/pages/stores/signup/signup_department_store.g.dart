@@ -122,13 +122,13 @@ mixin _$SignupDepartmentStore on _SignupDepartmentStoreBase, Store {
       Atom(name: '_SignupDepartmentStoreBase.signupSuccess', context: context);
 
   @override
-  bool get signupSuccess {
+  bool? get signupSuccess {
     _$signupSuccessAtom.reportRead();
     return super.signupSuccess;
   }
 
   @override
-  set signupSuccess(bool value) {
+  set signupSuccess(bool? value) {
     _$signupSuccessAtom.reportWrite(value, super.signupSuccess, () {
       super.signupSuccess = value;
     });

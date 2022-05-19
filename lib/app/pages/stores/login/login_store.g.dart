@@ -90,13 +90,13 @@ mixin _$LoginStore on _LoginStoreBase, Store {
       Atom(name: '_LoginStoreBase.loggedIn', context: context);
 
   @override
-  bool get loggedIn {
+  bool? get loggedIn {
     _$loggedInAtom.reportRead();
     return super.loggedIn;
   }
 
   @override
-  set loggedIn(bool value) {
+  set loggedIn(bool? value) {
     _$loggedInAtom.reportWrite(value, super.loggedIn, () {
       super.loggedIn = value;
     });
@@ -106,13 +106,13 @@ mixin _$LoginStore on _LoginStoreBase, Store {
       Atom(name: '_LoginStoreBase.resetPass', context: context);
 
   @override
-  bool get resetPass {
+  bool? get resetPass {
     _$resetPassAtom.reportRead();
     return super.resetPass;
   }
 
   @override
-  set resetPass(bool value) {
+  set resetPass(bool? value) {
     _$resetPassAtom.reportWrite(value, super.resetPass, () {
       super.resetPass = value;
     });

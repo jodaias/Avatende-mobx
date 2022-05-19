@@ -110,8 +110,8 @@ class _AddImagesPageState extends State<AddImagesPage> {
                                     if (companyStore.images.length ==
                                         appStore.imageFiles.length) {
                                       companyStore.setCompanyId(appStore
-                                          .companyViewModel!
-                                          .companyId());
+                                          .companyViewModel
+                                          ?.companyId());
                                       await companyStore.saveImages();
 
                                       pageStore.setPage(0);

@@ -22,7 +22,7 @@ abstract class _AvaliationStoreBase with Store {
   String? email;
 
   @observable
-  String? companyId;
+  String? companyId = null;
 
   @observable
   bool loading = false;
@@ -79,5 +79,5 @@ abstract class _AvaliationStoreBase with Store {
   }
 
   @computed
-  get listAdsImages => avaliationRepository.adsImages(companyId ?? '').value;
+  get listAdsImages => avaliationRepository.adsImages(companyId!).value;
 }
