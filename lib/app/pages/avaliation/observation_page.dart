@@ -29,9 +29,9 @@ class _ObservationPageState extends State<ObservationPage> {
     avaliationStore.setAnonymous(true);
     avaliationStore.avaliationSuccess = false;
 
-    disposer =
-        reaction((_) => avaliationStore.avaliationSuccess, (createdAvaliation) {
-      if (createdAvaliation == true) {
+    disposer = reaction((_) => avaliationStore.avaliationSuccess,
+        (bool createdAvaliation) {
+      if (createdAvaliation) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => AcknowledgmentPage()));
       } else {

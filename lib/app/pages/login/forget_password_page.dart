@@ -83,92 +83,97 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Esqueceu a senha ?'),
         centerTitle: true,
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 8,
-              margin: EdgeInsets.symmetric(horizontal: 32),
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Por favor insira seu endereço de email:',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 3, bottom: 4, top: 8),
-                      child: Text(
-                        'E-mail',
+      body: Center(
+        child: Container(
+          width: screenSize.width * .85,
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 8,
+                margin: EdgeInsets.symmetric(horizontal: 32),
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Por favor insira seu endereço de email:',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[700],
-                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ),
-                    Observer(builder: (_) {
-                      return TextField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            isDense: true,
-                            errorText: loginStore.emailError),
-                        onChanged: loginStore.setEmail,
-                        enabled: !loginStore.loading,
-                        keyboardType: TextInputType.emailAddress,
-                      );
-                    }),
-                    Container(
-                      margin: EdgeInsets.only(top: 20, bottom: 12),
-                      height: 40,
-                      child: Observer(builder: (_) {
-                        return ElevatedButton(
-                          style: ButtonStyle(
-                            elevation: MaterialStateProperty.all(0),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.orange),
-                            textStyle: MaterialStateProperty.all(
-                              TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 3, bottom: 4, top: 8),
+                        child: Text(
+                          'E-mail',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w700,
                           ),
-                          child: loginStore.loading
-                              ? CircularProgressIndicator(
-                                  valueColor:
-                                      AlwaysStoppedAnimation(Colors.white),
-                                )
-                              : Text('RESETAR SENHA'),
-                          onPressed: loginStore.resetPasswordPressed,
+                        ),
+                      ),
+                      Observer(builder: (_) {
+                        return TextField(
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              isDense: true,
+                              errorText: loginStore.emailError),
+                          onChanged: loginStore.setEmail,
+                          enabled: !loginStore.loading,
+                          keyboardType: TextInputType.emailAddress,
                         );
                       }),
-                    ),
-                    Divider(color: Colors.black),
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(top: 20, bottom: 12),
+                        height: 40,
+                        child: Observer(builder: (_) {
+                          return ElevatedButton(
+                            style: ButtonStyle(
+                              elevation: MaterialStateProperty.all(0),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.orange),
+                              textStyle: MaterialStateProperty.all(
+                                TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            child: loginStore.loading
+                                ? CircularProgressIndicator(
+                                    valueColor:
+                                        AlwaysStoppedAnimation(Colors.white),
+                                  )
+                                : Text('RESETAR SENHA'),
+                            onPressed: loginStore.resetPasswordPressed,
+                          );
+                        }),
+                      ),
+                      Divider(color: Colors.black),
+                    ],
+                  ),
                 ),
               ),
             ),

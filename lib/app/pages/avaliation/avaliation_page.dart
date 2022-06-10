@@ -19,7 +19,7 @@ class _AvaliationPageState extends State<AvaliationPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 30)).then((_) {
-      if (avaliationStore.scores == 0) {
+      if (avaliationStore.scores == 0.0 && mounted) {
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (_) => AdsPage()), (route) => false);
       }

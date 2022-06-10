@@ -5,8 +5,8 @@ class CustomCard extends StatelessWidget {
     Key? key,
     required this.label,
     required this.iconData,
-    required this.edgeInsets,
     required this.onTap,
+    required this.edgeInsets,
   }) : super(key: key);
 
   final String label;
@@ -29,22 +29,22 @@ class CustomCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             elevation: 8,
-            child: Container(
-              height: mediaSize.height * 0.23,
-              width: mediaSize.width * 0.41,
+            child: SizedBox(
+              width: mediaSize.width * 0.28,
+              height: 200,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     iconData,
-                    size: mediaSize.width * 0.14,
+                    size: mediaSize.width * 0.05,
                     color: Colors.purple[400],
                   ),
                   Text(
                     label,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: mediaSize.width * 0.03,
                       color: Colors.purple[400],
                     ),
                   ),

@@ -54,7 +54,7 @@ class _RelatoryResultPageState extends State<RelatoryResultPage> {
           dataTextStyle:
               const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
           headingRowColor: MaterialStateColor.resolveWith(
-              (states) => Color.fromRGBO(0, 109, 59, 0.85)),
+              (states) => Color.fromARGB(214, 0, 189, 101)),
           headingRowHeight: 50,
           headingTextStyle:
               const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
@@ -106,14 +106,18 @@ class _RelatoryResultPageState extends State<RelatoryResultPage> {
       onSelectChanged: (bool? isSelected) {
         if (isSelected != null) {
           setState(() {
-            relatory.isSelected = isSelected;
+            widget.relatories.forEach((element) {
+              if (element.userId == relatory.userId) {
+                element.isSelected = isSelected;
+              }
+            });
           });
         }
       },
       color: MaterialStateColor.resolveWith((Set<MaterialState> states) =>
           states.contains(MaterialState.selected)
-              ? Colors.red
-              : Color.fromARGB(100, 215, 217, 219)),
+              ? Color.fromARGB(255, 252, 105, 94)
+              : Color.fromARGB(99, 13, 134, 255)),
       cells: [
         DataCell(
           Text(relatory.departmentName!),

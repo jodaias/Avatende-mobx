@@ -46,12 +46,6 @@ class _RelatoryPageState extends State<RelatoryPage> {
         appBar: AppBar(
           title: Text('Gerar Relatório'),
           centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () => relatoryStore.cleanFieldsSelecteds(),
-              icon: Icon(Icons.cleaning_services),
-            )
-          ],
         ),
         drawer: CustomDrawer(),
         backgroundColor: Colors.white,

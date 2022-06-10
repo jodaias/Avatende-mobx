@@ -29,7 +29,7 @@ class _AdsPageState extends State<AdsPage> {
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Theme.of(context).primaryColor;
-
+    final screenSize = MediaQuery.of(context).size;
     return Stack(
       children: <Widget>[
         WillPopScope(
@@ -63,29 +63,30 @@ class _AdsPageState extends State<AdsPage> {
                           child: Text("Erro ao tentar recuperar os dados"));
                     }
 
-                    return Container(
+                    return GestureDetector(
+                      onTap: nextPage,
                       child: CarouselSlider(
-                          items: snapshot.data!.images.map((url) {
-                            return Image.network(url);
-                          }).toList(),
-                          options: CarouselOptions(
-                            // height: 400,
-                            // aspectRatio: 16 / 9,
-                            viewportFraction: 0.8,
-                            initialPage: 0,
-                            enableInfiniteScroll: true,
-                            reverse: false,
-                            autoPlay: true,
-                            autoPlayInterval: Duration(seconds: 5),
-                            autoPlayAnimationDuration:
-                                Duration(milliseconds: 2000),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            enlargeCenterPage: true,
-                            onPageChanged: (index, carrosel) {
-                              nextPage(index);
-                            },
-                            scrollDirection: Axis.horizontal,
-                          )),
+                        items: snapshot.data!.images.map((url) {
+                          return Image.network(url,
+                              fit: BoxFit.fitHeight, width: screenSize.width);
+                        }).toList(),
+                        options: CarouselOptions(
+                          clipBehavior: Clip.none,
+                          padEnds: true,
+                          pageSnapping: false,
+                          height: screenSize.height,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 4),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 2000),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          scrollDirection: Axis.horizontal,
+                        ),
+                      ),
                     );
                   },
                 );
@@ -95,7 +96,7 @@ class _AdsPageState extends State<AdsPage> {
     );
   }
 
-  void nextPage(int i) {
+  void nextPage() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => AvaliationPage()));
   }

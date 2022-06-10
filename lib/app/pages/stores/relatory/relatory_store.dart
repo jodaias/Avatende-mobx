@@ -84,8 +84,17 @@ abstract class _RelatoryStoreBase with Store {
 
   @action
   void setRelatory(RelatoryViewModel value) {
-    // if (!relatories.contains(value))
-    relatories.add(value);
+    if (!relatories.contains(value)) relatories.add(value);
+
+    if (relatories.length == 1) {
+      var report = new RelatoryViewModel(
+          mediaScores: value.mediaScores,
+          totalAvaliations: value.totalAvaliations,
+          userId: "123",
+          departmentName: value.departmentName,
+          userName: value.userName);
+      relatories.add(report);
+    }
   }
 
   @action

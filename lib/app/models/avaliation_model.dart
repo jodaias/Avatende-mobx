@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AvaliationModel {
-  DateTime? createdAt;
+  late DateTime createdAt;
   late double scores;
-  late String observation;
-  late String email;
+  String? observation;
+  String? email;
 
   AvaliationModel({
-    this.createdAt,
+    required this.createdAt,
     required this.scores,
-    required this.observation,
-    required this.email,
+    this.observation,
+    this.email,
   });
 
   AvaliationModel.fromMap(Map document) {
-    this.email = document['Email'];
     this.createdAt = setCreatedAt(document['CreatedAt']);
     this.scores = checkDouble(document['Scores']);
+    this.email = document['Email'];
     this.observation = document['Observation'];
   }
 

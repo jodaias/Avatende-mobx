@@ -15,8 +15,8 @@ class PDFViewerPage extends StatefulWidget {
 }
 
 class _PDFViewerPageState extends State<PDFViewerPage> {
-  PDFDocument? _doc;
-  bool? _loading;
+  late PDFDocument _doc;
+  late bool _loading;
 
   @override
   void initState() {
@@ -44,33 +44,36 @@ class _PDFViewerPageState extends State<PDFViewerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Relatório em PDF'),
-          centerTitle: true,
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                  icon: Icon(
-                    Icons.share,
-                    color: Colors.white,
-                  ),
-                  iconSize: 30,
-                  onPressed: () {
-                    ShareExtend.share(widget.path, "file",
-                        sharePanelTitle: "Enviar PDF", subject: "relatory-pdf");
-                  }),
+      appBar: AppBar(
+        title: Text('Relatório em PDF'),
+        centerTitle: true,
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+                icon: Icon(
+                  Icons.share,
+                  color: Colors.white,
+                ),
+                iconSize: 30,
+                onPressed: () {
+                  ShareExtend.share(widget.path, "file",
+                      sharePanelTitle: "Enviar PDF", subject: "relatory-pdf");
+                }),
+          )
+        ],
+      ),
+      body: _loading
+          ? Center(
+              child: CircularProgressIndicator(),
             )
-          ],
-        ),
-        body: _loading!
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : PDFViewer(
-                document: _doc!,
-                tooltip: _setTollTipViewer(),
-              ));
+          : PDFViewer(
+              document: _doc,
+              tooltip: _setTollTipViewer(),
+              zoomSteps: 1,
+              lazyLoad: false,
+            ),
+    );
   }
 
   _setTollTipViewer() {

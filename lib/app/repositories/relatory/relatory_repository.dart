@@ -35,8 +35,8 @@ class RelatoryRepository {
 
     double mediaScores = 0;
     double somaScores = 0;
-    var observations = <String>[];
-    var contacts = <String>[];
+    var observations = <String?>[];
+    var contacts = <String?>[];
 
     avaliations.forEach((avaliation) {
       somaScores += avaliation.scores;

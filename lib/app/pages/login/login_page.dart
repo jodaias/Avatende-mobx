@@ -44,168 +44,173 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           title: Text('Entrar'),
           centerTitle: true,
         ),
-        body: Container(
-          alignment: Alignment.center,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                elevation: 8,
-                margin: EdgeInsets.symmetric(horizontal: 32),
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Acessar com E-mail:',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 3, bottom: 4, top: 8),
-                        child: Text(
-                          'E-mail',
+        body: Center(
+          child: Container(
+            width: screenSize.width * .85,
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 8,
+                  margin: EdgeInsets.symmetric(horizontal: 32),
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Acessar com E-mail:',
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey[700],
-                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ),
-                      Observer(builder: (_) {
-                        return TextFormField(
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              isDense: true,
-                              errorText: loginStore.emailError),
-                          onChanged: loginStore.setEmail,
-                          enabled: !loginStore.loading,
-                          keyboardType: TextInputType.emailAddress,
-                        );
-                      }),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 3, bottom: 4),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Senha',
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 3, bottom: 4, top: 8),
+                          child: Text(
+                            'E-mail',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w700,
                             ),
-                            GestureDetector(
-                              child: Text(
-                                'Esqueceu sua senha?',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.purple,
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => ForgetPasswordPage()));
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                      Observer(builder: (_) {
-                        return TextFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            isDense: true,
-                            suffixIcon: loginStore.isObscureText
-                                ? IconButton(
-                                    icon: Icon(Icons.visibility_outlined),
-                                    onPressed: loginStore.setObscureText,
-                                  )
-                                : IconButton(
-                                    icon: Icon(Icons.visibility_off_outlined),
-                                    onPressed: loginStore.setObscureText,
-                                  ),
-                            errorText: loginStore.passwordError,
                           ),
-                          onChanged: loginStore.setPassword,
-                          obscureText: loginStore.isObscureText,
-                          enabled: !loginStore.loading,
-                        );
-                      }),
-                      Container(
-                        margin: EdgeInsets.only(top: 20, bottom: 12),
-                        height: 40,
-                        child: Observer(builder: (_) {
-                          return ElevatedButton(
-                            child: loginStore.loading
-                                ? CircularProgressIndicator(
-                                    valueColor:
-                                        AlwaysStoppedAnimation(Colors.white),
-                                  )
-                                : Text('ENTRAR'),
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(0),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.orange),
-                              textStyle: MaterialStateProperty.all(
-                                TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            onPressed: loginStore.loginPressed,
+                        ),
+                        Observer(builder: (_) {
+                          return TextFormField(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                isDense: true,
+                                errorText: loginStore.emailError),
+                            onChanged: loginStore.setEmail,
+                            enabled: !loginStore.loading,
+                            keyboardType: TextInputType.emailAddress,
                           );
                         }),
-                      ),
-                      Divider(color: Colors.black),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Wrap(
-                          alignment: WrapAlignment.center,
-                          children: [
-                            Text(
-                              'Não tenho uma conta:',
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.grey[700]),
-                            ),
-                            GestureDetector(
-                              onTap: _showdialog,
-                              child: Text(
-                                'Cadastre_se',
+                        SizedBox(
+                          height: 16,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 3, bottom: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Senha',
                                 style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.purple[600],
+                                  color: Colors.grey[700],
                                   fontSize: 16,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                            ),
-                          ],
+                              GestureDetector(
+                                child: Text(
+                                  'Esqueceu sua senha?',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.purple,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              ForgetPasswordPage()));
+                                },
+                              )
+                            ],
+                          ),
                         ),
-                      )
-                    ],
+                        Observer(builder: (_) {
+                          return TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              isDense: true,
+                              suffixIcon: loginStore.isObscureText
+                                  ? IconButton(
+                                      icon: Icon(Icons.visibility_outlined),
+                                      onPressed: loginStore.setObscureText,
+                                    )
+                                  : IconButton(
+                                      icon: Icon(Icons.visibility_off_outlined),
+                                      onPressed: loginStore.setObscureText,
+                                    ),
+                              errorText: loginStore.passwordError,
+                            ),
+                            onChanged: loginStore.setPassword,
+                            obscureText: loginStore.isObscureText,
+                            enabled: !loginStore.loading,
+                          );
+                        }),
+                        Container(
+                          margin: EdgeInsets.only(top: 20, bottom: 12),
+                          height: 40,
+                          child: Observer(builder: (_) {
+                            return ElevatedButton(
+                              child: loginStore.loading
+                                  ? CircularProgressIndicator(
+                                      valueColor:
+                                          AlwaysStoppedAnimation(Colors.white),
+                                    )
+                                  : Text('ENTRAR'),
+                              style: ButtonStyle(
+                                elevation: MaterialStateProperty.all(0),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.orange),
+                                textStyle: MaterialStateProperty.all(
+                                  TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              onPressed: loginStore.loginPressed,
+                            );
+                          }),
+                        ),
+                        Divider(color: Colors.black),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            children: [
+                              Text(
+                                'Não tenho uma conta:',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.grey[700]),
+                              ),
+                              GestureDetector(
+                                onTap: _showdialog,
+                                child: Text(
+                                  'Cadastre_se',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.purple[600],
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

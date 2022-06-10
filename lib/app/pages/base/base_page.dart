@@ -35,7 +35,9 @@ class _BasePageState extends State<BasePage> {
     super.initState();
     reaction(
       (_) => pageStore.page,
-      (int page) => pageController.jumpToPage(page),
+      (int page) {
+        if (pageController.hasClients) pageController.jumpToPage(page);
+      },
     );
   }
 

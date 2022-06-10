@@ -10,7 +10,7 @@ class _AcknowledgmentPageState extends State<AcknowledgmentPage> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     Future.delayed(Duration(seconds: 7)).then((_) {
       Navigator.of(context).pop();
     });
